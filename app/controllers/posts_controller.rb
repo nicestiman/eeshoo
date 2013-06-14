@@ -1,4 +1,8 @@
 class PostsController < ApplicationController
   def new
+    respond_to do |format|
+      format.json
+      format.html
+    end
   end
 end
