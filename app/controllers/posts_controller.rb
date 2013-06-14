@@ -12,4 +12,10 @@ class PostsController < ApplicationController
       format.html
     end
   end
+
+  def index
+    @posts = Post.all
+    respond_to do |format|
+      format.json
+    end
 end
