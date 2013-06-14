@@ -2,6 +2,7 @@ HIWIPI::Application.routes.draw do
   #get "posts/new"
 
   resource :posts
+  match '/newpost', to: 'posts#new'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
