@@ -1,7 +1,7 @@
 {
   <% @posts.each do |post| %>
-    "post_id": <%= post.id.to_s %>,
-    "title": <%= post.title %>,
-    "content": <%= post.content %>
+    post_id: <%= post.id.to_s %>,
+    title: <%= post.title %>,
+    content: <%= post.content %>
   <% end %>
 }
