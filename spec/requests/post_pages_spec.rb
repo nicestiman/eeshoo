@@ -5,7 +5,7 @@ describe "Post pages" do
   subject { page }
 
   describe "new post page" do
-    before { visit newpost_path }
+    before { visit new_post_path + ".json" }
 
     it { should have_content("New Post") }
   end

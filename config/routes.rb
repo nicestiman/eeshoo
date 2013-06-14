@@ -1,9 +1,7 @@
 HIWIPI::Application.routes.draw do
 
   resources :posts
-  #resource :posts, only: [:index], defaults: { format: 'json' }
 
-  match '/newpost', to: 'posts#new'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
