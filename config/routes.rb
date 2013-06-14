@@ -1,4 +1,6 @@
 HIWIPI::Application.routes.draw do
+  #get "posts/new"
+
   resource :posts
 
   # The priority is based upon order of creation:
