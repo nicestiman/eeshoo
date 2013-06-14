@@ -14,7 +14,7 @@ describe "Post pages" do
     before do
       Post.create(content: "This is test post #1", title: "Post 1")
       Post.create(content: "This is test post #2", title: "Post 2")
-      visit '/posts'
+      visit index_path
     end
 
     it "should list each post" do
