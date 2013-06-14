@@ -10,9 +10,19 @@ describe "Post pages" do
     it { should have_content("New Post") }
   end
 
-  describe "show posts page" do
-    before { visit posts_path }
+  describe "index" do
+    before do
+      Post.create(content: "This is test post #1", title: "Post 1")
+      Post.create(content: "This is test post #2", title: "Post 2")
+      visit '/posts'
+    end
 
-    it { should have_selector('title', 'Posts') }
+    it "should list each post" do
+      Post.all.each do |post|
+        page.should have_content("id: #{post.id}"         )
+        page.should have_content("title:#{post.title}"    )
+        page.should have_content("content:#{post.content}")
+      end
+    end
   end
 end

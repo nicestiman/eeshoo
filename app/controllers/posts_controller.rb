@@ -18,4 +18,5 @@ class PostsController < ApplicationController
     respond_to do |format|
       format.json
     end
+  end
 end
