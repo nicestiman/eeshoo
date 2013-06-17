@@ -19,4 +19,10 @@ describe Group do
     
     it { should_not be_valid }
   end
+
+  describe "when name is too long" do
+    before { @group.name = "a" * 41 }
+
+    it { should_not be_valid }
+  end
 end
