@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: groups
+#
+#  id         :integer          not null, primary key
+#  name       :string(255)
+#  location   :string(255)
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 require 'spec_helper'
 
 describe Group do
@@ -7,6 +18,7 @@ describe Group do
 
   it { should respond_to(:name)     }
   it { should respond_to(:location) }
+  it { should respond_to(:posts)    }
 
   describe "when name is not present" do
     before { @group.name = "" }
