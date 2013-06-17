@@ -1,0 +1,7 @@
+{
+  <% @groups.each do |group| %>
+    group_id: <%= group.id.to_s %>,
+    group_name: <%= group.name %>,
+    group_location: <%= group.location %>
+  <% end %>
+}
