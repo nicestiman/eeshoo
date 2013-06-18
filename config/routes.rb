@@ -1,7 +1,6 @@
 HIWIPI::Application.routes.draw do
 
   resources :posts
-
   resources :groups
 
   # The priority is based upon order of creation:

@@ -8,4 +8,7 @@ class GroupsController < ApplicationController
       format.json
     end
   end
+
+  def create
+  end
 end
