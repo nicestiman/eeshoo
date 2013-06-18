@@ -48,13 +48,22 @@ describe "Group pages" do
     end
   end
 
-  describe "group profile page" do
+  describe "group profile page with posts" do
     before do
       @group = Group.create(name: "Test Group", location: "Los Angeles, California, USA")
+      @group.posts.create(content: "this is a test post", title: "Test post")
+      @group.posts.create(content: "this is another test post", title: "Second Test Post")
       visit group_path(@group.id)
     end
 
     it { should have_selector("h1", text: "Profile Page") }
+    it { should have_selector("h1", text: @group.name)    }
+    
+    it "should list each post" do
+      @group.posts.each do |post|
+        page.should     have_selector("li", text: @group.title)
+        page.should_not have_content(@group.content)
+      end
+    end
   end
-
 end
