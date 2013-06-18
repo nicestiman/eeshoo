@@ -2,6 +2,13 @@
   <title> Group Page </title>
 </head>
 <body>
-  <h1> Profile Page for a group </h1>
-  <p> find me in app/views/groups/show.html.erb </p>
+  <h1> Profile Page for <%= @group.name %> </h1>
+  <ul>
+    <% if @group.posts.any? %>
+      <% @group.posts.each do |post| %>
+        <%= post.title %>
+      <% end %>
+    <% else %>
+      You haven't made any posts yet
+    <% end %>
 </body>
