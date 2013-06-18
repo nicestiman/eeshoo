@@ -6,7 +6,7 @@
   <ul>
     <% if @group.posts.any? %>
       <% @group.posts.each do |post| %>
-        <%= post.title %>
+        <li><%= post.title %></li>
       <% end %>
     <% else %>
       You haven't made any posts yet
