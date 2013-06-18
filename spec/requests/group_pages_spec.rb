@@ -11,7 +11,7 @@ describe "Group pages" do
     let(:submit) { "Create" }
 
     describe "with invalid information" do
-      it "should not create a user" do
+      it "should not create a group" do
         expect { click_button submit }.not_to change(Group, :count)
       end
 
@@ -36,12 +36,13 @@ describe "Group pages" do
 
   describe "index group page" do
     before do
-      Group.create(name: "Secret Box Club", location: "New York, New York, USA")
+      @group2 = Group.create(name: "Secret Box Club", location: "New York, New York, USA")
+      @groups = [@group, @group2] 
       visit groups_path + ".json"
     end
 
     it "should list each group" do
-      Group.all.each do |group|
+      @groups.each do |group|
         page.should have_content("group_id: #{group.id}")
         page.should have_content("group_name: #{group.name}")
         page.should have_content("group_location: #{group.location}")
