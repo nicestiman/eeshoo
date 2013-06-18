@@ -66,4 +66,13 @@ describe "Group pages" do
       end
     end
   end
+
+  describe "group profile page without posts" do
+    before do
+      @group = Group.create(name: "Test Group", location: "Los Angeles, California, USA")
+      visit group_path(@group.id)
+    end
+
+    it { should have_selector("li", text: "You haven't made any posts yet") }
+  end
 end
