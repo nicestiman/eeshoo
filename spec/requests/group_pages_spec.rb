@@ -1,12 +1,22 @@
 require 'spec_helper'
 
 describe "Group pages" do
+  before { @group = Group.create(name: "Noodle Club", location: "Denver, Colorado, USA") }
   subject { page }
 
   describe "new group page" do
     before { visit new_group_path }
 
-    it { should have_selector "title", text: "New Group" }
+    describe "with valid information" do
+      before do
+        fill_in "Name",     with: @group.name
+        fill_in "Location", with: @group.location
+        click_button "Create"
+      end
+
+        it { should have_selector("title", text: @group.name    ) }
+        it { should have_selector("h1",    text: @group.location) }
+    end
   end
 
   describe "index group page" do
