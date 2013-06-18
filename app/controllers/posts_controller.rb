@@ -14,7 +14,8 @@ class PostsController < ApplicationController
   end
 
   def index
-    @posts = Post.all
+    @group = Group.find(params[:group_id])
+    @posts = @group.posts
     respond_to do |format|
       format.json
     end
