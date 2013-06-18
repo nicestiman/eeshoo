@@ -61,8 +61,8 @@ describe "Group pages" do
     
     it "should list each post" do
       @group.posts.each do |post|
-        page.should     have_selector("li", text: @group.title)
-        page.should_not have_content(@group.content)
+        page.should     have_selector("li", text: post.title)
+        page.should_not have_content(post.content)
       end
     end
   end
