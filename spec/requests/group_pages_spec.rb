@@ -1,21 +1,28 @@
 require 'spec_helper'
 
 describe "Group pages" do
-  before { @group = Group.create(name: "Noodle Club", location: "Denver, Colorado, USA") }
   subject { page }
 
   describe "new group page" do
     before { visit new_group_path }
 
+    let(:submit) { "Create" }
+
+    describe "with invalid information" do
+      it "should not create a user" do
+        expect { click_button submit }.not_to change(Group, :count)
+      end
+    end
+
     describe "with valid information" do
       before do
-        fill_in "Name",     with: @group.name
-        fill_in "Location", with: @group.location
-        click_button "Create"
+        fill_in "Name",     with: "Noodle Club"
+        fill_in "Location", with: "Denver, Colorado, USA"
       end
 
-        it { should have_selector("title", text: @group.name    ) }
-        it { should have_selector("h1",    text: @group.location) }
+      it "should create a group" do
+        expect { click_button submit }.to change(Group, :count).by(1)
+      end
     end
   end
 
