@@ -9,7 +9,7 @@ describe "Post pages" do
   subject { page }
 
   describe "new post page" do
-    before { visit new_post_path }
+    before { visit new_group_post_path(@group.id) }
 
     let(:submit) { "Post" }
 
@@ -42,7 +42,7 @@ describe "Post pages" do
       @post1 = @group.posts.create(content: "This is test post #1", title: "Post 1")
       @post2 = @group.posts.create(content: "This is test post #2", title: "Post 2")
       @posts = [@post1, @post2]
-      visit posts_path + ".json"
+      visit group_posts_path(@group.id) + ".json"
     end
 
     it "should list all posts" do
