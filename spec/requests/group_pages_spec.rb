@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe "Group pages" do
+  before { @group = Group.create(name: "Test Group", location: "Los Angeles, California, USA") }
+
   subject { page }
 
   describe "new group page" do
@@ -22,8 +24,8 @@ describe "Group pages" do
 
     describe "with valid information" do
       before do
-        fill_in "Name",     with: "Noodle Club"
-        fill_in "Location", with: "Denver, Colorado, USA"
+        fill_in "Name",     with: @group.name + "2"
+        fill_in "Location", with: @group.location
       end
 
       it "should create a group" do
@@ -34,7 +36,6 @@ describe "Group pages" do
 
   describe "index group page" do
     before do
-      Group.create(name: "Noodle Club", location: "Denver, Colorado, USA")
       Group.create(name: "Secret Box Club", location: "New York, New York, USA")
       visit groups_path + ".json"
     end
@@ -50,7 +51,6 @@ describe "Group pages" do
 
   describe "group profile page with posts" do
     before do
-      @group = Group.create(name: "Test Group", location: "Los Angeles, California, USA")
       @group.posts.create(content: "this is a test post", title: "Test post")
       @group.posts.create(content: "this is another test post", title: "Second Test Post")
       visit group_path(@group.id)
@@ -69,7 +69,6 @@ describe "Group pages" do
 
   describe "group profile page without posts" do
     before do
-      @group = Group.create(name: "Test Group", location: "Los Angeles, California, USA")
       visit group_path(@group.id)
     end
 
