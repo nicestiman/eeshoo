@@ -1,12 +1,10 @@
-<h1>New Post</h1>
-<p>
+<body>
+  <h1>New Post</h1>
+  <p>
   <%= form_for(@post) do |f| %>
     <%= f.label :title %>
     <%= f.text_field :title %>
 
-    <%= f.label :content %>
-    <%= f.text_field :content %>
-
-    <%= f.submit "Post", class: "btn btn-large btn-primary" %>
   <% end %>
-</p>
+  </p>
+</body>
