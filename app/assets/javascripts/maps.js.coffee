@@ -42,6 +42,7 @@ class window.Map
       .await(@ready)
 
   ready: (error, world) =>
+    @features = topojson.feature(world, world.objects.sovereignty_110m).features
     @svg
       .append(  "defs")
       .append(  "path")
@@ -66,14 +67,15 @@ class window.Map
       .attr("class", "graticule")
       .attr("d", @path)
 
-    @svg
-      .append("path")
-      .datum(topojson.feature(world, world.objects.sovereignty_110m))
-      .attr("class", "land")
-      .attr("d", @path)
+#    @svg
+#      .append("path")
+#      .datum(topojson.feature(world, world.objects.sovereignty_110m))
+#      .attr("class", "land")
+#      .attr("d", @path)
 
+    console.log(@features)
     @svg
-      .selectAll(".land")
+      .selectAll("svg")
       .data(topojson.feature(world, world.objects.sovereignty_110m).features)
       .enter()
           .append("path")
@@ -84,7 +86,6 @@ class window.Map
           .on("click", (d) ->
               alert "I am " + d.properties.name
             )
-    console.log(world)
 
   mousedown: () =>
     @m0 = [d3.event.pageX, d3.event.pageY]
@@ -128,9 +129,25 @@ class window.Map
 
   slideto: (location, time = 2000, ease = "cubic-in-out") =>
     @location = location
-    console.log("in slide to")
     d3.transition().duration(time).ease(ease).tween("rotate", @rotateTween )
-    console.log(d3.select("svg"))
+    return
+
+  slidetoContry: (contrey, time = 2000, ease = "cubic-in-out")=>
+    place
+    console.log(@features)
+    for feature in @features
+      console.log(feature.id)
+      if feature.id == contrey
+        console.log(feature)
+        place = feature
+        break
+
+    console.log(place)
+    p = d3.geo.centroid(place)
+    @location = [-p[0], -p[1]]
+    d3.transition().duration(time).ease(ease).tween("rotate", @rotateTween )
+    #need to make it remove active contry tag
+    d3.select("."+place.id).attr("class", "land active-contry")
     return
 
   rotateTween: =>
@@ -141,6 +158,7 @@ class window.Map
       @proj.rotate(r(t))
       console.log(r(t))
       @refresh()
+  zoomInOn: =>
 
 $(document).ready( () ->
   window.globe = new Map width: 500, height: 500, scale: 220, tag:"body"
@@ -148,8 +166,5 @@ $(document).ready( () ->
   console.log globe
   globe.getmap("sovereignty_110m_topo.json")
 
-  globe.slideto([360, 0], 3000)
-
-
-  return
+  $("body").append("<button onclick='globe.slidetoContry(\"VEN\", 3000)'> click me I'm pretty </button>")
 )
