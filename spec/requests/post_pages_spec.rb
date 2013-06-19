@@ -13,6 +13,8 @@ describe "Post pages" do
 
     let(:submit) { "Post" }
 
+	it { should have_selector("h1", "New Post") }
+
     describe "with invalid information" do
       it "should not make a new post" do
         expect { click_button submit }.not_to change(Post, :count)
