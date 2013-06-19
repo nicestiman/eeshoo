@@ -43,6 +43,7 @@ class window.Map
 
   ready: (error, world) =>
     @features = topojson.feature(world, world.objects.sovereignty_110m).features
+
     @svg
       .append(  "defs")
       .append(  "path")
@@ -66,12 +67,6 @@ class window.Map
       .datum(@graticule)
       .attr("class", "graticule")
       .attr("d", @path)
-
-#    @svg
-#      .append("path")
-#      .datum(topojson.feature(world, world.objects.sovereignty_110m))
-#      .attr("class", "land")
-#      .attr("d", @path)
 
     console.log(@features)
     @svg
@@ -158,7 +153,63 @@ class window.Map
       @proj.rotate(r(t))
       console.log(r(t))
       @refresh()
-  zoomInOn: =>
+
+  centerTween: =>
+    console.log("in the rotate tween")
+    p = @location
+    r = d3.interpolate(@proj.center(), [p[0], p[1]])
+    return (t) =>
+      @proj.center(r(t))
+      console.log(r(t))
+      @refresh()
+
+  projectionTween: (projection0, projection1) =>
+    return (d) =>
+      console.log(projection0)
+      t = 0
+      @proj = d3.geo.projection(project)
+        .scale(1)
+        .translate([width / 2, height / 2]);
+
+      @path = d3.geo.path()
+          .projection(projection)
+
+  project: (l, q) ->
+      console.log(projection0)
+      l *= 180 / Math.PI
+      q *= 180 / Math.PI
+      p0 = projection0([l, q])
+      p1 = projection1([l, q])
+      console.log("λ = "+l+" φ = "+q)
+      return [(1 - t) * p0[0] + t * p1[0], (1 - t) * -p0[1] + t * -p1[1]]
+
+
+  zoomInOn: (location, time = 2000, ease = "cubic-in-out") =>
+    place
+    for feature in @features
+      if feature.id == location
+        place = feature
+        break
+
+    @location = d3.geo.centroid(place)
+    d3.transition().duration(time).ease(ease).tween("rotate", @centerTween )
+
+    #remove the  globe boarder
+    @svg.select(".fill").remove()
+    @svg.select(".stroke").remove()
+
+    d3.selectAll("path").transition()
+      .duration(time)
+      .attrTween("d", @projectionTween(@proj, d3.geo.mercator()));
+
+
+
+    #    @proj = d3.geo.mercator()
+#      .scale(200)
+#      .translate([@width / 2, @height / 2]);
+
+    @path =  d3.geo.path()
+      .projection(@proj)
 
 $(document).ready( () ->
   window.globe = new Map width: 500, height: 500, scale: 220, tag:"body"
@@ -166,5 +217,7 @@ $(document).ready( () ->
   console.log globe
   globe.getmap("sovereignty_110m_topo.json")
 
-  $("body").append("<button onclick='globe.slidetoContry(\"VEN\", 3000)'> click me I'm pretty </button>")
+#  globe.zoomInOn("VEN")
+
+  $("body").append("<button onclick='globe.zoomInOn(\"VEN\")'> click me I'm pretty </button>")
 )
