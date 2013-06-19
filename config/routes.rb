@@ -4,6 +4,8 @@ HIWIPI::Application.routes.draw do
     resources :posts
   end
 
+  match '/posts' => 'posts#create'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
