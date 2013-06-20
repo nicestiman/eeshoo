@@ -1,10 +1,21 @@
-#this is a class to make maps or globes for the hiwipi site
+###
+this is a class to make maps or globes for the hiwipi site
+Version :0.01
+Auther: Duncan Fedde
+Dependancys: d3.js v3.2
+             queue.js
+             topojson.js
+contact: duncan@fedde.us
+This is under the CC licence share and share alkike
+###
+
+
 class window.Map
   #define all the global objects
 
 
   constructor: (options)->
-    { @width, @height, @scale, @tag } = options
+    { @width, @height, @scale, @tag, @projection } = options
     #if the mouse is moved or lettup call the respective function
     d3.select(window)
       .on("mousemove", @mousemove)
@@ -15,34 +26,63 @@ class window.Map
 
     #rotation origin
     @o0
+    # center origen
+    @currentveiw = [0,0]
 
+    #the deafult projection
+    if @projection == undefined
+      @projection =
+        d3.geo.orthographic()
+          .scale(@scale)
+          .translate([@width / 2, @height / 2])
+          .clipAngle(90)
+
+    #graticule to display the "grid" on the map
     @graticule =
       d3.geo.graticule()
 
+    #the svg object that thw map will be added to
     @svg =
       d3.select(@tag).append("svg")
       .attr("width",      @width)
       .attr("height",     @height)
       .on("mousedown",  @mousedown)
-
-    @proj =
-      d3.geo.orthographic()
-        .scale(@scale)
-        .translate([@width / 2, @height / 2])
-        .clipAngle(90)
+    console.log(@projection)
 
     @path =
       d3.geo.path()
-        .projection(@proj)
+        .projection(@projection)
         .pointRadius(1.5)
 
+  ###
+    change the projection type
+  ###
+  changeProjection:(projection) =>
+    @projection = projection
+    @path =  d3.geo.path()
+      .projection(@projection)
+    @refresh()
+
+  ###
+    asyrinisly finds gets a map object and then calls the ready function witch renders the objects
+  ###
   getmap: (map) =>
+    name = "maps"
+
+    if map.isArray()
+      for location in map
+        name += "/#{location}"
+    else
+      name += "/world"
+
+    name +=".json"
     queue()
-      .defer(d3.json, map)
+      .defer(d3.json, name)
       .await(@ready)
 
   ready: (error, world) =>
     @features = topojson.feature(world, world.objects.sovereignty_110m).features
+    self = @
 
     @svg
       .append(  "defs")
@@ -68,7 +108,7 @@ class window.Map
       .attr("class", "graticule")
       .attr("d", @path)
 
-    console.log(@features)
+    #append all the samller objects to the map
     @svg
       .selectAll("svg")
       .data(topojson.feature(world, world.objects.sovereignty_110m).features)
@@ -79,12 +119,13 @@ class window.Map
             )
           .attr("d", @path)
           .on("click", (d) ->
-              alert "I am " + d.properties.name
+              self.zoomInOn(d.id)
+              console.log(d.id)
             )
 
   mousedown: () =>
     @m0 = [d3.event.pageX, d3.event.pageY]
-    @o0 = @proj.rotate()
+    @o0 = @projection.rotate()
     d3.event.preventDefault()
 
   mousemove: ()=>
@@ -95,7 +136,7 @@ class window.Map
          o1[1] = 60
       else if o1[1] < -60
         o1[1] = -60
-      @proj.rotate(o1)
+      @projection.rotate(o1)
       @refresh()
 
   mouseup: () =>
@@ -118,16 +159,25 @@ class window.Map
       .selectAll(".point")
       .attr       "d", @path
 
+  ###
+  go (with no animation) to a geografic quardanet
+  ###
   goto: (location) =>
-    @proj.rotate(location)
+    @projection.rotate(location)
     @refresh()
 
+  ###
+  go with animation to a gragrafic quardanet
+  ###
   slideto: (location, time = 2000, ease = "cubic-in-out") =>
     @location = location
     d3.transition().duration(time).ease(ease).tween("rotate", @rotateTween )
     return
 
-  slidetoContry: (contrey, time = 2000, ease = "cubic-in-out")=>
+  ###
+  animated go and hover over a locatin by its id
+  ###
+  slideToLocation: (contrey, time = 2000, ease = "cubic-in-out")=>
     place
     console.log(@features)
     for feature in @features
@@ -137,10 +187,14 @@ class window.Map
         place = feature
         break
 
-    console.log(place)
+    #get the conterys id
     p = d3.geo.centroid(place)
+
+    #get its real quardanets
     @location = [-p[0], -p[1]]
+
     d3.transition().duration(time).ease(ease).tween("rotate", @rotateTween )
+
     #need to make it remove active contry tag
     d3.select("."+place.id).attr("class", "land active-contry")
     return
@@ -148,40 +202,50 @@ class window.Map
   rotateTween: =>
     console.log("in the rotate tween")
     p = @location
-    r = d3.interpolate(@proj.rotate(), [p[0], p[1]])
+    r = d3.interpolate(@projection.rotate(), [p[0], p[1]])
     return (t) =>
-      @proj.rotate(r(t))
+      @projection.rotate(r(t))
       console.log(r(t))
       @refresh()
 
   centerTween: =>
     console.log("in the rotate tween")
     p = @location
-    r = d3.interpolate(@proj.center(), [p[0], p[1]])
+    r = d3.interpolate(@currentveiw, [p[0], p[1]])
+    console.log(@projection.rotate() + "rotate")
     return (t) =>
-      @proj.center(r(t))
+      #log the current location
+      @currentveiw = (r(t))
+
+      @projection.center(r(t))
+      console.log(@current)
       console.log(r(t))
       @refresh()
 
-  projectionTween: (projection0, projection1) =>
-    return (d) =>
-      console.log(projection0)
-      t = 0
-      @proj = d3.geo.projection(project)
-        .scale(1)
-        .translate([width / 2, height / 2]);
-
-      @path = d3.geo.path()
-          .projection(projection)
-
-  project: (l, q) ->
-      console.log(projection0)
-      l *= 180 / Math.PI
-      q *= 180 / Math.PI
-      p0 = projection0([l, q])
-      p1 = projection1([l, q])
-      console.log("λ = "+l+" φ = "+q)
-      return [(1 - t) * p0[0] + t * p1[0], (1 - t) * -p0[1] + t * -p1[1]]
+  #make it pretty later
+#  projectionTween: (projection0, projection1) =>
+#    return (d) =>
+#      t = 0
+#      project = (λ , φ) ->
+#        console.log("project is run")
+#        λ *= 180 / Math.PI
+#        φ *= 180 / Math.PI
+#        p0 = projection0([λ, φ])
+#        p1 = projection1([λ, φ])
+#        console.log(" λ = "+λ+" φ = "+φ)
+#        return [(1 - t) * p0[0] + t * p1[0], (1 - t) * -p0[1] + t * -p1[1]]
+#
+#      proj = d3.geo.projection(project)
+#        .scale(1)
+#        .translate([@width / 2, @height / 2])
+#
+#
+#      path = d3.geo.path()
+#          .projection(proj)
+#
+#      return (_) ->
+#        t = _;
+#        return path(d);
 
 
   zoomInOn: (location, time = 2000, ease = "cubic-in-out") =>
@@ -198,26 +262,27 @@ class window.Map
     @svg.select(".fill").remove()
     @svg.select(".stroke").remove()
 
-    d3.selectAll("path").transition()
-      .duration(time)
-      .attrTween("d", @projectionTween(@proj, d3.geo.mercator()));
+    #transiton to flat projection fix later
+#    d3.select("svg").transition()
+#      .duration(time)
+#      .attrTween("d", @projectionTween(@proj, d3.geo.mercator()));
 
-
-
-    #    @proj = d3.geo.mercator()
-#      .scale(200)
-#      .translate([@width / 2, @height / 2]);
+    @projection = d3.geo.mercator()
+      .scale(400)
+      .translate([@width / 2, @height / 2]);
 
     @path =  d3.geo.path()
-      .projection(@proj)
+      .projection(@projection)
 
 $(document).ready( () ->
-  window.globe = new Map width: 500, height: 500, scale: 220, tag:"body"
+  window.globe = new Map width: 500, height: 500, scale: 220, tag:"body" #projection:  d3.geo.mercator()
 
   console.log globe
+
   globe.getmap("sovereignty_110m_topo.json")
-
+#  globe.changeProjection(d3.geo.mercator())
 #  globe.zoomInOn("VEN")
+  globe.getmap(["AUS"])
 
-  $("body").append("<button onclick='globe.zoomInOn(\"VEN\")'> click me I'm pretty </button>")
+  $("body").append("<button onclick='globe.slideToLocation(\"VEN\")'> click me I'm pretty </button>")
 )

@@ -6,13 +6,13 @@
 //var width = 960,
 //height = 500;
 //
-//var proj = d3.geo.orthographic()
+//var projection = d3.geo.orthographic()
 //  .scale(220)
 //  .translate([width - 225, height / 2])
 //  .clipAngle(90);
 //
 //
-//var path = d3.geo.path().projection(proj).pointRadius(1.5);
+//var path = d3.geo.path().projection(projection).pointRadius(1.5);
 //
 //var graticule = d3.geo.graticule();
 //
@@ -83,19 +83,19 @@
 //}
 //
 //function position_labels() {
-//  var centerPos = proj.invert([width/2,height/2]);
+//  var centerPos = projection.invert([width/2,height/2]);
 //
 //  var arc = d3.geo.greatArc();
 //
 //  svg.selectAll(".label")
 //    .attr("text-anchor",function(d) {
-//      var x = proj(d.geometry.coordinates)[0];
+//      var x = projection(d.geometry.coordinates)[0];
 //      return x < width/2-20 ? "end" :
 //      x < width/2+20 ? "middle" :
 //      "start"
 //    })
 //  .attr("transform", function(d) {
-//    var loc = proj(d.geometry.coordinates),
+//    var loc = projection(d.geometry.coordinates),
 //    x = loc[0],
 //    y = loc[1];
 //  var offset = x < width/2 ? -5 : 5;
@@ -111,7 +111,7 @@
 //var m0, o0;
 //function mousedown() {
 //  m0 = [d3.event.pageX, d3.event.pageY];
-//  o0 = proj.rotate();
+//  o0 = projection.rotate();
 //  d3.event.preventDefault();
 //}
 //function mousemove() {
@@ -121,7 +121,7 @@
 //    o1[1] = o1[1] > 30  ? 30  :
 //      o1[1] < -30 ? -30 :
 //      o1[1];
-//    proj.rotate(o1);
+//    projection.rotate(o1);
 //    refresh();
 //  }
 //}
