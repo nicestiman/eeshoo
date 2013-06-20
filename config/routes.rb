@@ -9,8 +9,12 @@ HIWIPI::Application.routes.draw do
   get "static_pages/contact"
 
 
-  resources :posts
+  resources :groups do
+    resources :posts, :except => :create 
+    resources :posts, :only => :create,  as: "make_post" 
+  end
 
+  #match '/posts' => 'posts#create'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
