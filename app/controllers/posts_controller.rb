@@ -23,13 +23,13 @@ class PostsController < ApplicationController
   end
 
   def create
-	@group = Group.find(params[:group_id])
-	@post = @group.posts.new(params[:post])
-	
-	if @post.save
-		redirect_to @post
-	else
-		render 'new'
-	end
+    @group = Group.find(params[:group_id])
+    @post = @group.posts.new(params[:post])
+
+    if @post.save
+      redirect_to @post
+    else
+      render 'new'
+    end
   end
 end
