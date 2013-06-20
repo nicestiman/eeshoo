@@ -1,10 +1,11 @@
 HIWIPI::Application.routes.draw do
 
   resources :groups do
-    resources :posts
+    resources :posts, :except => :create 
+    resources :posts, :only => :create,  as: "make_post" 
   end
 
-  match '/posts' => 'posts#create'
+  #match '/posts' => 'posts#create'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
