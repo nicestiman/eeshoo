@@ -2,6 +2,8 @@
   <h1>New Post</h1>
   <p>
   <%= form_for(@post, url: group_make_post_index_path) do |f| %>
+    <%= render 'shared/post_error_messages' %>
+
     <%= f.label :title %>
     <%= f.text_field :title %>
 
