@@ -1,5 +1,7 @@
 HIWIPI::Application.routes.draw do
 
+  get "users/new"
+
   resources :groups do
     resources :posts, :except => :create 
     resources :posts, :only => :create,  as: "make_post" 
