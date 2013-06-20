@@ -65,23 +65,31 @@ class window.Map
 
   ###
     asyrinisly finds gets a map object and then calls the ready function witch renders the objects
+
   ###
   getmap: (map) =>
     name = "maps"
+    console.log(typeof map)
+    unless map == undefined
 
-    if map.isArray()
-      for location in map
-        name += "/#{location}"
+      if typeof map == 'object'
+        for location in map
+          name += "/#{location}"
+      else if typeof map == 'string'
+        name = map
+      else
+        name +="/world"
     else
-      name += "/world"
+      name +="/world"
 
     name +=".json"
+    console.log(name)
     queue()
       .defer(d3.json, name)
       .await(@ready)
 
   ready: (error, world) =>
-    @features = topojson.feature(world, world.objects.sovereignty_110m).features
+    @features = topojson.feature(world, world.objects.world_huge).features
     self = @
 
     @svg
@@ -111,7 +119,7 @@ class window.Map
     #append all the samller objects to the map
     @svg
       .selectAll("svg")
-      .data(topojson.feature(world, world.objects.sovereignty_110m).features)
+      .data(@features)
       .enter()
           .append("path")
           .attr("class", (d) ->
@@ -200,26 +208,24 @@ class window.Map
     return
 
   rotateTween: =>
-    console.log("in the rotate tween")
+
     p = @location
     r = d3.interpolate(@projection.rotate(), [p[0], p[1]])
+
     return (t) =>
       @projection.rotate(r(t))
-      console.log(r(t))
       @refresh()
 
   centerTween: =>
-    console.log("in the rotate tween")
+
     p = @location
     r = d3.interpolate(@currentveiw, [p[0], p[1]])
-    console.log(@projection.rotate() + "rotate")
+
     return (t) =>
       #log the current location
       @currentveiw = (r(t))
 
       @projection.center(r(t))
-      console.log(@current)
-      console.log(r(t))
       @refresh()
 
   #make it pretty later
@@ -247,16 +253,46 @@ class window.Map
 #        t = _;
 #        return path(d);
 
+  ###
+  zooms in on a location
+  has the opitons time ease projection
+  ###
+  zoomInOn: (location, options) =>
 
-  zoomInOn: (location, time = 2000, ease = "cubic-in-out") =>
+
     place
     for feature in @features
       if feature.id == location
         place = feature
         break
 
-    @location = d3.geo.centroid(place)
-    d3.transition().duration(time).ease(ease).tween("rotate", @centerTween )
+    #make it so you dont have to insert a option if you dont want to
+    if options    != undefined
+                  {time, ease, projection} =
+                    options
+
+
+    if time       == undefined
+                  time =
+                    2000
+
+    if ease       == undefined
+                  ease =
+                    "cubic-in-out"
+
+    if projection == undefined
+                  projection =
+                    d3.geo.mercator()
+                      .scale(400)
+                      .translate([@width / 2, @height / 2])
+
+    @location =
+      d3.geo.centroid(place)
+
+    d3.transition()
+      .duration(time)
+      .ease(ease)
+      .tween("rotate", @centerTween )
 
     #remove the  globe boarder
     @svg.select(".fill").remove()
@@ -267,22 +303,24 @@ class window.Map
 #      .duration(time)
 #      .attrTween("d", @projectionTween(@proj, d3.geo.mercator()));
 
-    @projection = d3.geo.mercator()
-      .scale(400)
-      .translate([@width / 2, @height / 2]);
+    @projection = projection
 
     @path =  d3.geo.path()
       .projection(@projection)
 
+
+###
+testing function
+###
 $(document).ready( () ->
-  window.globe = new Map width: 500, height: 500, scale: 220, tag:"body" #projection:  d3.geo.mercator()
+  window.globe = new Map width: 500, height: 500, scale: 220, tag:"body"
 
   console.log globe
 
-  globe.getmap("sovereignty_110m_topo.json")
+  globe.getmap()
 #  globe.changeProjection(d3.geo.mercator())
 #  globe.zoomInOn("VEN")
-  globe.getmap(["AUS"])
+#  globe.getmap(["AUS"])
 
   $("body").append("<button onclick='globe.slideToLocation(\"VEN\")'> click me I'm pretty </button>")
 )

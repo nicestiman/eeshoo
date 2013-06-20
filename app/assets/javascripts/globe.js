@@ -22,10 +22,10 @@
 //  .on("mousedown", mousedown);
 //
 //queue()
-//  .defer(d3.json, "sovereignty_110m_topo.json")
+//  .defer(d3.json, "world_huge.json.json")
 //  .await(ready);
 //
-//function ready(error, world, places) {
+//function ready(error, world_huge.json, places) {
 //  svg.append("defs").append("path")
 //    .datum({type: "Sphere"})
 //    .attr("id", "sphere")
@@ -45,12 +45,12 @@
 //    .attr("d", path);
 //
 //  svg.append("path")
-//    .datum(topojson.feature(world, world.objects.sovereignty_110m))
+//    .datum(topojson.feature(world_huge.json, world_huge.json.objects.sovereignty_110m))
 //    .attr("class", "land")
 //    .attr("d", path);
 //
 //  svg.selectAll(".land")
-//    .data(topojson.feature(world, world.objects.sovereignty_110m).features)
+//    .data(topojson.feature(world_huge.json, world_huge.json.objects.sovereignty_110m).features)
 //    .enter().append("path")
 //    .attr("class", function(d) { return "land " + d.id; })
 //    .attr("d", path)
@@ -58,7 +58,7 @@
 //      alert("I am " + d.properties.name);
 //    });
 //  //svg.append("path")
-//    //.datum(topojson.feature(world, world.objects.countries))
+//    //.datum(topojson.feature(world_huge.json, world_huge.json.objects.countries))
 //    //.attr("class", "land")
 //    //.attr("d", path);
 //
