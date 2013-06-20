@@ -1,7 +1,6 @@
 class PostsController < ApplicationController
   def new
-    @group = Group.find(params[:group_id])
-    @post = @group.posts.new
+    @post = Post.new
     respond_to do |format|
       format.json
       format.html
