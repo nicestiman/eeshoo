@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
   def new
-    @post = Post.new
+    @group = Group.find(params[:group_id])
+    @post = @group.posts.new
     respond_to do |format|
       format.json
       format.html
@@ -23,8 +24,7 @@ class PostsController < ApplicationController
   end
 
   def create
-    @group = Group.find(params[:group_id])
-    @post = @group.posts.new(params[:post])
+    @post = Post.new(params[:post])
 
     if @post.save
       redirect_to @post
