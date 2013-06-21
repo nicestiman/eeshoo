@@ -16,9 +16,15 @@ describe Group do
 
   subject { @group }
 
+  #tests for group model
   it { should respond_to(:name)     }
   it { should respond_to(:location) }
   it { should respond_to(:posts)    }
+
+  #test for user model relation
+  it { should respond_to(:users) }
+
+  it { should be_valid }
 
   describe "when name is not present" do
     before { @group.name = "" }

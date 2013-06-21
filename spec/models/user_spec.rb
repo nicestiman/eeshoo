@@ -18,6 +18,7 @@ describe User do
 
   subject { @user }
 
+  #tests for user model attributes
   it { should respond_to(:first)  }
   it { should respond_to(:last)   }
   it { should respond_to(:email)  }
@@ -25,6 +26,9 @@ describe User do
   it { should respond_to(:password) }
   it { should respond_to(:password_confirmation) }
   it { should respond_to(:authenticate) }
+
+  #tests for group relation
+  it { should respond_to(:groups) }
 
   it { should be_valid }
 
