@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   attr_accessible :email, :first, :last, :password, :password_confirmation
 
   has_many :assignments
-  has_many :groups, :through => :assignments
+  has_many :groups, :through => :assignments, select: '"groups".*, "assignments"."role"'
   has_secure_password
 
   before_save { |user| user.email = email.downcase }
