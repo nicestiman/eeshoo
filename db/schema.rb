@@ -11,7 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130621182057) do
+ActiveRecord::Schema.define(:version => 20130621211341) do
+
+  create_table "assignments", :force => true do |t|
+    t.string   "role"
+    t.integer  "group_id"
+    t.integer  "user_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "groups", :force => true do |t|
     t.string   "name"
@@ -29,6 +37,14 @@ ActiveRecord::Schema.define(:version => 20130621182057) do
   end
 
   add_index "posts", ["group_id"], :name => "index_posts_on_group_id"
+
+  create_table "user_assignments", :force => true do |t|
+    t.string   "role"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "user_id"
+    t.integer  "group_id"
+  end
 
   create_table "users", :force => true do |t|
     t.string   "first"
