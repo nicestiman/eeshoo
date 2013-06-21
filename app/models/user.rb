@@ -12,4 +12,8 @@
 
 class User < ActiveRecord::Base
   attr_accessible :email, :first, :last
+
+  validates :email, presence: true
+  validates :first, presence: true
+  validates :last, presence: true
 end
