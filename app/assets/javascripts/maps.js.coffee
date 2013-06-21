@@ -15,6 +15,7 @@ class window.Map
 
 
   constructor: (options)->
+
     { @width, @height, @scale, @tag, @projection } = options
     #if the mouse is moved or lettup call the respective function
     d3.select(window)
@@ -65,31 +66,38 @@ class window.Map
 
   ###
     asyrinisly finds gets a map object and then calls the ready function witch renders the objects
-
   ###
-  getmap: (map) =>
-    name = "maps"
-    console.log(typeof map)
+  getmap: (options) =>
+
+    if options != undefined
+      {map, location} = options
+
+    if location != undefined
+      @location = location
+
+    name = "maps/"
+
     unless map == undefined
 
       if typeof map == 'object'
-        for location in map
-          name += "/#{location}"
+        for thing in map
+          name += thing
       else if typeof map == 'string'
-        name = map
+        name += map
       else
-        name +="/world"
+        name +="world"
     else
-      name +="/world"
+      name +="world"
 
     name +=".json"
-    console.log(name)
+
     queue()
       .defer(d3.json, name)
       .await(@ready)
 
   ready: (error, world) =>
-    @features = topojson.feature(world, world.objects.world_huge).features
+    @features = topojson.feature(world, world.objects.land).features
+
     self = @
 
     @svg
@@ -111,10 +119,10 @@ class window.Map
       .attr(    "xlink:href", "#sphere")
 
     @svg
-      .append("path")
-      .datum(@graticule)
-      .attr("class", "graticule")
-      .attr("d", @path)
+      .append(  "path")
+      .datum(   @graticule)
+      .attr(    "class", "graticule")
+      .attr(    "d", @path)
 
     #append all the samller objects to the map
     @svg
@@ -130,6 +138,9 @@ class window.Map
               self.zoomInOn(d.id)
               console.log(d.id)
             )
+
+    if @projection ==  d3.geo.orthographic() and location != undefined
+      @slideto(location)
 
   mousedown: () =>
     @m0 = [d3.event.pageX, d3.event.pageY]
@@ -183,17 +194,11 @@ class window.Map
     return
 
   ###
-  animated go and hover over a locatin by its id
+  animated go to and hover over a locatin by its id
   ###
   slideToLocation: (contrey, time = 2000, ease = "cubic-in-out")=>
-    place
-    console.log(@features)
-    for feature in @features
-      console.log(feature.id)
-      if feature.id == contrey
-        console.log(feature)
-        place = feature
-        break
+
+    place = @getFeature(contrey)
 
     #get the conterys id
     p = d3.geo.centroid(place)
@@ -254,17 +259,21 @@ class window.Map
 #        return path(d);
 
   ###
+  get a feature from a 3 letttter code
+  ###
+  getFeature: (location) =>
+    for feature in @features
+      if feature.id == location
+        return feature
+        break
+
+  ###
   zooms in on a location
   has the opitons time ease projection
   ###
   zoomInOn: (location, options) =>
 
-
-    place
-    for feature in @features
-      if feature.id == location
-        place = feature
-        break
+    place = @getFeature(location)
 
     #make it so you dont have to insert a option if you dont want to
     if options    != undefined
@@ -317,10 +326,7 @@ $(document).ready( () ->
 
   console.log globe
 
-  globe.getmap()
-#  globe.changeProjection(d3.geo.mercator())
-#  globe.zoomInOn("VEN")
-#  globe.getmap(["AUS"])
+  globe.getmap("world")
 
   $("body").append("<button onclick='globe.slideToLocation(\"VEN\")'> click me I'm pretty </button>")
 )
