@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130617220149) do
+ActiveRecord::Schema.define(:version => 20130621171823) do
 
   create_table "groups", :force => true do |t|
     t.string   "name"
@@ -29,5 +29,13 @@ ActiveRecord::Schema.define(:version => 20130617220149) do
   end
 
   add_index "posts", ["group_id"], :name => "index_posts_on_group_id"
+
+  create_table "users", :force => true do |t|
+    t.string   "first"
+    t.string   "last"
+    t.string   "email"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
 end
