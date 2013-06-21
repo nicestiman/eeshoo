@@ -7,6 +7,6 @@ describe "Home pages" do
   describe "content" do
     before {visit root_path}
     it{should have_content "HIWIPI"}
-    it{should have_selector 'div', id: 'globe'}
+    it{should have_selector 'svg', id: 'globe'}
   end
 end

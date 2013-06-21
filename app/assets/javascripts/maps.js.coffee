@@ -233,7 +233,7 @@ class window.Map
       @projection.center(r(t))
       @refresh()
 
-  #make it pretty later
+#  make it pretty later
 #  projectionTween: (projection0, projection1) =>
 #    return (d) =>
 #      t = 0
@@ -321,12 +321,12 @@ class window.Map
 ###
 testing function
 ###
-$(document).ready( () ->
-  window.globe = new Map width: 500, height: 500, scale: 220, tag:"body"
-
-  console.log globe
-
-  globe.getmap("world")
-
-  $("body").append("<button onclick='globe.slideToLocation(\"VEN\")'> click me I'm pretty </button>")
-)
+#$(document).ready( () ->
+#  window.globe = new Map width: 500, height: 500, scale: 220, tag:"body"
+#
+#  console.log globe
+#
+#  globe.getmap("world")
+#
+#  $("body").append("<button onclick='globe.slideToLocation(\"VEN\")'> click me I'm pretty </button>")
+#)
