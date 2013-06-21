@@ -13,5 +13,29 @@
 require 'spec_helper'
 
 describe User do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  before { @user = User.new(first: "John", last: "Doe", email: "jdoe@example.com") }
+
+  subject { @user }
+
+  it { should respond_to(:first)  }
+  it { should respond_to(:last)   }
+  it { should respond_to(:email)  }
+
+  it { should be_valid }
+
+  describe "when first name is not present" do
+    before { @user.first = " " }
+    it { should_not be_valid }
+  end
+
+  describe "when last name is not present" do
+    before { @user.last = " " }
+    it { should_not be_valid }
+  end
+
+  describe "when email is not present" do
+    before { @user.email = " " }
+    it { should_not be_valid }
+  end
 end
