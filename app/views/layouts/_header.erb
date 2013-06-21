@@ -1,4 +1,14 @@
-<header>
-  <a<%= link_to new_ %>>
-  </a>
+<header class="navbar navbar-fixed-top navbar-inverse">
+  <div class="navbar-inner">
+    <div class="container">
+      <%= link_to "HIWIPI", home_path, id: "logo" %>
+      <nav>
+        <ul class="nav">
+          <li><%= link_to "home",   home_path  %></li>
+          <li><%= link_to "help",   help_path  %></li>
+          <li><%= link_to "about",  about_path %></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
 </header>

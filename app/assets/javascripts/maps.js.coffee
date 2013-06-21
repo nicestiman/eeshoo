@@ -208,8 +208,6 @@ class window.Map
 
     d3.transition().duration(time).ease(ease).tween("rotate", @rotateTween )
 
-    #need to make it remove active contry tag
-    d3.select("."+place.id).attr("class", "land active-contry")
     return
 
   rotateTween: =>
