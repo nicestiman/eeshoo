@@ -70,4 +70,16 @@ describe User do
       end
     end
   end
+
+  describe "when email is already taken" do
+    before do
+      user_clone = @user.dup
+      user_clone = @user.email.upcase
+      user_clone.save
+    end
+
+    it { should_not be_valid }
+  end
+
+
 end
