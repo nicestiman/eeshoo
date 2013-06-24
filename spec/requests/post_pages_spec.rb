@@ -73,7 +73,7 @@ describe "Post pages" do
                                     title: "group2 test")
       @posts = [@post1, @post2]
 
-      visit "/posts.json"
+      visit posts_path + ".json" 
     end
 
     it "should list posts for all groups" do
