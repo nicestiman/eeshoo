@@ -81,6 +81,7 @@ describe "Post pages" do
         page.should have_content("post_id: #{post.id}"      )
         page.should have_content("title: #{post.title}"     )
         page.should have_content("content: #{post.content}" )
+        page.should have_content("group_id: #{post.group_id}")
       end
     end
   end      
