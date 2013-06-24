@@ -9,14 +9,29 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  password_digest :string(255)
-#
+
+module AddRole
+  def find_groups
+    groups = self.groups
+    assignments = self.assignments
+
+    groups.each do |group|
+      assignments.each do |role|
+        group[:role] = role[:role] if group[:id] == role[:group_id]
+      end
+    end
+    return groups
+  end
+end
+  
+
 
 class User < ActiveRecord::Base
   attr_accessible :email, :first, :last, :password, :password_confirmation
 
   has_many :assignments
-  has_many :groups, :through => :assignments, group: "assignments.role", select: '"groups".*, "assignments"."role"'
-  #has_many :groups, :through => :assignments, finder_sql: proc { "SELECT `groups`.*, `assignments`.`role` FROM `groups` JOIN `assignments` ON `groups`.`id` = `assignments`.`group_id` WHERE `assignments`.`user_id` = #{id}" }
+  has_many :groups, :through => :assignments, select: 'groups.*, assignments.role AS role' 
+  #has_many :groups, :through => :assignments, finder_sql: "SELECT `groups`.*, `assignments`.`role` FROM `groups` LEFT JOIN `assignments` ON `groups`.`id` = `assignments`.`group_id` WHERE `assignments`.`user_id` = 22"
 
   has_secure_password
 
