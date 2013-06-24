@@ -122,7 +122,7 @@ class window.Map
       .append(  "path")
       .datum(   @graticule)
       .attr(    "class", "graticule")
-      .attr(    "d", @path)
+      .attr("d", @path)
 
     #append all the samller objects to the map
     @svg
@@ -167,16 +167,16 @@ class window.Map
   refresh: () =>
     @svg
       .selectAll(".land")
-      .attr      "d", @path
+      .attr(      "d", @path)
     @svg
       .selectAll(".countries path")
-      .attr       "d", @path
+      .attr(       "d", @path)
     @svg
       .selectAll(".graticule")
-      .attr       "d", @path
+      .attr(       "d", @path)
     @svg
       .selectAll(".point")
-      .attr       "d", @path
+      .attr(       "d", @path)
 
   ###
   go (with no animation) to a geografic quardanet
@@ -231,7 +231,7 @@ class window.Map
       @projection.center(r(t))
       @refresh()
 
-#  make it pretty later
+  #make it pretty later
 #  projectionTween: (projection0, projection1) =>
 #    return (d) =>
 #      t = 0

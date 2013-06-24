@@ -1,8 +1,9 @@
 $(document).ready ->
   globe = new Map width: 500, height: 500, scale: 225, tag: "#globe"
+
   globe.getmap()
 
-  window.get_random_color =  ->
+  get_random_color =  ->
     letters = '0123456789ABCDEF'.split('');
     color = '#';
     for  i in [1..6]
@@ -18,17 +19,20 @@ $(document).ready ->
 
     $(this).css("background-color", color)
   )
-
   $("#story div").hover(->#on mouse in
 
     code = $(this)
       .attr("location");
 
+    console.log($("."+code))
     $("."+code).addClass("selected")
 
     console.log(code)
     globe.slideToLocation(code)
   ->#on mouse out
+    code = $(this).
+        attr("location")
+
     $("."+code).removeClass("selected")
   )
 
