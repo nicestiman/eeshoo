@@ -39,6 +39,11 @@ body {
   stroke-width: .5px;
 }
 
+#globe{
+position:fixed;
+right:0px
+}
+
 #stroy {
   div {
     padding: 5px;
@@ -48,4 +53,8 @@ body {
 #story div {
   padding: 5px;
   margin: 5px;
+}
+
+.selected{
+  fill:green;
 }
