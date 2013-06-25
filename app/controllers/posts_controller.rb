@@ -32,4 +32,8 @@ class PostsController < ApplicationController
       render 'new'
     end
   end
+
+  def tiered
+    @posts = Post.all
+  end
 end

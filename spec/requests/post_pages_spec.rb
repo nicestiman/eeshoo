@@ -56,11 +56,33 @@ describe "Post pages" do
 
     it "should list all posts" do
       @posts.each do |post|
-        #for post 2
         page.should have_content("post_id: #{post.id}"      )
         page.should have_content("title: #{post.title}"     )
         page.should have_content("content: #{post.content}" )
       end
     end
   end
+
+  describe "tiered posts" do
+    before do
+      @group2 = Group.create(name:"Second Test Group", location: "Rio de Janeiro, Rio de Janeiro, Brazil")
+
+      @post1 = @group1.posts.create(content: "This is a test post for the first group",
+                                    title: "group1 test")
+      @post2 = @group2.posts.create(content: "This is a test post for the second group",
+                                    title: "group2 test")
+      @posts = [@post1, @post2]
+
+      visit posts_path + ".json" 
+    end
+
+    it "should list posts for all groups" do
+      @posts.each do |post|
+        page.should have_content("post_id: #{post.id}"      )
+        page.should have_content("title: #{post.title}"     )
+        page.should have_content("content: #{post.content}" )
+        page.should have_content("group_id: #{post.group_id}")
+      end
+    end
+  end      
 end

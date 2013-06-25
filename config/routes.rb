@@ -9,6 +9,9 @@ HIWIPI::Application.routes.draw do
 
   match "/contact", to: "static_pages#contact"
 
+  get "users/new"
+
+  match '/posts', to: 'posts#tiered', :via => :get
   resources :groups do
     resources :posts, :except => :create 
     resources :posts, :only => :create,  as: "make_post" 
