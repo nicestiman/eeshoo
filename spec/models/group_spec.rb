@@ -34,7 +34,7 @@ describe Group do
 
   describe "when location is not present" do
     before { @group.location = "" }
-    
+
     it { should_not be_valid }
   end
 
@@ -42,5 +42,32 @@ describe Group do
     before { @group.name = "a" * 41 }
 
     it { should_not be_valid }
+  end
+
+  describe "when it creates a user" do
+    before do
+      @group.save
+      @user = @group.users.create(first: "Jane", last: "Doe", email: "test@example.com", password: "testpass", password_confirmation: "testpass")
+    end
+
+    let(:group_user) { @group.users.find(@user.id) }
+
+    it "should have a user" do
+      group_user.should == @user
+    end
+  end
+
+  describe "when it is assigned a user" do
+    before do
+      @group.save
+      @user = User.create(first: "Jane", last: "Doe", email: "test@example.com", password: "testPass", password_confirmation: "testPass")
+      @group.users << @user
+    end
+
+    let(:group_user) { @group.users.find(@user.id) }
+
+    it "should have a user" do
+      group_user.should == @user
+    end
   end
 end
