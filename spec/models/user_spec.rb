@@ -125,4 +125,40 @@ describe User do
       specify { user_with_invalid_password.should be_false }
     end
   end
+
+  describe "a valid user" do
+    before do
+      @user.save
+      @group1 = @user.groups.create(name: "test group 1", location: "Denver, Colorado, USA")
+      @group2 = @user.groups.create(name: "test group 2", location: "Los Angeles, California, USA")
+    end
+
+    it "should be able to make groups" do
+      @group1.should be_valid
+      @group2.should be_valid
+    end
+
+    describe "should belong to two groups" do
+      let(:first_group) { @user.groups.find(@group1.id) }
+      let(:second_group)  { @user.groups.find(@group2.id) }
+
+      it "should list each group" do
+        @group1.should == first_group
+        @group2.should == second_group
+      end
+    end
+
+    describe "should have a role in a group" do
+      before do
+        @assignment = @user.assignments.find_by_group_id(@group1.id)
+        @assignment.role = "admin"
+        @assignment.save
+      end
+      let(:role) { @user.groups.find(@group1.id).role }
+
+      it "should have the correct role" do
+        role.should == "admin"
+      end
+    end
+  end
 end
