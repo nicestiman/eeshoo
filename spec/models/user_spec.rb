@@ -161,4 +161,19 @@ describe User do
       end
     end
   end
+
+  describe "when joins a group" do
+    before do
+      @user.save
+      @group = Group.create(name: "Fake Group", location: "Pheonix, Arizona, USA")
+      @user.groups << @group
+    end
+    let(:users_group) { @user.groups.find(@group.id)  }
+    let(:groups_user) { @group.users.find(@user.id)   }
+
+    it "should be a member of the group" do
+      users_group.should == @group
+      groups_user.should == @user
+    end
+  end
 end
