@@ -12,26 +12,45 @@ $(document).ready ->
   
   $.getJSON('posts', (data) ->
     console.log(data)
+    for post in data
+      console.log(post.content)
+      $("#story")
+        .append("
+        <div>
+          <h3>#{post.title}</h3>
+          <p>#{post.content}</p>
+        </div>
+        ")
+    colorize()
+    set_hover_effect()
   )
   
-  $("#story div").each ( ->
-  #   console.log($(this))
-    color = get_random_color()
+  colorize = ->
+    $("#story div").each ( ->
+      console.log($(this))
+      color = get_random_color()
 
-    $(this).css("background-color", color)
-  )
-  $("#story div").hover(->#on mouse in
+      $(this).css("background-color", color)
+    )
+  
+  set_hover_effect = ->
+    $("#story div").hover(->#on mouse in
 
-    code = $(this)
-      .attr("location")
+      code = $(this)
+        .attr("location")
+      if code ==  undefined
+        return
 
-    d3.select("."+code).attr("class", "land #{code} selected")
+      d3.select("."+code).attr("class", "land #{code} selected")
 
-    globe.slideToLocation(code)
-  ->#on mouse out
-    code = $(this).
+      globe.slideToLocation(code)
+
+    ->#on mouse out
+      code = $(this).
         attr("location")
-
-    d3.select("."+code).attr("class", "land #{code}")
-  )
+      if code == undefined
+        return
+      console.log(code)
+      d3.select("."+code).attr("class", "land #{code}")
+    )
 
