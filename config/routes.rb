@@ -1,6 +1,7 @@
 HIWIPI::Application.routes.draw do
 
-  get "users/new"
+  resources :users, :except => :new
+  match '/signup', to: 'users#new', :via => :get
 
   match '/posts', to: 'posts#tiered', :via => :get
   resources :groups do
