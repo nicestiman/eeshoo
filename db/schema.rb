@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130621211341) do
+ActiveRecord::Schema.define(:version => 20130624185345) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "group_id"
