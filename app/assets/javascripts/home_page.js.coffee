@@ -1,5 +1,6 @@
 $(document).ready ->
-  globe = new Map width: 500, height: 500, scale: 225, tag: "#globe"
+  globe = new Map width: (window.innerWidth), height: (window.innerHeight-20), scale: 225, tag: "#globe"
+  console.log(window.innerWidth)
   globe.getmap()
 
   get_random_color =  ->
@@ -16,9 +17,9 @@ $(document).ready ->
       console.log(post.content)
       $("#story")
         .append("
-        <div>
-          <h3>#{post.title}</h3>
-          <p>#{post.content}</p>
+        <div dflocation='#{post.location}'>
+        <h3>#{post.title}</h3>
+        <p>#{post.content}</p>
         </div>
         ")
     colorize()
