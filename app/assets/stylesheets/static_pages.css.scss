@@ -13,15 +13,16 @@ body {
   stroke-width: 3px;
 }
 
-.fill {
-  fill: #fff;
+.fill { fill: #fff;
 }
 
 .graticule {
   fill: none;
-  stroke: #777;
-  stroke-width: .5px;
-  stroke-opacity: .5;
+  /*
+   *stroke: #777;
+   *stroke-width: .5px;
+   *stroke-opacity: .5;
+   */
 }
 
 .land {

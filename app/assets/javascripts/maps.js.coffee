@@ -20,7 +20,7 @@ class window.Map
     #if the mouse is moved or lettup call the respective function
     d3.select(window)
       .on("mousemove", @mousemove)
-      .on("mouseup", @mouseup);
+      .on("mouseup", @mouseup)
 
     #mouse origin
     @m0
@@ -118,11 +118,11 @@ class window.Map
       .attr(    "class", "fill")
       .attr(    "xlink:href", "#sphere")
 
-    @svg
-      .append(  "path")
-      .datum(   @graticule)
-      .attr(    "class", "graticule")
-      .attr("d", @path)
+    #@svg
+      #.append(  "path")
+      #.datum(   @graticule)
+      #.attr(    "class", "graticule")
+      #.attr("d", @path)
 
     #append all the samller objects to the map
     @svg
@@ -134,10 +134,11 @@ class window.Map
               return "land " + d.id
             )
           .attr("d", @path)
-          .on("click", (d) ->
-              self.zoomInOn(d.id)
-              console.log(d.id)
-            )
+          #.on("click", (d) ->
+              #self.zoomInOn(d.id)
+              #getmap(d.id)
+              #console.log(d.id)
+            #)
 
     if @projection ==  d3.geo.orthographic() and location != undefined
       @slideto(location)
@@ -314,6 +315,7 @@ class window.Map
 
     @path =  d3.geo.path()
       .projection(@projection)
+    
 
 
 ###

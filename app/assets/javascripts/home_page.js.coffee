@@ -1,6 +1,16 @@
 $(document).ready ->
-  globe = new Map width: (window.innerWidth), height: (window.innerHeight-20), scale: 225, tag: "#globe"
-  console.log(window.innerWidth)
+  globe_width=$("#globe").width()
+  globe_height=window.innerHeight-100
+  
+  if(globe_width>globe_height)
+    scale = globe_height
+  else
+    scale = globe_width
+  
+  globe = new Map width: globe_width,height: globe_height,scale:(scale-5)/2,tag: "#globe"
+  
+  console.log(scale)
+  
   globe.getmap()
 
   get_random_color =  ->
