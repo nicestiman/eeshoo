@@ -1,14 +1,11 @@
-<head>
-  <title> Group Page </title>
-</head>
-<body>
-  <h1> Profile Page for <%= @group.name %> </h1>
-  <ul>
-    <% if @group.posts.any? %>
-      <% @group.posts.each do |post| %>
-        <li><%= post.title %></li>
-      <% end %>
-    <% else %>
-      <li>You haven't made any posts yet</li>
+<% provide(:title, 'Group page') %>
+<h1> Profile Page for <%= @group.name %> </h1>
+<ul>
+  <% if @group.posts.any? %>
+    <% @group.posts.each do |post| %>
+      <li><%= post.title %></li>
     <% end %>
-</body>
+  <% else %>
+    <li>You haven't made any posts yet</li>
+  <% end %>
+</ul>

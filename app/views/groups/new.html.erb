@@ -1,21 +1,17 @@
-<head>
-  <title>New Group</title>
-</head>
-<body>
-  <h1>Create a New Group</h1>
+<% provide(:title, 'New Group') %>
+<h1>Create a New Group</h1>
 
-  <p>
-  <%= form_for(@group) do |f| %>
-    <%= render 'shared/group_error_messages' %>
+<p>
+<%= form_for(@group) do |f| %>
+  <%= render 'shared/group_error_messages' %>
 
-    <%= f.label :name %>
-    <%= f.text_field :name %>
-    <br>
+  <%= f.label :name %>
+  <%= f.text_field :name %>
+  <br>
 
-    <%= f.label :location %>
-    <%= f.text_field :location %>
+  <%= f.label :location %>
+  <%= f.text_field :location %>
 
-    <%= f.submit "Create", class: "btn btn-large btn-primary" %>
-  <% end %>
-  </p>
-</body>
+  <%= f.submit "Create", class: "btn btn-large btn-primary" %>
+<% end %>
+</p>

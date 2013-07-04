@@ -13,7 +13,7 @@ describe "Post pages" do
 
     let(:submit) { "Post" }
 
-    it { should have_selector("h1", text: "New Post") }
+    it { should have_selector("title", text: "New Post") }
 
     describe "with invalid information" do
       it "should not make a new post" do

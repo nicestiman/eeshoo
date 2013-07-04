@@ -1,16 +1,14 @@
-<body>
-  <h1>New Post</h1>
-  <p>
-  <%= form_for(@post, url: group_make_post_index_path) do |f| %>
-    <%= render 'shared/post_error_messages' %>
+<% provide(:title, 'New Post') %>
+<p>
+<%= form_for(@post, url: group_make_post_index_path) do |f| %>
+  <%= render 'shared/post_error_messages' %>
 
-    <%= f.label :title %>
-    <%= f.text_field :title %>
+  <%= f.label :title %>
+  <%= f.text_field :title %>
 
-    <%= f.label :content %>
-    <%= f.text_field :content %>
+  <%= f.label :content %>
+  <%= f.text_field :content %>
 
-    <%= f.submit "Post", class: "btn btn-large btn-primary" %>
-  <% end %>
-  </p>
-</body>
+  <%= f.submit "Post", class: "btn btn-large btn-primary" %>
+<% end %>
+</p>
