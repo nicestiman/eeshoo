@@ -16,7 +16,7 @@ class window.Map
 
   constructor: (options)->
 
-    { @width, @height, @scale, @tag, @projection } = options
+    { @width, @height, @scale, @tag, @projection, @trackable} = options
     #if the mouse is moved or lettup call the respective function
     d3.select(window)
       .on("mousemove", @mousemove)
@@ -61,8 +61,9 @@ class window.Map
   ###
     change the projection type
   ###
-  changeProjection:(projection) =>
+  changeProjection:(projection, trackable) =>
     @projection = projection
+    @trackable = trackable
     @path =  d3.geo.path()
       .projection(@projection)
     @refresh()
@@ -133,16 +134,9 @@ class window.Map
       .data(@features)
       .enter()
           .append("path")
-          .attr("class", (d) ->
-              return "land " + d.id
-            )
+          .attr("class", "land")
+          .attr("id", d.id)
           .attr("d", @path)
-          #.on("click", (d) ->
-              #self.zoomInOn(d.id)
-              #getmap(d.id)
-              #console.log(d.id)
-            #)
-
 
   mousedown: () =>
     @m0 = [d3.event.pageX, d3.event.pageY]

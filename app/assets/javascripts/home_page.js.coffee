@@ -27,7 +27,7 @@ $(document).ready ->
       console.log(post.content)
       $("#story")
         .append("
-        <div dflocation='#{post.location}'>
+        <div location='#{post.location}'>
         <h3>#{post.title}</h3>
         <p>#{post.content}</p>
         </div>
@@ -52,8 +52,8 @@ $(document).ready ->
       if code ==  undefined
         return
 
-      d3.select("."+code).attr("class", "land #{code} selected")
-
+      d3.select("."+code).attr("class", "land selected")
+      
       globe.slideToLocation(code)
 
     ->#on mouse out
@@ -62,6 +62,6 @@ $(document).ready ->
       if code == undefined
         return
       console.log(code)
-      d3.select("."+code).attr("class", "land #{code}")
+      d3.select("."+code).attr("class", "land")
     )
 
