@@ -135,8 +135,11 @@ class window.Map
       .enter()
           .append("path")
           .attr("class", "land")
-          .attr("id", d.id)
+          .attr("id", (d) ->
+            d.id
+          )
           .attr("d", @path)
+
 
   mousedown: () =>
     @m0 = [d3.event.pageX, d3.event.pageY]

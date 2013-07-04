@@ -52,7 +52,7 @@ $(document).ready ->
       if code ==  undefined
         return
 
-      d3.select("."+code).attr("class", "land selected")
+      d3.select("#"+code).attr("class", "land selected")
       
       globe.slideToLocation(code)
 
@@ -62,6 +62,6 @@ $(document).ready ->
       if code == undefined
         return
       console.log(code)
-      d3.select("."+code).attr("class", "land")
+      d3.select("#"+code).attr("class", "land")
     )
 
