@@ -29,7 +29,10 @@ class window.Map
     @o0
     # center origen
     @currentveiw = [0,0]
-
+    
+    if @trackable == undefined
+      @trackable = false
+    
     #the deafult projection
     if @projection == undefined
       @projection =
@@ -140,8 +143,6 @@ class window.Map
               #console.log(d.id)
             #)
 
-    if @projection ==  d3.geo.orthographic() and location != undefined
-      @slideto(location)
 
   mousedown: () =>
     @m0 = [d3.event.pageX, d3.event.pageY]
@@ -183,7 +184,11 @@ class window.Map
   go (with no animation) to a geografic quardanet
   ###
   goto: (location) =>
-    @projection.rotate(location)
+    if !@trackable
+      @projection.rotate(location)
+      #console.log("rotate",location)
+    else
+      @projection.center(location)
     @refresh()
 
   ###
@@ -215,10 +220,10 @@ class window.Map
 
     p = @location
     r = d3.interpolate(@projection.rotate(), [p[0], p[1]])
-
+    console.log(r)
     return (t) =>
-      @projection.rotate(r(t))
-      @refresh()
+      console.log(r(t))
+      @goto(r(t))
 
   centerTween: =>
 
