@@ -13,6 +13,8 @@ HIWIPI::Application.routes.draw do
     resources :posts, :only => :create,  as: "make_post" 
   end
 
+  match '/groups/:id/users', to: 'groups#user_index', via: :get, as: "members"
+
   #match '/posts' => 'posts#create'
 
   # The priority is based upon order of creation:
