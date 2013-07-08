@@ -66,5 +66,26 @@ describe "User Pages" do
 
       it { should have_content('error') }
     end
+
+    describe "with valid information" do
+      let(:new_first_name)  { "New" }
+      let(:new_last_name)   { "Name" }
+      let(:new_email)       { "new@example.com" }
+      before do
+        fill_in "First",        with: new_first_name
+        fill_in "Last",         with: new_last_name
+        fill_in "Email",        with: new_email
+        fill_in "Password",     with: user.password
+        fill_in "Confirmation", with: user.password
+        click_button "Save changes"
+      end
+
+      it { should have_selector('title', text: new_first_name) }
+      it { should have_selector('div.alert.alert-success') }
+      it { should have_link('Sign out', href: signout_path) }
+      specify { user.reload.first.should  ==  new_first_name }
+      specify { user.reload.last.should   ==  new_last_name }
+      specify { user.reload.email.should  ==  new_email }
+    end
   end
 end
