@@ -83,6 +83,7 @@ describe "Group pages" do
       visit members_path(@group.id)
     end
 
-    it { should have_selector('title', text: "#{@group.name}'s members") }
+    it { should have_selector('title',  text: "Group members") }
+    it { should have_selector('h1',     text: "Members of #{@group.name}") }
   end
 end
