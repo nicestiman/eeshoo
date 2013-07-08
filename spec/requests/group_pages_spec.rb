@@ -75,4 +75,14 @@ describe "Group pages" do
 
     it { should have_selector("li", text: "You haven't made any posts yet") }
   end
+
+  describe "members page" do
+    let(:user) { FactoryGirl.create(:user) }
+    before do
+      @group.users << user
+      visit members_path(@group.id)
+    end
+
+    it { should have_selector('title', text: "#{@group.name}'s members") }
+  end
 end
