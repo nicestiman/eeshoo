@@ -26,5 +26,6 @@ class GroupsController < ApplicationController
 
   def user_index
     @group = Group.find(params[:id])
+    @users = @group.users
   end
 end
