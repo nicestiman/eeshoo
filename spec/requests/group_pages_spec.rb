@@ -79,11 +79,21 @@ describe "Group pages" do
   describe "members page" do
     let(:user) { FactoryGirl.create(:user) }
     before do
-      @group.users << user
       visit members_path(@group.id)
     end
 
     it { should have_selector('title',  text: "Group members") }
     it { should have_selector('h1',     text: "Members of #{@group.name}") }
+
+    describe "when a Group has members" do
+      before do
+        @group.users << user
+        visit members_path(@group.id)
+      end
+
+      it "should list the user" do
+        page.should have_selector('li', text: user.name)
+      end
+    end
   end
 end
