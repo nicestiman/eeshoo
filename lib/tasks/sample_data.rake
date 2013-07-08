@@ -8,8 +8,8 @@ namespace :db do
                 password_confirmation: "testpass")
 
     99.times do |n|
-      first_name = Faker::Name.first
-      last_name = Faker::Name.last
+      first_name = Faker::Name.name
+      last_name = Faker::Name.name
       email = "test-#{n+1}@example.com"
       password = "password"
       User.create!(first: first_name,
