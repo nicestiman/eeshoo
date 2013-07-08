@@ -23,4 +23,8 @@ class GroupsController < ApplicationController
   def show
     @group = Group.find(params[:id])
   end
+
+  def user_index
+    @group = Group.find(params[:id])
+  end
 end
