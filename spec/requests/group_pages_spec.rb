@@ -100,5 +100,15 @@ describe "Group pages" do
         end
       end
     end
+
+    describe "when a User joins a group" do
+      let(:join) { "Join this group" }
+
+      describe "and is not signed in" do
+        before { click_button join }
+
+        it { should have_selector('title', text: 'Sign in') }
+      end
+    end
   end
 end
