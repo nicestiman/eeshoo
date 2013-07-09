@@ -6,4 +6,9 @@ FactoryGirl.define do
     password              "testPass"
     password_confirmation "testPass"
   end
+
+  factory :group do
+    sequence(:name)       { |n| "Group #{n}"}
+    location              "Los Angeles, California, USA"
+  end
 end
