@@ -92,7 +92,7 @@ describe "Group pages" do
         end
         visit members_path(group.id)
       end
-      after(:all) { group.users.delete_all }
+      after(:all) { User.delete_all }
 
       it "should list each user" do
         group.users.each do |user|
