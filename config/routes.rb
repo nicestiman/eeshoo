@@ -14,6 +14,7 @@ HIWIPI::Application.routes.draw do
   end
 
   match '/groups/:id/members', to: 'groups#user_index', via: :get, as: "members"
+  match '/groups/:id/members', to: 'groups#assign_user', via: :post, as: "assign"
 
   #match '/posts' => 'posts#create'
 
