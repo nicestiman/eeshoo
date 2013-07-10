@@ -107,11 +107,38 @@ describe "Group pages" do
     end
 
     describe "when a User joins a group" do
+      let(:user) { FactoryGirl.create(:user) }
       let(:join) { "Join this group" }
 
       describe "and is not signed in" do
 
         it { should_not have_selector('a', text: 'Join this group') }
+      end
+
+      describe "and is signed in" do
+        before do
+          sign_in user
+          visit members_path(popular_group.id)
+        end
+
+        it { should have_selector('a', text: 'Join this group' ) }
+
+        describe "but is already a member" do
+          before do
+            popular_group.users << user
+            visit members_path(popular_group.id)
+          end
+
+          it "should not assign the user again" do
+            expect { click_button join }.not_to change(Assignment, :count)
+          end
+
+          it "should give notice that user is already a member" do
+            click_button join
+            page.should have_selector('div.alert.alert-notice', 
+                                      text: 'You are already a member of this group')
+          end
+        end
       end
     end
   end
