@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe "Group pages" do
-  let(:group) { FactoryGirl.create(:group) }
+  before { @group = Group.new(name: "Test Group", location: "Denver, Colorado, USA") }
 
   subject { page }
 
@@ -24,8 +24,8 @@ describe "Group pages" do
 
     describe "with valid information" do
       before do
-        fill_in "Name",     with: group.name + "2"
-        fill_in "Location", with: group.location
+        fill_in "Name",     with: @group.name + "2"
+        fill_in "Location", with: @group.location
       end
 
       it "should create a group" do
@@ -35,9 +35,9 @@ describe "Group pages" do
   end
 
   describe "index group page" do
-    let(:group2) { FactoryGirl.create(:group) }
     before do
-      @groups = [group, group2] 
+      @group2 = Group.create(name: "Test Group 2", location: "Los Angeles, CA")
+      @groups = [@group, @group2] 
       visit groups_path + ".json"
     end
 
@@ -52,16 +52,16 @@ describe "Group pages" do
 
   describe "group profile page with posts" do
     before do
-      group.posts.create(content: "this is a test post", title: "Test post")
-      group.posts.create(content: "this is another test post", title: "Second Test Post")
-      visit group_path(group.id)
+      @group.posts.create(content: "this is a test post", title: "Test post")
+      @group.posts.create(content: "this is another test post", title: "Second Test Post")
+      visit group_path(@group.id)
     end
 
     it { should have_selector("h1", text: "Profile Page") }
-    it { should have_selector("h1", text: group.name)    }
+    it { should have_selector("h1", text: @group.name)    }
     
     it "should list each post" do
-      group.posts.each do |post|
+      @group.posts.each do |post|
         page.should     have_selector("li", text: post.title)
         page.should_not have_content(post.content)
       end
@@ -70,32 +70,32 @@ describe "Group pages" do
 
   describe "group profile page without posts" do
     before do
-      visit group_path(group.id)
+      visit group_path(@group.id)
     end
 
     it { should have_selector("li", text: "You haven't made any posts yet") }
   end
 
   describe "members page" do
-    let(:user) { FactoryGirl.create(:user) }
+    let(:user) { actoryGirl.create(:user) }
     before do
-      visit members_path(group.id)
+      visit members_path(@group.id)
     end
 
     it { should have_selector('title',  text: "Group members") }
-    it { should have_selector('h1',     text: "Members of #{group.name}") }
+    it { should have_selector('h1',     text: "Members of #{@group.name}") }
 
     describe "when a Group has members" do
       before(:all) do
         30.times do
-          group.users << FactoryGirl.create(:user)
+          @group.users << FactoryGirl.create(:user)
         end
-        visit members_path(group.id)
+        visit members_path(@group.id)
       end
       after(:all) { User.delete_all }
 
       it "should list each user" do
-        group.users.each do |user|
+        @group.users.each do |user|
           page.should have_selector('li', text: user.name)
         end
       end

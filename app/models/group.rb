@@ -18,5 +18,4 @@ class Group < ActiveRecord::Base
 
   validates :name, presence: true, length: { maximum: 40 }, uniqueness: true
   validates :location, presence: true
-  validates :users, uniqueness: true
 end

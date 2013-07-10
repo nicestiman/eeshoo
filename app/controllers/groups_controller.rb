@@ -28,4 +28,16 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id])
     @users = @group.users
   end
+
+  def assign_user
+    @group = Group.find(params[:id])
+    if @group.users.include?(current_user)
+      flash.now[:notice] = "You are already a member of this group"
+      redirect_to(members_path(@group.id))
+    else
+      @group.users << current_user
+      flash.now[:success] = "You have successfully joined this group"
+      redirect_to(members_path(@group.id))
+    end
+  end
 end

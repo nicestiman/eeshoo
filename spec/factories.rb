@@ -8,7 +8,7 @@ FactoryGirl.define do
   end
 
   factory :group do
-    sequence(:name)       { |n| "Group #{n}"}
+    name                  "Test Group"
     location              "Los Angeles, California, USA"
   end
 end
