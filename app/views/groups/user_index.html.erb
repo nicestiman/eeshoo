@@ -10,6 +10,6 @@
     <% end %>
 </ul>
 
-<% if signed_in? %>
-  <a href= '#', class = "btn">Join this group</a>
+<% if signed_in? && !@group.users.include?(current_user) %>
+  <%= link_to "Join this group", assign_path(@group.id), class: "btn" %>
 <% end %>
