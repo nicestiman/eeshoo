@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe "Group pages" do
-  before { @group = Group.new(name: "Test Group", location: "Denver, Colorado, USA") }
+  before { @group = Group.create(name: "Test Group", location: "Denver, Colorado, USA") }
 
   subject { page }
 
@@ -77,25 +77,30 @@ describe "Group pages" do
   end
 
   describe "members page" do
-    let(:user) { actoryGirl.create(:user) }
+    let(:popular_group) { FactoryGirl.create(:group, name: "Popular Group" ) }
     before do
-      visit members_path(@group.id)
+      visit members_path(popular_group.id)
     end
 
     it { should have_selector('title',  text: "Group members") }
-    it { should have_selector('h1',     text: "Members of #{@group.name}") }
+    it { should have_selector('h1',     text: "Members of #{popular_group.name}") }
 
     describe "when a Group has members" do
       before(:all) do
         30.times do
-          @group.users << FactoryGirl.create(:user)
+          popular_group.users << FactoryGirl.create(:user)
         end
-        visit members_path(@group.id)
+        visit members_path(popular_group.id)
       end
-      after(:all) { User.delete_all }
+
+      after(:all) do
+        User.delete_all
+        Group.delete_all
+        Assignment.delete_all
+      end
 
       it "should list each user" do
-        @group.users.each do |user|
+        popular_group.users.each do |user|
           page.should have_selector('li', text: user.name)
         end
       end
