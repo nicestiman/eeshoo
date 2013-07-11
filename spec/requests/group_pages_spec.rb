@@ -131,7 +131,8 @@ describe "Group pages" do
             visit members_path(popular_group.id)
           end
 
-          it { should_not have_selector('a', text: join) }
+          it { should_not have_selector("a", text: join) }
+          it { should have_selector("a", href: leave_path(popular_group.id)) }
           
           describe "submitting a POST request to the Groups#assign action" do
             before { post assign_path(popular_group.id) }
@@ -146,7 +147,8 @@ describe "Group pages" do
 
         describe "and isn't a member yet" do
           
-          it { should have_selector('a', text: join) }
+          it { should have_selector("a", text: join) }
+          it { should_not have_selector("a", href: leave_path(popular_group.id)) }
           it "should assign the user to the group" do
             expect { click_link join }.to change(Assignment, :count).by(1)
           end
@@ -172,14 +174,16 @@ describe "Group pages" do
     end
 
     it { should have_selector("a", text: leave, href: leave_path(group.id)) }
+    it { should_not have_selector("a", href: assign_path(group.id)) }
     it "should unassign the user from the group" do
       expect { click_link leave }.to change(Assignment, :count).by(-1)
     end
     describe "after leave is pressed" do
       before { click_link leave }
 
-      it { should have_selector('div.alert.alert-success', 
-                                text: 'You are no longer a member of this group') }
+      it { should have_selector('div.alert.alert-success',
+                               text: 'You are no longer a member of this group') }
+      it { should_not have_selector('div.alert.alert-error') }
     end
   end
 end
