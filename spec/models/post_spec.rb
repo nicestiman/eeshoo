@@ -17,7 +17,9 @@ describe Post do
 
   before do
     @group = Group.create(name: "Noodle Club", location: "Denver, Colorado, USA")
-    @post = @group.posts.build(content: "This is a test post", title: "Test") 
+    @author = @group.users.create(first: "Jane", last: "Doe", email: "jane_doe_fake@example.com", password: "testpass", password_confirmation: "testpass")
+    @post = @group.posts.build(content: "This is a test post", title: "Test")
+    @post.author = @author
   end
 
   subject { @post }
