@@ -13,8 +13,9 @@ HIWIPI::Application.routes.draw do
     resources :posts, :only => :create,  as: "make_post" 
   end
 
-  match '/groups/:id/members', to: 'groups#user_index', via: :get, as: "members"
-  match '/groups/:id/members', to: 'groups#assign_user', via: :post, as: "assign"
+  match '/groups/:id/members', to: 'groups#user_index',   via: :get,    as: "members"
+  match '/groups/:id/members', to: 'groups#assign_user',  via: :post,   as: "assign"
+  match '/groups/:id/members', to: 'groups#remove_user',  via: :delete, as: "leave"
 
   #match '/posts' => 'posts#create'
 
