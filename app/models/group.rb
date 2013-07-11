@@ -22,6 +22,9 @@ class Group < ActiveRecord::Base
   def remove(user)
     assignment = self.assignments.find_by_user_id(user.id)
     assignment.delete
+    #reevaluate assignment, don't use the cached variable
+    assignment = self.assignments.find_by_user_id(user.id)
+    #return boolean for successfull removal
     assignment.nil?
   end
 end
