@@ -57,7 +57,7 @@ describe "Group pages" do
       visit group_path(@group.id)
     end
 
-    it { should have_selector("a",  text: "Members") }
+    it { should have_selector("a",  href: members_path(@group.id)) }
     it { should have_selector("h1", text: "Profile Page") }
     it { should have_selector("h1", text: @group.name)    }
     
@@ -74,7 +74,7 @@ describe "Group pages" do
       visit group_path(@group.id)
     end
 
-    it { should have_selector("a",  text: "Members") }
+    it { should have_selector("a",  href: members_path(@group.id)) }
     it { should have_selector("li", text: "You haven't made any posts yet") }
   end
 
