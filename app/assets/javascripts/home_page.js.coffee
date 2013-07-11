@@ -64,4 +64,3 @@ $(document).ready ->
       console.log(code)
       d3.select("#"+code).attr("class", "land")
     )
-

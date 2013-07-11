@@ -57,6 +57,24 @@ class window.Map
       d3.geo.path()
         .projection(@projection)
         .pointRadius(1.5)
+    @svg
+      .append(  "defs")
+      .append(  "path")
+      .datum(   type: "Sphere")
+      .attr(    "id", "sphere")
+      .attr(    "d", @path)
+
+
+    @svg
+      .append( "use")
+      .attr(   "class", "stroke")
+      .attr(   "xlink:href", "#sphere")
+
+    @svg
+      .append(  "use")
+      .attr(    "class", "fill")
+      .attr(    "xlink:href", "#sphere")
+
 
   ###
     change the projection type
@@ -89,44 +107,23 @@ class window.Map
       else if typeof map == 'string'
         name += map
       else
-        name +="world"
+        name +="world_small"
     else
-      name +="world"
+      name +="world_small"
 
     name +=".json"
-
+    console.log "tobe loaded", name, map
     queue()
       .defer(d3.json, name)
       .await(@ready)
 
   ready: (error, world) =>
+    @features = null
+    @refresh
+    console.log "world", world
     @features = topojson.feature(world, world.objects.land).features
-
+    console.log "features", @features
     self = @
-
-    @svg
-      .append(  "defs")
-      .append(  "path")
-      .datum(   type: "Sphere")
-      .attr(    "id", "sphere")
-      .attr(    "d", @path)
-
-
-    @svg
-      .append( "use")
-      .attr(   "class", "stroke")
-      .attr(   "xlink:href", "#sphere")
-
-    @svg
-      .append(  "use")
-      .attr(    "class", "fill")
-      .attr(    "xlink:href", "#sphere")
-
-    #@svg
-      #.append(  "path")
-      #.datum(   @graticule)
-      #.attr(    "class", "graticule")
-      #.attr("d", @path)
 
     #append all the samller objects to the map
     @svg
@@ -139,6 +136,9 @@ class window.Map
             d.id
           )
           .attr("d", @path)
+          .on("click", (d) =>
+            @zoomInOn(d.id)
+          )
 
 
   mousedown: () =>
@@ -207,7 +207,7 @@ class window.Map
     p = d3.geo.centroid(place)
 
     #get its real quardanets
-    @location = [-p[0], -p[1]]
+    @location = [p[0], p[1]]
 
     d3.transition().duration(time).ease(ease).tween("rotate", @rotateTween )
 
@@ -216,7 +216,7 @@ class window.Map
   rotateTween: =>
 
     p = @location
-    r = d3.interpolate(@projection.rotate(), [p[0], p[1]])
+    r = d3.interpolate(@projection.rotate(), [-p[0], -p[1]])
     console.log(r)
     return (t) =>
       console.log(r(t))
@@ -233,6 +233,13 @@ class window.Map
 
       @projection.center(r(t))
       @refresh()
+  
+  scaleTween: =>
+    r = d3.interpolate(0, 1500)
+
+    return (t) =>
+      @projection.scale(r(t))
+      @refresh
 
   #make it pretty later
 #  projectionTween: (projection0, projection1) =>
@@ -275,8 +282,8 @@ class window.Map
   zoomInOn: (location, options) =>
 
     place = @getFeature(location)
-
-    #make it so you dont have to insert a option if you dont want to
+    
+       #make it so you dont have to insert a option if you dont want to
     if options    != undefined
                   {time, ease, projection} =
                     options
@@ -300,23 +307,41 @@ class window.Map
       d3.geo.centroid(place)
 
     d3.transition()
-      .duration(time)
+      .duration(time/2)
       .ease(ease)
-      .tween("rotate", @centerTween )
+      .tween("rotate", @rotateTween )
+      .each("end", =>
+        @svg.selectAll("path").remove()
+        @getmap(map: location+"_topo")
+        @svg.select(".stroke").remove()
+        @projection = projection
+        @path =  d3.geo.path()
+          .projection(@projection)
+        
+        @projection.center @location
+        d3.transition()
+          #.duration(time/2)
+          #.ease(ease)
+          .tween("zoom", @scaleTween)
+          .each("end", =>
+            @refresh
+          )
+      )
+    
+    
 
-    #remove the  globe boarder
-    @svg.select(".fill").remove()
-    @svg.select(".stroke").remove()
+    #remove the globe boarder
 
     #transiton to flat projection fix later
 #    d3.select("svg").transition()
 #      .duration(time)
 #      .attrTween("d", @projectionTween(@proj, d3.geo.mercator()));
 
-    @projection = projection
 
-    @path =  d3.geo.path()
-      .projection(@projection)
+  
+  
+
+
     
 
 
