@@ -172,5 +172,9 @@ describe "Group pages" do
     end
 
     it { should have_selector("a", text: leave, href: leave_path(group.id)) }
+    it "should unassign the user from the group" do
+      expect { click_link leave }.to change(Assignment, :count).by(-1)
+      specify { response.should redirect_to(members_path(group.id)) }
+    end
   end
 end
