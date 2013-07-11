@@ -18,4 +18,10 @@ class Group < ActiveRecord::Base
 
   validates :name, presence: true, length: { maximum: 40 }, uniqueness: true
   validates :location, presence: true
+
+  def remove(user)
+    assignment = self.assignments.find_by_user_id(user.id)
+    assignment.delete
+    assignment.nil?
+  end
 end
