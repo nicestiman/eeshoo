@@ -130,16 +130,23 @@ describe "Group pages" do
           end
 
           it { should_not have_selector('a', text: join) }
-
+          
           describe "submitting a POST request to the Groups#assign action" do
             before { post assign_path(popular_group.id) }
             
-            it { should have_selector('title', 'Group members') }
-            it { should have_selector('div.alert.alert-notice', 
-                                      text: 'You are already a member of this group' ) }
+            specify { response.should redirect_to(members_path(popular_group.id)) }
+
             it "should not assign the user" do
               expect { post assign_path(popular_group.id) }.not_to change(Assignment, :count)
             end
+          end
+        end
+
+        describe "and isn't a member yet" do
+          
+          it { should have_selector('a', text: join) }
+          it "should assign the user to the group" do
+            expect { click_button join }.to change(Assignment, :count).by(1)
           end
         end
       end
