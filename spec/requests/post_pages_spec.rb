@@ -3,7 +3,9 @@ require 'spec_helper'
 describe "Post pages" do
   before do
     @group1 = Group.create(name: "Test Group", location: "Los Angeles, California, USA")
+    @author = @group1.users.create(first: "Jane", last: "Doe", email: "jane_doe_fake@example.com", password:"testpass", password_confirmation: "testpass")
     @post = @group1.posts.new(content: "This is a test post", title: "Test")
+    @post.author = @author
   end
 
   subject { page }
@@ -48,9 +50,13 @@ describe "Post pages" do
 
   describe "index" do
     before do
-      @post1 = @group1.posts.create(content: "This is test post #1", title: "Post 1")
-      @post2 = @group1.posts.create(content: "This is test post #2", title: "Post 2")
+      @post1 = @group1.posts.new(content: "This is test post #1", title: "Post 1")
+      @post2 = @group1.posts.new(content: "This is test post #2", title: "Post 2")
       @posts = [@post1, @post2]
+      @posts.each do |post|
+        post.author = @author
+        post.save
+      end
       visit group_posts_path(@group1.id) + ".json"
     end
 
@@ -67,11 +73,16 @@ describe "Post pages" do
     before do
       @group2 = Group.create(name:"Second Test Group", location: "Rio de Janeiro, Rio de Janeiro, Brazil")
 
-      @post1 = @group1.posts.create(content: "This is a test post for the first group",
+      @post1 = @group1.posts.new(content: "This is a test post for the first group",
                                     title: "group1 test")
-      @post2 = @group2.posts.create(content: "This is a test post for the second group",
+      @post2 = @group2.posts.new(content: "This is a test post for the second group",
                                     title: "group2 test")
       @posts = [@post1, @post2]
+      
+      @posts.each do |post|
+        post.author = @author
+        post.save
+      end
 
       visit posts_path + ".json" 
     end
