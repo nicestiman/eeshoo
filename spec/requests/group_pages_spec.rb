@@ -51,9 +51,15 @@ describe "Group pages" do
   end
 
   describe "group profile page with posts" do
+    let(:author) { FactoryGirl.create(:user) }
     before do
-      @group.posts.create(content: "this is a test post", title: "Test post")
-      @group.posts.create(content: "this is another test post", title: "Second Test Post")
+      @post1 = @group.posts.new(content: "this is a test post", title: "Test post")
+      @post2 = @group.posts.new(content: "this is another test post", title: "Second Test Post")
+      @posts = [@post1, @post2]
+      @posts.each do |post|
+        post.author = author
+        post.save
+      end
       visit group_path(@group.id)
     end
 
