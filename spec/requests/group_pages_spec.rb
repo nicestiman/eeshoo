@@ -175,6 +175,11 @@ describe "Group pages" do
     it "should unassign the user from the group" do
       expect { click_link leave }.to change(Assignment, :count).by(-1)
     end
-    specify { response.should redirect_to(members_path(group.id)) }
+    describe "after leave is pressed" do
+      before { click_link leave }
+
+      it { should have_selector('div.alert.alert-succes', 
+                                text: 'You are no longer a member of this group') }
+    end
   end
 end
