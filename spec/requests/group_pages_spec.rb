@@ -171,6 +171,6 @@ describe "Group pages" do
       visit members_path(group.id)
     end
 
-    it { should have_selector("a", text: leave) }
+    it { should have_selector("a", text: leave, href: leave_path(group.id)) }
   end
 end
