@@ -148,6 +148,13 @@ describe "Group pages" do
           it "should assign the user to the group" do
             expect { click_link join }.to change(Assignment, :count).by(1)
           end
+          
+          describe "there should be a success message" do
+            before { click_link join }
+
+            it { should have_selector('div.alert.alert-success', 
+                                      text: 'You have successfully joined this group') }
+          end
         end
       end
     end
