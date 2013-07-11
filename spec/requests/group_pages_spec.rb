@@ -146,7 +146,7 @@ describe "Group pages" do
           
           it { should have_selector('a', text: join) }
           it "should assign the user to the group" do
-            expect { click_button join }.to change(Assignment, :count).by(1)
+            expect { click_link join }.to change(Assignment, :count).by(1)
           end
         end
       end
