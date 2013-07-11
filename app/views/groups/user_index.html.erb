@@ -9,7 +9,7 @@
 
 <% if signed_in? %>
   <% if @group.users.include?(current_user) %>
-
+    <%= link_to "Leave this group", leave_path(@group.id), class: "btn", method: :delete %>
   <% else %>
     <%= link_to "Join this group", assign_path(@group.id), class: "btn", method: :post %>
   <% end %>
