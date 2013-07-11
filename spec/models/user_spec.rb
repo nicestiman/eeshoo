@@ -33,6 +33,9 @@ describe User do
   #tests for group relation
   it { should respond_to(:groups) }
 
+  #tests for posts relation
+  it { should respond_to(:posts) }
+
   it { should be_valid }
 
   describe "when first name is not present" do
