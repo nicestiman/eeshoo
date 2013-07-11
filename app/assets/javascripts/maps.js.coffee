@@ -305,46 +305,50 @@ class window.Map
 
     @location =
       d3.geo.centroid(place)
+    console.log(@trackable)  
+    if !@trackable
+      d3.transition()
+        .duration(time/2)
+        .ease(ease)
+        .tween("rotate", @rotateTween )
+        .each("end", =>
+          @svg.selectAll("path").remove()
+          @getmap(map: location+"_topo")
+          @svg.select(".stroke").remove()
+          @changeProjection projection, true
 
-    d3.transition()
-      .duration(time/2)
-      .ease(ease)
-      .tween("rotate", @rotateTween )
-      .each("end", =>
-        @svg.selectAll("path").remove()
-        @getmap(map: location+"_topo")
-        @svg.select(".stroke").remove()
-        @projection = projection
-        @path =  d3.geo.path()
-          .projection(@projection)
-        
-        @projection.center @location
-        d3.transition()
-          #.duration(time/2)
-          #.ease(ease)
-          .tween("zoom", @scaleTween)
-          .each("end", =>
-            @refresh
-          )
-      )
-    
-    
+          @projection.center @location
+          d3.transition()
+            #.duration(time/2)
+            #.ease(ease)
+            .tween("zoom", @scaleTween)
+            .each("end", =>
+              @refresh
+            )
+        )
+     else
+      d3.transition()
+        .duration(time/2)
+        .ease(ease)
+        .tween("rotate", @centerTween )
+        .each("end", =>
+          @svg.selectAll("path").remove()
+          @getmap(map: location+"_topo")
+          @svg.select(".stroke").remove()
+          @projection = projection
+          @path =  d3.geo.path()
+            .projection(@projection)
 
-    #remove the globe boarder
-
-    #transiton to flat projection fix later
-#    d3.select("svg").transition()
-#      .duration(time)
-#      .attrTween("d", @projectionTween(@proj, d3.geo.mercator()));
-
-
-  
-  
-
-
-    
-
-
+          @projection.center @location
+          d3.transition()
+            #.duration(time/2)
+            #.ease(ease)
+            .tween("zoom", @scaleTween)
+            .each("end", =>
+              @refresh
+            )
+        )
+       
 ###
 testing function
 ###
