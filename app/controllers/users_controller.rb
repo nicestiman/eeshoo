@@ -44,6 +44,7 @@ class UsersController < ApplicationController
 
     def correct_user
       @user = User.find(params[:id])
+      store_location
       redirect_to(signin_path) unless current_user?(@user)
     end
 end

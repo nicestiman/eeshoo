@@ -51,9 +51,9 @@ class PostsController < ApplicationController
 
     def user_member_of_group
       @group = Group.find(params[:group_id])
-      unless current_user?(user)
+      unless @group.users.include?(current_user)
         store_location
-        redirect_to members_path(@group.id)
+        redirect_to members_path(@group.id), notice: "Please join the group to add a post"
       end
     end
 end

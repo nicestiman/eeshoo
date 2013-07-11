@@ -11,7 +11,7 @@ describe "Post pages" do
   subject { page }
 
   describe "new post page" do
-    before { visit new_group_post_path(@group1.id) }
+    before { sign_in @author; visit new_group_post_path(@group1.id) }
 
     let(:submit) { "Post" }
 
