@@ -8,6 +8,7 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  group_id   :integer
+#  author_id  :integer
 #
 
 require 'spec_helper'
