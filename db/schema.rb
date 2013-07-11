@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130704034330) do
+ActiveRecord::Schema.define(:version => 20130711213637) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "group_id"
@@ -29,10 +29,10 @@ ActiveRecord::Schema.define(:version => 20130704034330) do
   end
 
   create_table "posts", :force => true do |t|
-    t.string   "content"
+    t.text     "content",    :limit => 255
     t.string   "title"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
     t.integer  "group_id"
   end
 
