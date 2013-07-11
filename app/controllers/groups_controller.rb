@@ -36,7 +36,7 @@ class GroupsController < ApplicationController
       redirect_to(members_path(@group.id))
     else
       @group.users << current_user
-      flash.now[:success] = "You have successfully joined this group"
+      flash[:success] = "You have successfully joined this group"
       redirect_to(members_path(@group.id))
     end
   end
