@@ -3,11 +3,8 @@
 
 <ul class ="users">
   <% @users.each do |user| %>
-    <li>
-      <%= gravatar_for user, size: 52 %>
-      <%= link_to user.name, user %>
-      </li>
-    <% end %>
+    <%= render 'user_listing', user: user %>
+  <% end %>
 </ul>
 
 <% if signed_in? && !@group.users.include?(current_user) %>
