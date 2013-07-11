@@ -178,7 +178,7 @@ describe "Group pages" do
     describe "after leave is pressed" do
       before { click_link leave }
 
-      it { should have_selector('div.alert.alert-succes', 
+      it { should have_selector('div.alert.alert-success', 
                                 text: 'You are no longer a member of this group') }
     end
   end
