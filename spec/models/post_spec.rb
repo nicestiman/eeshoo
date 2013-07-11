@@ -25,6 +25,8 @@ describe Post do
   it { should respond_to(:title)   }
   it { should respond_to(:group_id) }
   it { should respond_to(:group) }
+  it { should respond_to(:author) }
+  it { should respond_to(:author_id) }
   its(:group) { should == @group }
 
   it { should be_valid }
