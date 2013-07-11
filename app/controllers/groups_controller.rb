@@ -41,4 +41,17 @@ class GroupsController < ApplicationController
       redirect_to(members_path(@group.id))
     end
   end
+
+  def remove_user
+    @group = Group.find(params[:id])
+    if @group.users.include?(current_user)
+      if @group.remove(current_user)
+        flash[:success] = "You are no longer a member of this group"
+        redirect_to(members_path(@group.id))
+      else
+        flash[:error] = "There was an error leaving the group"
+        redirect_to(members_path(@group.id))
+      end
+    end
+  end
 end
