@@ -87,18 +87,6 @@ describe "Group pages" do
     it { should have_selector('title',  text: "Group members") }
     it { should have_selector('h1',     text: "Members of #{popular_group.name}") }
 
-    describe "when a user wants to leave a group" do
-      let(:user) { FactoryGirl.create(user) }
-      let(:leave) { "Leave this group" }
-      before do
-        popular_group.users << user
-        sign_in user
-        visit members_path(popular_group.id)
-      end
-
-      it { should have_selector("a", text: leave) }
-    end
-
     describe "when a Group has members" do
       before(:all) do
         30.times do
@@ -172,5 +160,17 @@ describe "Group pages" do
         end
       end
     end
+  end
+  describe "when a user wants to leave a group" do
+    let(:group) { FactoryGirl.create(:group, name: "Unique Group name") }
+    let(:user) { FactoryGirl.create(:user) }
+    let(:leave) { "Leave this group" }
+    before do
+      group.users << user
+      sign_in user
+      visit members_path(group.id)
+    end
+
+    it { should have_selector("a", text: leave) }
   end
 end
