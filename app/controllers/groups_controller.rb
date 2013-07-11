@@ -32,7 +32,7 @@ class GroupsController < ApplicationController
   def assign_user
     @group = Group.find(params[:id])
     if @group.users.include?(current_user)
-      flash.now[:notice] = "You are already a member of this group"
+      flash[:notice] = "You are already a member of this group"
       redirect_to(members_path(@group.id))
     else
       @group.users << current_user
