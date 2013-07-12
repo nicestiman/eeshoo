@@ -5,12 +5,11 @@ describe "Post pages" do
     @group1 = Group.create(name: "Test Group", location: "Los Angeles, California, USA")
     @author = @group1.users.create(first: "Jane", last: "Doe", email: "jane_doe_fake@example.com", password:"testpass", password_confirmation: "testpass")
     @post = @group1.posts.new(content: "This is a test post", title: "Test")
-    @post.author = @author
   end
 
   subject { page }
 
-  describe "new post page" do
+  describe "new post page, with signed in user" do
     before { sign_in @author; visit new_group_post_path(@group1.id) }
 
     let(:submit) { "Post" }
@@ -48,6 +47,38 @@ describe "Post pages" do
     end
   end
 
+  describe "new post page, when not signed in" do
+    before { visit new_group_post_path(@group1.id) }
+
+    it { should have_selector('title', text: 'Sign in') }
+
+    describe "after signing in" do
+      before do
+        fill_in "Email",    with: @author.email
+        fill_in "Password", with: @author.password
+        click_button "Sign in"
+      end
+
+      it { should have_selector('title', text: "New Post") }
+    end
+  end
+
+  describe "new post page, when not a member" do
+    let(:wrong_user) { FactoryGirl.create(:user) }
+    before do
+      sign_in wrong_user
+      visit new_group_post_path(@group1.id)
+    end
+
+    it { should have_selector('title', text: "Group members") }
+
+    describe "after submitting" do
+      before { click_link "Join this group" }
+
+      it { should have_selector('title', text: "New Post") }
+    end
+  end
+
   describe "index" do
     before do
       @post1 = @group1.posts.new(content: "This is test post #1", title: "Post 1")
@@ -72,18 +103,15 @@ describe "Post pages" do
   describe "tiered posts" do
     before do
       @group2 = Group.create(name:"Second Test Group", location: "Rio de Janeiro, Rio de Janeiro, Brazil")
-
       @post1 = @group1.posts.new(content: "This is a test post for the first group",
                                     title: "group1 test")
       @post2 = @group2.posts.new(content: "This is a test post for the second group",
                                     title: "group2 test")
       @posts = [@post1, @post2]
-      
       @posts.each do |post|
         post.author = @author
         post.save
       end
-
       visit posts_path + ".json" 
     end
 
