@@ -17,4 +17,4 @@
 /.idea
 
 #ignore swap files
-/.swp
+*.swp
