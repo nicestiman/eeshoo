@@ -11,8 +11,9 @@ describe "Post pages" do
 
   describe "show post page" do
     before do
+      @post.author = @author
       @post.save
-      visit group_post_path(@post.id)
+      visit group_post_path(@group1.id, @post.id)
     end
 
     it { should have_selector("title",  text: "Show Post") }
