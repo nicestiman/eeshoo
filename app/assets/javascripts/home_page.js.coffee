@@ -24,8 +24,11 @@ $(document).ready ->
       color += letters[Math.round(Math.random() * 15)]
     return color
 
-  drawPosts = ->
-    $.getJSON('posts', (data) ->
+  drawPosts = (level = "")->
+    query = ""
+    query = "?="+level if level != ""
+    url = "posts#{query}"
+    $.getJSON(url, (data) ->
       $("#story")
         .empty()
       console.log(data)
@@ -44,11 +47,13 @@ $(document).ready ->
   addClickEffect = ->
     $(".land")
         .click(->
+          id = $(this).attr("id")
           globe
             .zoomInOn(
-              $(this).attr("id"),
+              id,
               callback:addClickEffect
             )
+            drawPosts(id)
         )
   
    colorize = ->
@@ -82,7 +87,6 @@ $(document).ready ->
 
    runWhenExists = (selector, callback) ->
      if $(selector).length
-       alert "runing call back"
        callback()
      else
        console.log $(selector)
