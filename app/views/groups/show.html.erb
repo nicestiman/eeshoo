@@ -3,7 +3,7 @@
 <ul>
   <% if @group.posts.any? %>
     <% @group.posts.each do |post| %>
-      <li><%= post.title %></li>
+      <li><%= link_to post.title, group_post_path(post.id) %></li>
     <% end %>
   <% else %>
     <li>You haven't made any posts yet</li>
