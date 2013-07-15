@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
   before_filter :signed_in_user, only: [:new, :create]
   before_filter :user_member_of_group, only: [:new, :create]
+  before_filter :current_user_is_author, only: :destroy
 
   def new
     @post = Post.new
@@ -20,7 +21,6 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    @post = Post.find(params[:id])
     @post.delete
     redirect_to group_path(params[:group_id])
   end
