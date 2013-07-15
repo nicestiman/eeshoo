@@ -19,6 +19,12 @@ class PostsController < ApplicationController
     end
   end
 
+  def destroy
+    @post = Post.find(params[:id])
+    @post.delete
+    redirect_to group_path(params[:group_id])
+  end
+
   def index
     @group = Group.find(params[:group_id])
     @posts = @group.posts
@@ -56,6 +62,14 @@ class PostsController < ApplicationController
       unless @group.users.include?(current_user)
         store_location
         redirect_to members_path(@group.id), notice: "Please join the group to add a post"
+      end
+    end
+
+    def current_user_is_author
+      @post = Post.find(params[:id])
+      unless current_user?(@post.author)
+        redirect_to group_post_path(params[:group_id], @post.id), 
+          notice: "You are not authorized to delete this post"
       end
     end
 end
