@@ -21,6 +21,24 @@ describe "Post pages" do
     it { should have_selector("p",      text: @post.content) }
     it { should have_selector("a",      href: group_path(@group1.id)) }
     it { should have_selector("a",      href: user_path(@author.id)) }
+
+    describe "if current user is the author" do
+      before do
+        sign_in @author
+        visit group_post_path(@group1.id, @post.id)
+      end
+
+      it { should have_selector("a",    text: "Delete this post?") }
+
+      it "should delete the post" do
+        expect { click_button "Delete this post?" }.to change(Post, :count).by(-1)
+      end
+    end
+
+    describe "if the current user is not the author" do
+
+      it { should_not have_selector("a",  text: "Delete this post?") }
+    end
   end
 
   describe "new post page, with signed in user" do
