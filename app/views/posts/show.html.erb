@@ -1,2 +1,8 @@
 <% provide(:title, "Show Post") %>
-<h1><%= @post.title %>
+<h1><%= @post.title %></h1>
+
+<p>
+<%= @post.content %>
+</p>
+
+<%= link_to @group.name, @group %>
