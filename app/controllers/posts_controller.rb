@@ -35,5 +35,6 @@ class PostsController < ApplicationController
 
   def tiered
     @posts = Post.all
+    render json: @posts
   end
 end

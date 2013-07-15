@@ -78,10 +78,9 @@ describe "Post pages" do
 
     it "should list posts for all groups" do
       @posts.each do |post|
-        page.should have_content("post_id: #{post.id}"      )
-        page.should have_content("title: #{post.title}"     )
-        page.should have_content("content: #{post.content}" )
-        page.should have_content("group_id: #{post.group_id}")
+        page.should have_content("\"id\":#{post.id}"      )
+        page.should have_content("\"content\":\"#{post.content}\"" )
+        page.should have_content("\"group_id\":#{post.group_id}")
       end
     end
   end      
