@@ -70,6 +70,7 @@ describe "Group pages" do
     it "should list each post" do
       @group.posts.each do |post|
         page.should     have_selector("li", text: post.title)
+        page.should     have_selector("a",  href: group_post_path(@group.id, post.id))
         page.should_not have_content(post.content)
       end
     end
