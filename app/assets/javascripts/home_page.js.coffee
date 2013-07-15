@@ -7,11 +7,16 @@ $(document).ready ->
   else
     scale = globe_width
   
-  globe = new Map width: globe_width,height: globe_height,scale:(scale-5)/2,tag: "#globe"
+  globe = new Map
+    width: globe_width,
+    height: globe_height,
+    scale:(scale-5)/2,
+    tag: "#globe"
   console.log(scale)
   
   globe.getmap()
 
+  
   get_random_color =  ->
     letters = '0123456789ABCDEF'.split('')
     color = '#'
@@ -19,65 +24,72 @@ $(document).ready ->
       color += letters[Math.round(Math.random() * 15)]
     return color
 
-  
-  $.getJSON('posts', (data) ->
-    console.log(data)
-    for post in data
-      console.log(post.content)
+  drawPosts = ->
+    $.getJSON('posts', (data) ->
       $("#story")
-        .append("
-        <div location='#{post.location}'>
-        <h3>#{post.title}</h3>
-        <p>#{post.content}</p>
-        </div>
-        ")
-    colorize()
-    set_hover_effect()
-  )
- 
+        .empty()
+      console.log(data)
+      for post in data
+        console.log(post.content)
+        $("#story")
+          .append("
+          <div location='#{post.location}'>
+          <h3>#{post.title}</h3>
+          <p>#{post.content}</p>
+          </div>
+          ")
+        colorize()
+        set_hover_effect()
+    )
   addClickEffect = ->
-    console.log  "land spaces", $(".land")
     $(".land")
         .click(->
           globe
             .zoomInOn(
               $(this).attr("id"),
-              callback:addClickEffect)
+              callback:addClickEffect
+            )
         )
   
-  colorize = ->
-    $("#story div").each ( ->
-      console.log($(this))
-      color = get_random_color()
+   colorize = ->
+     $("#story div").each ( ->
+       console.log($(this))
+       color = get_random_color()
 
-      $(this).css("background-color", color)
-    )
+       $(this).css("background-color", color)
+     )
   
-  set_hover_effect = ->
-    $("#story div").hover(->#on mouse in
+   set_hover_effect = ->
+     $("#story div").hover(->#on mouse in
 
-      code = $(this)
-        .attr("location")
-      if code ==  undefined
-        return
+       code = $(this)
+         .attr("location")
+       if code ==  undefined
+         return
 
-      d3.select("#"+code).attr("class", "land selected")
+       d3.select("#"+code).attr("class", "land selected")
       
-      globe.slideToLocation(code)
+       globe.slideToLocation(code)
 
-    ->#on mouse out
-      code = $(this).
-        attr("location")
-      if code == undefined
-        return
-      console.log(code)
-      d3.select("#"+code).attr("class", "land")
-    )
+     ->#on mouse out
+       code = $(this).
+         attr("location")
+       if code == undefined
+         return
+       console.log(code)
+       d3.select("#"+code).attr("class", "land")
+     )
 
-    runWhenExists = (selector, callback) ->
-      if $(selector).length
-        callback()
-      else
-        setTimeout(runWhenExists, 100)
-
-    runWhenExists(".land", addClickEffect)
+   runWhenExists = (selector, callback) ->
+     if $(selector).length
+       alert "runing call back"
+       callback()
+     else
+       console.log $(selector)
+       setTimeout(->
+         runWhenExists(selector, callback)
+       100
+       )
+   drawPosts()
+   console.log "globe",$("#globe")
+   runWhenExists(".land", addClickEffect)
