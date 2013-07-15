@@ -6,4 +6,9 @@
 written by <%= link_to @post.author.name, @post.author %>
 </p>
 
-<%= link_to @group.name, @group %>
+<% if current_user?(@post.author) %>
+  <%= link_to "Delete this post?", group_post_path(@post.group.id, @post.id), 
+    class: "btn", method: :delete %>
+  <% end %>
+
+  <%= link_to @group.name, @group %>
