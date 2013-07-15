@@ -3,7 +3,7 @@
 
 <p>
 <%= @post.content %>
+written by <%= link_to post.author.name, post.author %>
 </p>
 
-<%= link_to @post.author, @post.author %>
 <%= link_to @group.name, @group %>
