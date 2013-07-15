@@ -136,9 +136,6 @@ class window.Map
             d.id
           )
           .attr("d", @path)
-          .on("click", (d) =>
-            @zoomInOn(d.id)
-          )
 
 
   mousedown: () =>
@@ -285,7 +282,7 @@ class window.Map
     
        #make it so you dont have to insert a option if you dont want to
     if options    != undefined
-                  {time, ease, projection} =
+                  {time, ease, projection, callback} =
                     options
 
 
@@ -305,7 +302,7 @@ class window.Map
 
     @location =
       d3.geo.centroid(place)
-    console.log(@trackable)  
+    console.log(@trackable)
     if !@trackable
       d3.transition()
         .duration(time/2)
@@ -315,6 +312,7 @@ class window.Map
           @svg.selectAll("path").remove()
           @getmap(map: location+"_topo")
           @svg.select(".stroke").remove()
+          @svg.select(".fill").remove()
           @changeProjection projection, true
 
           @projection.center @location
@@ -324,6 +322,8 @@ class window.Map
             .tween("zoom", @scaleTween)
             .each("end", =>
               @refresh
+              if callback   != undefined
+                  callback()
             )
         )
      else
@@ -335,6 +335,7 @@ class window.Map
           @svg.selectAll("path").remove()
           @getmap(map: location+"_topo")
           @svg.select(".stroke").remove()
+          d3.select("")
           @projection = projection
           @path =  d3.geo.path()
             .projection(@projection)

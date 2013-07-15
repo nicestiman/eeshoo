@@ -8,7 +8,6 @@ $(document).ready ->
     scale = globe_width
   
   globe = new Map width: globe_width,height: globe_height,scale:(scale-5)/2,tag: "#globe"
-  
   console.log(scale)
   
   globe.getmap()
@@ -35,6 +34,16 @@ $(document).ready ->
     colorize()
     set_hover_effect()
   )
+ 
+  addClickEffect = ->
+    console.log  "land spaces", $(".land")
+    $(".land")
+        .click(->
+          globe
+            .zoomInOn(
+              $(this).attr("id"),
+              callback:addClickEffect)
+        )
   
   colorize = ->
     $("#story div").each ( ->
@@ -64,3 +73,11 @@ $(document).ready ->
       console.log(code)
       d3.select("#"+code).attr("class", "land")
     )
+
+    runWhenExists = (selector, callback) ->
+      if $(selector).length
+        callback()
+      else
+        setTimeout(runWhenExists, 100)
+
+    runWhenExists(".land", addClickEffect)
