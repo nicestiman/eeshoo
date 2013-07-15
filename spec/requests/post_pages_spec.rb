@@ -9,6 +9,19 @@ describe "Post pages" do
 
   subject { page }
 
+  describe "show post page" do
+    before do
+      @post.save
+      visit group_post_path(@post.id)
+    end
+
+    it { should have_selector("title",  text: "Show Post") }
+    it { should have_selector("h1",     text: @post.title) }
+    it { should have_selector("p",      text: @post.content) }
+    it { should have_selector("a",      href: group_path(@group1.id)) }
+    it { should have_selector("a",      href: user_path(@author.id)) }
+  end
+
   describe "new post page, with signed in user" do
     before { sign_in @author; visit new_group_post_path(@group1.id) }
 
