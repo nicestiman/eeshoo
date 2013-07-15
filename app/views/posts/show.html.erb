@@ -8,7 +8,7 @@ written by <%= link_to @post.author.name, @post.author %>
 
 <% if current_user?(@post.author) %>
   <%= link_to "Delete this post?", group_post_path(@post.group.id, @post.id), 
-    class: "btn", method: :delete %>
+    class: "btn", method: :delete, data: { confirm: "You sure?" } %>
   <% end %>
 
   <%= link_to @group.name, @group %>
