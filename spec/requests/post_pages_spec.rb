@@ -31,7 +31,7 @@ describe "Post pages" do
       it { should have_selector("a",    text: "Delete this post?") }
 
       it "should delete the post" do
-        expect { click_button "Delete this post?" }.to change(Post, :count).by(-1)
+        expect { click_link "Delete this post?" }.to change(Post, :count).by(-1)
       end
     end
 
