@@ -57,13 +57,13 @@ describe Post do
 
   #tests for posts location method(s)
   describe "when trying to find posts in a country" do
-    let(:country) { "US" }
     before do
+      @post.save!
       @group2 = Group.create(name: "Second Test Group", location: "BR.RJ")
       @post2 = @group2.posts.new(title: "Test for other country", content: "This should not be returned")
       @post2.author = @author
-      @post2.save
-      @posts = Post.where_location(:country)
+      @post2.save!
+      @posts = Post.where_location("US")
     end
 
     it "should only have the first post" do
