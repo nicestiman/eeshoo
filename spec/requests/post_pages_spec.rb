@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "Post pages" do
   before do
-    @group1 = Group.create(name: "Test Group", location: "Los Angeles, California, USA")
+    @group1 = Group.create(name: "Test Group", location: "US.CA")
     @author = @group1.users.create(first: "Jane", last: "Doe", email: "jane_doe_fake@example.com", password:"testpass", password_confirmation: "testpass")
     @post = @group1.posts.new(content: "This is a test post", title: "Test")
   end
@@ -134,7 +134,7 @@ describe "Post pages" do
 
   describe "tiered posts" do
     before do
-      @group2 = Group.create(name:"Second Test Group", location: "Rio de Janeiro, Rio de Janeiro, Brazil")
+      @group2 = Group.create(name:"Second Test Group", location: "BR.RJ")
       @post1 = @group1.posts.new(content: "This is a test post for the first group",
                                     title: "group1 test")
       @post2 = @group2.posts.new(content: "This is a test post for the second group",
