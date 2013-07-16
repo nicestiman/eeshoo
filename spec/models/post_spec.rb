@@ -16,7 +16,7 @@ require 'spec_helper'
 describe Post do
 
   before do
-    @group = Group.create(name: "Noodle Club", location: "Denver, Colorado, USA")
+    @group = Group.create(name: "Noodle Club", location: "US.CO")
     @author = @group.users.create(first: "Jane", last: "Doe", email: "jane_doe_fake@example.com", password: "testpass", password_confirmation: "testpass")
     @post = @group.posts.build(content: "This is a test post", title: "Test")
     @post.author = @author
@@ -53,5 +53,22 @@ describe Post do
   describe "when group_id is not present" do
     before { @post.group_id = nil }
     it { should_not be_valid }
+  end
+
+  #tests for posts location method(s)
+  describe "when trying to find posts in a country" do
+    let(:country) { "US" }
+    before do
+      @group2 = Group.create(name: "Second Test Group", location: "BR.RJ")
+      @post2 = @group2.posts.new(title: "Test for other country", content: "This should not be returned")
+      @post2.author = @author
+      @post2.save
+      @posts = Post.where_location(:country)
+    end
+
+    it "should only have the first post" do
+      expect(@posts).to include(@post)
+      expect(@posts).not_to include(@post2)
+    end
   end
 end
