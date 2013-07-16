@@ -18,6 +18,5 @@ describe Map do
   context "with empty constuctor" do
 
     it { @map.location.should eql ""}
-    it { @map.topo.should have_key :land}
   end
 end

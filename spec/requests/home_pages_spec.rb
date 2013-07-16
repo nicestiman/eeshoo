@@ -10,6 +10,5 @@ describe "Home pages" do
     it{should have_selector 'div', id: 'globe'}
     it{should have_selector 'div', id: 'story'}
     it{should have_selector 'div', id: 'cow'}
-    it{should have_selector 'svg'}
   end
 end
