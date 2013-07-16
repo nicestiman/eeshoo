@@ -154,5 +154,15 @@ describe "Post pages" do
         page.should have_content("\"group_id\":#{post.group_id}")
       end
     end
+
+    describe "when looking for posts in a country" do
+      before do
+        visit '/posts?location="US"'
+      end
+
+      it "should list only posts in the US" do
+        page.should have_content
+      end
+    end
   end      
 end
