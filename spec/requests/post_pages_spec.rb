@@ -144,7 +144,7 @@ describe "Post pages" do
         post.author = @author
         post.save
       end
-      visit posts_path + ".json" 
+      visit posts_path  
     end
 
     it "should list posts for all groups" do
@@ -157,11 +157,17 @@ describe "Post pages" do
 
     describe "when looking for posts in a country" do
       before do
-        visit '/posts?location="US"'
+        visit '/posts?location=US'    
       end
 
       it "should list only posts in the US" do
-        page.should have_content
+        page.should have_content("\"id\":#{@post1.id}")
+        page.should have_content("\"content\":\"#{@post1.content}\"" )
+        page.should have_content("\"group_id\":#{@post1.group_id}")
+
+        page.should_not have_content("\":id\":#{@post2.id}")
+        page.should_not have_content("\"content\":\"#{@post2.content}\"" )
+        page.should_not have_content("\"group_id\":#{@post2.group_id}")
       end
     end
   end      
