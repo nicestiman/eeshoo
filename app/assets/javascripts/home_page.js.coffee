@@ -26,7 +26,7 @@ $(document).ready ->
 
   drawPosts = (level = "")->
     query = ""
-    query = "?="+level if level != ""
+    query = "?location="+level if level != ""
     url = "posts#{query}"
     $.getJSON(url, (data) ->
       $("#story")
