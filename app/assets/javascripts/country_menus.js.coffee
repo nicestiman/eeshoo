@@ -7,7 +7,7 @@ $(document).ready ->
 
     country_list = parse_csv(data)
 
-    $('#new_group').append(build_dropdown_menu(country_list, menu_id: menu_name ))
+    $('#new_group').prepend(build_dropdown_menu(country_list, menu_id: menu_name ))
 
     $("##{menu_name}").change(->
 
@@ -18,7 +18,7 @@ $(document).ready ->
         country_code = $("##{menu_name} option:selected").attr 'value'
         state_list = parse_csv(data, country_code: country_code)
 
-        $('#new_group').append(build_dropdown_menu(state_list, display_col: 2, menu_id: second_menu))
+        $('#new_group').prepend(build_dropdown_menu(state_list, display_col: 2, menu_id: second_menu))
       
       )
     )
@@ -55,8 +55,9 @@ $(document).ready ->
 
     if display_col == undefined
       display_col = 1
-    
-    menu_html = "<select id=\"#{menu_id}\">"
+      #it needs a name attr the name valule is the key in in prams 
+      #this is not real code just wanted to show that it works now 
+    menu_html = "<select name=\"group[location]\" id=\"#{menu_id}\">"
 
     if list.length > 0
 

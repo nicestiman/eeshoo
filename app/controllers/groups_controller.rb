@@ -12,6 +12,7 @@ class GroupsController < ApplicationController
   end
 
   def create
+    Rails.logger.info "Drop down menu output #{params}"
     @group = Group.new(params[:group])
     if @group.save
       flash[:success] = "Group updated"
