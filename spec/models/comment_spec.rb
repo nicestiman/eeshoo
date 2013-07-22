@@ -13,5 +13,17 @@
 require 'spec_helper'
 
 describe Comment do
-  pending "add some examples to (or delete) #{__FILE__}"
+  before do 
+    @group = Group.create(name: "Noodle Club", location: "US.CO")
+    @author = @group.users.create(first: "Tom",last: "Billanger", email: "swagbag@hipster.fag", password: "password1", password_confirmation: "password1")
+    @post = @group.posts.new(content: "coolest thing in the world this post is ", title:"coolest post ever")
+    @post.author = @author
+    @post.save
+    @comment = @post.comments.create(message: "this is a shityyyyy post") 
+  end
+
+  subject{@comment}
+  
+  it {should respond_to(:message)}
+
 end

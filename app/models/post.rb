@@ -16,6 +16,8 @@ class Post < ActiveRecord::Base
   belongs_to :group
   belongs_to :author, class_name: "User"
 
+  has_many   :comments
+
   validates :content, presence: true
   validates :title,   presence: true
   validates :group_id, presence: true
