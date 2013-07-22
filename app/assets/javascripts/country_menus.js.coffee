@@ -57,7 +57,7 @@ $(document).ready ->
       display_col = 1
       #it needs a name attr the name valule is the key in in prams 
       #this is not real code just wanted to show that it works now 
-    menu_html = "<select name=\"group[location]\" id=\"#{menu_id}\">"
+    menu_html = "<select id=\"#{menu_id}\">"
 
     if list.length > 0
 
