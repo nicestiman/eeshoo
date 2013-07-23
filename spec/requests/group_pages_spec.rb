@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe "Group pages" do
-  before { @group = Group.create(name: "Test Group", location: "Denver, Colorado, USA") }
+  before { @group = Group.create(name: "Test Group", location: "US.CO") }
 
   subject { page }
 
@@ -22,10 +22,11 @@ describe "Group pages" do
       end
     end
 
-    describe "with valid information" do
+    describe "with valid information", js: true do
       before do
         fill_in "Name",     with: @group.name + "2"
-        fill_in "Location", with: @group.location
+        select "United States of America", from: "countrymenu"
+        select "Colorado", from: "statemenu"
       end
 
       it "should create a group" do
