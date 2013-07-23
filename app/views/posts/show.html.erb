@@ -11,4 +11,8 @@ written by <%= link_to @post.author.name, @post.author %>
     class: "btn", method: :delete, data: { confirm: "You sure?" } %>
   <% end %>
 
-  <%= link_to @group.name, @group %>
+<%= link_to @group.name, @group %>
+<%= form_for :comment do |f|%>
+  <%= f.text_area :message %>
+  <%= f.submit "Comment", class: "btn"%>
+<%end%>

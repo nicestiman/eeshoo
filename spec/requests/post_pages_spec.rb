@@ -11,6 +11,8 @@ describe "Post pages" do
 
   describe "show post page" do
     before do
+
+      @group_member = @group1.users.create(first: "Jane", last: "Doe", email: "cowman@smakdwn.org", password:"testpass", password_confirmation: "testpass")
       @post.author = @author
       @post.save
       visit group_post_path(@group1.id, @post.id)
@@ -21,23 +23,37 @@ describe "Post pages" do
     it { should have_selector("p",      text: @post.content) }
     it { should have_selector("a",      href: group_path(@group1.id)) }
     it { should have_selector("a",      href: user_path(@author.id)) }
-
-    describe "if current user is the author" do
+    
+    
+    context "if current user is the author" do
       before do
         sign_in @author
         visit group_post_path(@group1.id, @post.id)
       end
-
       it { should have_selector("a",    text: "Delete this post?") }
-
+      
       it "should delete the post" do
         expect { click_link "Delete this post?" }.to change(Post, :count).by(-1)
       end
     end
 
-    describe "if the current user is not the author" do
-
+    context "if current user is a member of group" do
+      before do 
+        sign_in @group_member
+        visit group_post_path(@group1.id, @post.id)
+      end
+      
       it { should_not have_selector("a",  text: "Delete this post?") }
+      
+      describe "comment post form" do
+        it { should have_field("comment_message")}
+        it { should have_selector("input", value: "Comment")}
+      end
+    end 
+    
+    context "if the current user not a member of the group" do
+      it { should_not have_selector("a",  text: "Delete this post?") }
+      it { should_not have_selector("a",  text: "add a comment")}
     end
   end
 
