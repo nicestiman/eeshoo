@@ -13,16 +13,24 @@ $(document).ready ->
 
       $("##{second_menu}").remove()
 
+      $('#new_group').append("<input type=\"hidden\" name=\"group[location]\" id=\"location\" value=\"#{find_input_code()}\"/>")
+
       $.get('/country_codes/hasc_codes.csv', (data)->
 
         country_code = $("##{menu_name} option:selected").attr 'value'
         state_list = parse_csv(data, country_code: country_code)
 
         $('#new_group').prepend(build_dropdown_menu(state_list, display_col: 2, menu_id: second_menu))
+
+        $("##{second_menu}").change(->
+          
+          $('#new_group').append("<input type=\"hidden\" name=\"group[location]\" id=\"location\" value=\"#{find_input_code()}\"/>")
+        )
       
-      )
-    )
-  )
+      )#end state ajax block
+    )#end change block for country
+
+  )#end ajax for country list
 
   parse_csv = (data, options) ->
     
@@ -61,6 +69,8 @@ $(document).ready ->
 
     if list.length > 0
 
+      menu_html += "<option value=\"Please make a selection\">Please make a selection</option>"
+
       for entry in list
 
         menu_html += "<option value=#{entry[index_col]}>#{entry[display_col]}</option>"
@@ -69,4 +79,17 @@ $(document).ready ->
     else
 
       return null
+
+  find_input_code = ->
+
+    $("#location").remove()
+
+    
+    if $("##{second_menu}").length > 0
+      
+      return $("##{second_menu} option:selected").attr 'value'
+    else
+
+      return $("##{menu_name} option:selected").attr 'value'
+  
 
