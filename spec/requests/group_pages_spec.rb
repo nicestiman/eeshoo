@@ -24,9 +24,9 @@ describe "Group pages" do
 
     describe "with valid information", js: true do
       before do
-        fill_in "Name",     with: @group.name + "2"
         select "United States of America", from: "countrymenu"
         select "Colorado", from: "statemenu"
+        fill_in "Name",     with: @group.name + "2"
       end
 
       it "should create a group" do
