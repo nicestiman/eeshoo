@@ -31,6 +31,10 @@ describe "Group pages" do
 
       it { should have_selector("input", type: "hidden") }
 
+      it { should have_selector("select", name: "countrymenu") }
+
+      it { should have_selector("select", name: "statemenu") }
+
       it "should create a group" do
         expect { click_button submit }.to change(Group, :count).by(1)
       end
