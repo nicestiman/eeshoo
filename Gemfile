@@ -38,6 +38,7 @@ group :test do
   gem 'libnotify', '0.5.9'
   gem 'rb-inotify', '>=0.8.8'
   gem 'factory_girl_rails', '>=4.1.0'
+  gem 'poltergeist'
 end
 
 group :production do 
