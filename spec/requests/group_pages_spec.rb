@@ -29,6 +29,8 @@ describe "Group pages" do
         fill_in "Name",     with: @group.name + "2"
       end
 
+      it { should have_selector("input", type: "hidden") }
+
       it "should create a group" do
         expect { click_button submit }.to change(Group, :count).by(1)
       end
