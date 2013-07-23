@@ -8,7 +8,7 @@ describe "Post pages" do
   end
 
   subject { page }
-
+  
   describe "show post page" do
     before do
 
@@ -48,6 +48,11 @@ describe "Post pages" do
       describe "comment post form" do
         it { should have_field("comment_message")}
         it { should have_selector("input", value: "Comment")}
+        context "fill out form" do
+          before do
+            fill_in :comment_message, with: "cool post"
+          end
+        end
       end
     end 
     

@@ -14,6 +14,7 @@ class PostsController < ApplicationController
   def show
     @group = Group.find(params[:group_id])
     @post = Post.find(params[:id])
+    @comments = @post.comments
     respond_to do |format|
       format.json
       format.html

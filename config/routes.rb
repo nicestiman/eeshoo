@@ -18,7 +18,9 @@ HIWIPI::Application.routes.draw do
 
   match '/posts', to: 'posts#tiered', :via => :get
   resources :groups do
-    resources :posts, :except => :create 
+    resources :posts, :except => :create do
+      resources :comments
+    end
     resources :posts, :only => :create,  as: "make_post" 
   end
 
