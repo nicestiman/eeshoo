@@ -45,15 +45,8 @@ describe "Post pages" do
       
       it { should_not have_selector("a",  text: "Delete this post?") }
       
-      describe "comment post form" do
-        it { should have_field("comment_message")}
-        it { should have_selector("input", value: "Comment")}
-        context "fill out form" do
-          before do
-            fill_in :comment_message, with: "cool post"
-          end
-        end
-      end
+      it { should have_field("comment_message")}
+      it { should have_selector("input", value: "Comment")}
     end 
     
     context "if the current user not a member of the group" do

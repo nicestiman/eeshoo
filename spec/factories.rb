@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :user do
+  factory :user, aliases: [:author] do
     first                 "Jane"
     sequence(:last)       { |n| "Doe #{n}" }
     sequence(:email)      { |n| "jdoe_#{n}@example.com" }
@@ -10,5 +10,12 @@ FactoryGirl.define do
   factory :group do
     name                  "Test Group"
     location              "Los Angeles, California, USA"
+  end
+  
+  factory :post do
+    content               "lorim ipsom dolor sett jekre pepol vopelt telmp terompeal"
+    title                 "Test Post"
+    author
+    group
   end
 end
