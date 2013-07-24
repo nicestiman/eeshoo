@@ -1,21 +1,4 @@
 $(document).ready ->
-  globe_width=$("#globe").width()
-  globe_height=window.innerHeight-100
-  
-  if(globe_width>globe_height)
-    scale = globe_height
-  else
-    scale = globe_width
-  
-  globe = new Map
-    width: globe_width,
-    height: globe_height,
-    scale:(scale-5)/2,
-    tag: "#globe"
-  console.log(scale)
-  
-  globe.getmap()
-
   
   get_random_color =  ->
     letters = '0123456789ABCDEF'.split('')
@@ -44,6 +27,7 @@ $(document).ready ->
         colorize()
         set_hover_effect()
     )
+  
   addClickEffect = ->
     $(".land")
         .click(->
@@ -94,6 +78,25 @@ $(document).ready ->
          runWhenExists(selector, callback)
        100
        )
-   drawPosts()
-   console.log "globe",$("#globe")
-   runWhenExists(".land", addClickEffect)
+  if ($("#globe").length > 0)
+    
+    globe_width=$("#globe").width()
+    globe_height=window.innerHeight-100
+  
+    if(globe_width>globe_height)
+      scale = globe_height
+    else
+      scale = globe_width
+  
+    globe = new Map
+      width: globe_width,
+      height: globe_height,
+      scale:(scale-5)/2,
+      tag: "#globe"
+    console.log(scale)
+  
+    globe.getmap()
+
+    drawPosts()
+    console.log "globe",$("#globe")
+    runWhenExists(".land", addClickEffect)
