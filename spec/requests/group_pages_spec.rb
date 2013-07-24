@@ -33,10 +33,14 @@ describe "Group pages" do
       it { should have_selector("select", name: "countrymenu") }
       it { should have_selector("select", name: "statemenu") }
 
-      it "should create a group" do
+      it "should not have an error" do
         click_button submit
         page.should_not have_content("Error")
         page.should_not have_content("error")
+      end
+
+      it "should create a new group" do
+        expect { click_button submit }.to change(Group, :count).by(1)
       end
     end
   end
