@@ -27,4 +27,8 @@ class Group < ActiveRecord::Base
     #return boolean for successfull removal
     assignment.nil?
   end
+
+  def is_role_of?(user, role = "admin")
+    self.users.find(user.id).role == role
+  end
 end
