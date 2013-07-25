@@ -1,8 +1,9 @@
 class CommentsController < ApplicationController
-  def create 
+  def create
+    logger.debug "params sent from server: "+params.to_json
     @post = Post.find(params[:post_id]) 
-    @comment = @post.comments.new(prams[:post])
+    @comment = @post.comments.new(params[:comment])
     @post.save
-    redirect_to @post
+    redirect_to group_post_path(@post.group.id, @post.id)
   end
 end

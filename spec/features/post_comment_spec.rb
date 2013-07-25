@@ -14,7 +14,7 @@ feature "I want to post a comment" do
 
   subject { page }
 
-  context "if I am the author" do
+   context "if I am the author" do
     before do
       sign_in @author
       visit group_post_path(@group.id, @post.id)

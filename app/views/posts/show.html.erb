@@ -12,7 +12,7 @@ written by <%= link_to @post.author.name, @post.author %>
   <% end %>
 
 <%= link_to @group.name, @group %>
-<%= form_for :comment do |f|%>
+<%= form_for @comment, url: group_post_comments_path(@post.group.id, @post.id) do |f|%>
   <%= f.text_area :message %>
   <%= f.submit "Comment", class: "btn"%>
 <%end%>
