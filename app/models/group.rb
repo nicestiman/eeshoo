@@ -29,6 +29,6 @@ class Group < ActiveRecord::Base
   end
 
   def is_role_of?(user, role = "admin")
-    self.users.find(user.id).role == role
+    self.users.find(user.id).role == role.downcase
   end
 end

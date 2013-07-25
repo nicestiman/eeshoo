@@ -36,6 +36,10 @@ class User < ActiveRecord::Base
     return self.first+" "+self.last
   end
 
+  def is_role_of?(group, role = "admin")
+    self.groups.find(group.id).role == role.downcase
+  end
+
   private
     def create_remember_token
       self.remember_token = SecureRandom.urlsafe_base64
