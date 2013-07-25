@@ -15,3 +15,8 @@ def full_title(page_title)
     "#{base_title} | #{page_title}"
   end
 end
+
+def is_admin?(user, group)
+  user_role = group.users.find(user.id).role
+  user_role.downcase == "admin"
+end
