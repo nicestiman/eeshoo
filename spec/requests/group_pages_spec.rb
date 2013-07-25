@@ -6,7 +6,11 @@ describe "Group pages" do
   subject { page }
 
   describe "new group page" do
-    before { visit new_group_path }
+    let(:user) { FactoryGirl.create(:user) }
+    before do
+      sign_in user
+      visit new_group_path
+    end
 
     let(:submit) { "Create" }
 
