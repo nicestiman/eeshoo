@@ -88,4 +88,14 @@ describe "Authentication" do
       end
     end
   end
+
+  describe "when making a new group" do
+
+    describe "when user is not signed in" do
+      before { visit new_group_path }
+
+      it { should have_selector('title', text: 'Sign in') }
+      it { should_not have_selector('title', text: 'New Group') }
+    end
+  end
 end
