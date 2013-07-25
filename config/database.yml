@@ -9,7 +9,7 @@ development:
   database: hiwipi_development
   pool: 5
   timeout: 5000
-  username: hiwipi
+  username: fudog931
   password: leping1768
 
 # Warning: The database defined as "test" will be erased and
@@ -21,11 +21,14 @@ test:
   database: hiwipi_test
   pool: 5
   timeout: 5000
-  username: hiwipi
+  username: fudog931
   password: leping1768
 
 production:
-  adapter: sqlite3
-  database: db/production.sqlite3
+  adapter: postgresql
+  encoding: unicode
+  database: hiwipi_production
   pool: 5
   timeout: 5000
+  username: fudog931
+  password: leping1768
