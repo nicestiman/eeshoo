@@ -90,12 +90,22 @@ describe "Authentication" do
   end
 
   describe "when making a new group" do
+    let(:user) { FactoryGirl.create(:user) }
 
     describe "when user is not signed in" do
       before { visit new_group_path }
 
       it { should have_selector('title', text: 'Sign in') }
       it { should_not have_selector('title', text: 'New Group') }
+    end
+
+    describe "when user is signed in" do
+      before do
+        sign_in(user)
+        visit new_group_path
+      end
+
+      it { should have_selector('title', text: 'New Group') }
     end
   end
 end
