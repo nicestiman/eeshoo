@@ -1,4 +1,6 @@
 class GroupsController < ApplicationController
+  before_filter :signed_in_user, only: [:new, :create]
+
   def new
     @group = Group.new
   end
@@ -54,4 +56,12 @@ class GroupsController < ApplicationController
       end
     end
   end
+
+  private
+    def signed_in_user
+      unless signed_in?
+        store_location
+        redirect_to signin_url, notice: "Please sign in."
+      end
+    end
 end
