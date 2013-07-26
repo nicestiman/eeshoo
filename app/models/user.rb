@@ -42,7 +42,7 @@ class User < ActiveRecord::Base
   
   def set_role_to(role, group)
     target_group = Group.find(group.id)
-    role = role.to_s.downcase
+    role = role.downcase
     
     if target_group.users.include?(self)
       assign = target_group.assignments.find_by_user_id(self.id)
