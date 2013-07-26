@@ -15,12 +15,22 @@ require 'spec_helper'
 describe Assignment do
   before do 
     @user = User.create(first: "Jane", last: "Doe", email: "test2@example.com", password: "testPass", password_confirmation: "testPass")
-    @group = @user.groups.create(name: "Fake Group", location: "Phoenix, Arizona, USA")
+    @group = @user.groups.create(name: "Fake Group", location: "US.AZ")
+    @assignment = @user.assignments.find_by_group_id(@group.id)
   end
 
-  subject { @user.assignments.find_by_group_id(@group.id) }
+  subject { @assignment }
 
   it { should be_valid }
   it { should respond_to(:user) }
   it { should respond_to(:group) }
+  it { should respond_to(:role) }
+
+  describe "default role" do
+    let(:default) { "user" }
+    
+    it "should be the default role" do
+      @assignment.role.should == default
+    end
+  end
 end
