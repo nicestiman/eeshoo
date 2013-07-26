@@ -14,7 +14,8 @@ feature "I want to post a comment" do
 
   subject { page }
 
-   context "if I am the author" do
+  context "if I am the author" do
+    let(:content) {"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus pulvinar euismod lectus malesuada tincidunt."}
     before do
       sign_in @author
       visit group_post_path(@group.id, @post.id)
@@ -23,6 +24,12 @@ feature "I want to post a comment" do
     it "I should be able to post a comment" do
       fill_in "comment_message", with: "this was not my best work"
       expect {click_button "Comment"}.to change(Comment, :count).by(1)
+    end
+    
+    scenario "my post should show up on the post page" do 
+      fill_in "comment_message", with: content
+      click_button "Comment"
+      expect(page).to have_content( content )
     end
   end
 end
