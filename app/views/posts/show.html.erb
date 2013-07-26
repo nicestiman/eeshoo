@@ -7,14 +7,18 @@ written by <%= link_to @post.author.name, @post.author %>
 </p>
 
 <% if current_user?(@post.author) %>
-  <%= link_to "Delete this post?", group_post_path(@post.group.id, @post.id), 
-    class: "btn", method: :delete, data: { confirm: "You sure?" } %>
-  <% end %>
+    <%= link_to "Delete this post?", group_post_path(@post.group.id, @post.id), 
+      class: "btn", method: :delete, data: { confirm: "You sure?" } %>
+<% end %>
+  
 <% @comments.each do |comment| %>
-  <p><%= comment.message %></p>
+    <p><%= comment.message %></p>
+<% end %>
+
+<% if @group.users.include?(current_user) || current_user?(@post.author) %>
+  <%= link_to @group.name, @group %>
+  <%= form_for @comment, url: group_post_comments_path(@post.group.id, @post.id) do |f|%>
+    <%= f.text_area :message %>
+    <%= f.submit "Comment", class: "btn"%>
   <%end%>
-<%= link_to @group.name, @group %>
-<%= form_for @comment, url: group_post_comments_path(@post.group.id, @post.id) do |f|%>
-  <%= f.text_area :message %>
-  <%= f.submit "Comment", class: "btn"%>
-<%end%>
+<% end %>

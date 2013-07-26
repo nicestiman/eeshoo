@@ -52,6 +52,8 @@ describe "Post pages" do
     context "if the current user not a member of the group" do
       it { should_not have_selector("a",  text: "Delete this post?") }
       it { should_not have_selector("a",  text: "add a comment")}
+      it { should_not have_field("comment_message")}
+      it { should_not have_selector("input", value: "Comment") }
     end
   end
 
