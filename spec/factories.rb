@@ -10,6 +10,13 @@ FactoryGirl.define do
   factory :group do
     name                  "Test Group"
     location              "Los Angeles, California, USA"
+    trait :populated
+      ignore do
+        user 5
+      end
+      after(:create) do |group, evaluator|
+        FactoryGirl.create_list(:user, evaluator.user)
+    end
   end
   
   factory :post do
