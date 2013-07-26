@@ -33,4 +33,15 @@ describe Assignment do
       @assignment.role.should == default
     end
   end
+
+  describe "changing role" do
+    let(:new_role) { "AdmIn" }
+    before do
+      @user.set_role_to(new_role, @group)
+    end
+
+    it "should be the new role" do
+      expect(@group.users.find(@user.id).role).to eq(new_role.downcase)
+    end
+  end
 end
