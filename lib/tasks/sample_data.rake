@@ -19,7 +19,7 @@ namespace :db do
                    password_confirmation: password)
     end
 
-    first.group.create!(name: "Sample Group", location: "US.CA")
+    first.groups.create!(name: "Sample Group", location: "US.CA")
 
     10.times do |n|
       new_member = User.find(n+2)
