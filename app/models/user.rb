@@ -39,6 +39,19 @@ class User < ActiveRecord::Base
   def is_role_of?(group, role = "admin")
     self.groups.find(group.id).role == role.downcase
   end
+  
+  def set_role_to(role, group)
+    target_group = Group.find(group.id)
+    role = role.to_s.downcase
+    
+    if target_group.users.include?(self)
+      assign = target_group.assignments.find_by_user_id(self.id)
+      assign.role = role
+      assign.save
+    else
+      return false
+    end
+  end
 
   private
     def create_remember_token
