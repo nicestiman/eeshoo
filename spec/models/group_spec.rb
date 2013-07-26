@@ -70,4 +70,25 @@ describe Group do
       group_user.should == @user
     end
   end
+  
+  describe "method to check role" do
+    let(:user) { FactoryGirl.create(:user) }
+    before do
+      @group.save
+      @group.users << user
+      @group.set_role_to("AdMiN", user)
+    end
+
+    it "should evaluate that the role is incorrect" do
+      expect(@group.is_role_of?(user, "walrus")).to eq(false)
+    end
+
+    it "should evaluate that the role is correct" do
+      expect(@group.is_role_of?(user, "admin")).to eq(true)
+    end
+
+    it "should evaluate that the role is correct using the default" do
+      expect(@group.is_role_of?(user)).to eq(true)
+    end
+  end
 end
