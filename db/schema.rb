@@ -29,10 +29,10 @@ ActiveRecord::Schema.define(:version => 20130711222145) do
   end
 
   create_table "posts", :force => true do |t|
-    t.text     "content",    :limit => 255
+    t.text     "content"
     t.string   "title"
-    t.datetime "created_at",                :null => false
-    t.datetime "updated_at",                :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
     t.integer  "group_id"
     t.integer  "author_id"
   end
