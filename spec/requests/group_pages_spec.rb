@@ -46,6 +46,18 @@ describe "Group pages" do
       it "should create a new group" do
         expect { click_button submit }.to change(Group, :count).by(1)
       end
+
+      it "should assign current user as admin" do
+        click_button submit
+        group_lookup = Group.find_by_name(@group.name + "2")
+        expect(user.is_role_of?(group_lookup)).to eq(true)
+      end
+
+      it "should show the group profile page" do
+        click_button submit
+        page.should have_selector('title',  text: 'Group page')
+        page.should have_selector('h1',     text: 'Profile Page')
+      end
     end
   end
 
