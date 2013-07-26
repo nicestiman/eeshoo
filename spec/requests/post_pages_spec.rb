@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "Post pages" do
   before do
-    @group1 = Group.create(name: "Test Group", location: "Los Angeles, California, USA")
+    @group1 = Group.create(name: "Test Group", location: "US.CA")
     @author = @group1.users.create(first: "Jane", last: "Doe", email: "jane_doe_fake@example.com", password:"testpass", password_confirmation: "testpass")
     @post = @group1.posts.new(content: "This is a test post", title: "Test")
   end
@@ -150,7 +150,7 @@ describe "Post pages" do
 
   describe "tiered posts" do
     before do
-      @group2 = Group.create(name:"Second Test Group", location: "Rio de Janeiro, Rio de Janeiro, Brazil")
+      @group2 = Group.create(name:"Second Test Group", location: "BR.RJ")
       @post1 = @group1.posts.new(content: "This is a test post for the first group",
                                     title: "group1 test")
       @post2 = @group2.posts.new(content: "This is a test post for the second group",
@@ -160,7 +160,7 @@ describe "Post pages" do
         post.author = @author
         post.save
       end
-      visit posts_path + ".json" 
+      visit posts_path  
     end
 
     it "should list posts for all groups" do
@@ -168,6 +168,22 @@ describe "Post pages" do
         page.should have_content("\"id\":#{post.id}"      )
         page.should have_content("\"content\":\"#{post.content}\"" )
         page.should have_content("\"group_id\":#{post.group_id}")
+      end
+    end
+
+    describe "when looking for posts in a country" do
+      before do
+        visit '/posts?location=US'    
+      end
+
+      it "should list only posts in the US" do
+        page.should have_content("\"id\":#{@post1.id}")
+        page.should have_content("\"content\":\"#{@post1.content}\"" )
+        page.should have_content("\"group_id\":#{@post1.group_id}")
+
+        page.should_not have_content("\":id\":#{@post2.id}")
+        page.should_not have_content("\"content\":\"#{@post2.content}\"" )
+        page.should_not have_content("\"group_id\":#{@post2.group_id}")
       end
     end
   end      

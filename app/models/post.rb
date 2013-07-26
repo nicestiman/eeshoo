@@ -22,4 +22,24 @@ class Post < ActiveRecord::Base
   validates :title,   presence: true
   validates :group_id, presence: true
   validates :author_id, presence: true
+
+  def self.where_location(query)
+    posts = []
+
+    if query.include?(".")
+      Post.all.each do |post|
+        if post.group.location == query
+          posts.push(post)
+        end
+      end
+    else
+      Post.all.each do |post|
+        if post.group.location[0..1] == query
+          posts.push(post)
+        end
+      end
+    end
+    
+    return posts
+  end
 end

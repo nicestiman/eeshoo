@@ -9,7 +9,7 @@ FactoryGirl.define do
 
   factory :group do
     name                  "Test Group"
-    location              "Los Angeles, California, USA"
+    location              "US.CA"
     trait :populated
       ignore do
         user 5

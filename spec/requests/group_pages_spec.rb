@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe "Group pages" do
-  before { @group = Group.create(name: "Test Group", location: "Denver, Colorado, USA") }
+  before { @group = Group.create(name: "Test Group", location: "US.CO") }
 
   subject { page }
 
@@ -22,13 +22,24 @@ describe "Group pages" do
       end
     end
 
-    describe "with valid information" do
+    describe "with valid information", js: true do
       before do
+        select "United States of America", from: "countrymenu"
+        select "Colorado", from: "statemenu"
         fill_in "Name",     with: @group.name + "2"
-        fill_in "Location", with: @group.location
       end
 
-      it "should create a group" do
+      it { should have_selector("input", type: "hidden") }
+      it { should have_selector("select", name: "countrymenu") }
+      it { should have_selector("select", name: "statemenu") }
+
+      it "should not have an error" do
+        click_button submit
+        page.should_not have_content("Error")
+        page.should_not have_content("error")
+      end
+
+      it "should create a new group" do
         expect { click_button submit }.to change(Group, :count).by(1)
       end
     end
