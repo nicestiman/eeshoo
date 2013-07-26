@@ -34,7 +34,7 @@ describe Assignment do
     end
   end
 
-  describe "changing role" do
+  describe "changing role through a user" do
     let(:new_role) { "AdmIn" }
     before do
       @user.set_role_to(new_role, @group)
@@ -42,6 +42,17 @@ describe Assignment do
 
     it "should be the new role" do
       expect(@group.users.find(@user.id).role).to eq(new_role.downcase)
+    end
+  end
+
+  describe "changing role through a group" do
+    let(:new_role) { "aDmIn" }
+    before do
+      @group.set_role_to(new_role, @user)
+    end
+
+    it "should be the new role" do
+      expect(@user.groups.find(@group.id).role).to eq(new_role.downcase)
     end
   end
 end
