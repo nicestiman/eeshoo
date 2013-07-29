@@ -15,4 +15,6 @@ class Assignment < ActiveRecord::Base
 
   belongs_to :group
   belongs_to :user
+
+  before_save { |assignment| assignment.role = assignment.role.downcase }
 end

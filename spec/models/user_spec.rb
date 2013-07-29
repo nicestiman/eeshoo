@@ -185,4 +185,25 @@ describe User do
     before { @user.save }
     its(:remember_token) { should_not be_blank }
   end
+
+  describe "method to check role" do
+    let(:group) { FactoryGirl.create(:group) }
+    before do
+      @user.save
+      @user.groups << group
+      @user.set_role_to("AdMiN", group)
+    end
+
+    it "should evaluate that the role is incorrect" do
+      expect(@user.is_role_of?(group, "walrus")).to eq(false)
+    end
+
+    it "should evaluate that the role is correct" do
+      expect(@user.is_role_of?(group, "admin")).to eq(true)
+    end
+
+    it "should evaluate that the role is correct using the default" do
+      expect(@user.is_role_of?(group)).to eq(true)
+    end
+  end
 end

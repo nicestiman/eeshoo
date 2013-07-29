@@ -1,4 +1,6 @@
 class GroupsController < ApplicationController
+  before_filter :signed_in_user, only: [:new, :create]
+
   def new
     @group = Group.new
   end
@@ -14,6 +16,8 @@ class GroupsController < ApplicationController
   def create
     @group = Group.new(params[:group])
     if @group.save
+      @group.users << current_user
+      @group.set_role_to("admin", current_user)
       flash[:success] = "Group created"
       redirect_to @group
     else
@@ -54,4 +58,12 @@ class GroupsController < ApplicationController
       end
     end
   end
+
+  private
+    def signed_in_user
+      unless signed_in?
+        store_location
+        redirect_to signin_url, notice: "Please sign in."
+      end
+    end
 end
