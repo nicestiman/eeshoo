@@ -21,7 +21,7 @@ test:
   database: hiwipi_test
   pool: 5
   timeout: 5000
-  username: potgres
+  username: postgres
   password: leping1768
 
 production:
@@ -30,5 +30,5 @@ production:
   database: hiwipi_production
   pool: 5
   timeout: 5000
-  username: fudog931
-  password: leping1768
+  username: non-default_username
+  password: non-default_password
