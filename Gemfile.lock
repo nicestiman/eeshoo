@@ -78,6 +78,7 @@ GEM
     guard-rspec (1.2.1)
       guard (>= 1.1)
     hike (1.2.3)
+    http_accept_language (1.0.2)
     http_parser.rb (0.5.3)
     i18n (0.6.1)
     journey (1.0.4)
@@ -201,6 +202,7 @@ DEPENDENCIES
   factory_girl_rails (>= 4.1.0)
   faker
   guard-rspec (= 1.2.1)
+  http_accept_language
   jquery-rails (= 2.0.2)
   launchy
   libnotify (= 0.5.9)
