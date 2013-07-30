@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130726165951) do
+ActiveRecord::Schema.define(:version => 20130730182728) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "group_id"
@@ -46,6 +46,12 @@ ActiveRecord::Schema.define(:version => 20130726165951) do
   end
 
   add_index "posts", ["group_id"], :name => "index_posts_on_group_id"
+
+  create_table "translations", :force => true do |t|
+    t.string "language",    :limit => 2
+    t.string "reference"
+    t.string "translation"
+  end
 
   create_table "users", :force => true do |t|
     t.string   "first"
