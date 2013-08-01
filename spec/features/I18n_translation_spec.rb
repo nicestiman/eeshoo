@@ -11,7 +11,7 @@ feature "I want to change the language" do
   subject { page }
 
   context "if I am using the query string" do
-    before { visit root_path + "?locale=en" }
+    before { visit signin_path + "?locale=en" }
 
     it "I should see the greeting in english" do
       page.should have_content(@trans.translation)
