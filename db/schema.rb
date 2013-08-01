@@ -48,9 +48,13 @@ ActiveRecord::Schema.define(:version => 20130730182728) do
   add_index "posts", ["group_id"], :name => "index_posts_on_group_id"
 
   create_table "translations", :force => true do |t|
-    t.string "language",    :limit => 2
-    t.string "reference"
-    t.string "translation"
+    t.string   "locale"
+    t.string   "key"
+    t.text     "value"
+    t.text     "interpolations"
+    t.boolean  "is_proc",        :default => false
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
   end
 
   create_table "users", :force => true do |t|

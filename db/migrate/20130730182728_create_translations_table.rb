@@ -1,9 +1,13 @@
 class CreateTranslationsTable < ActiveRecord::Migration
   def change
-    create_table(:translations) do |t|
-      t.column :language, :string, limit: 2
-      t.column :reference, :string
-      t.column :translation, :string
+    create_table :translations do |t|
+      t.string :locale
+      t.string :key
+      t.text   :value
+      t.text   :interpolations
+      t.boolean :is_proc, :default => false
+
+      t.timestamps
     end
   end
 end
