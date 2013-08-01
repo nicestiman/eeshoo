@@ -17,7 +17,7 @@ describe Translation do
   subject { @trans }
 
   it { should respond_to(:language) }
-  it { should respond_to(:refrence) }
+  it { should respond_to(:reference) }
   it { should respond_to(:translation) }
 
   it { should be_valid }
@@ -58,6 +58,20 @@ describe Translation do
         @trans.language = valid_lang
         @trans.should be_valid
       end
+    end
+  end
+
+  describe "lang_list should return all the languages" do
+    before do
+      @trans.save
+      Translation.create(language: "en", reference: "second_trans", translation: "whazzup")
+      Translation.create(language: "pt", reference: "third_trans", translation: "e ai meu filho?")
+    end
+
+    it "should list the available languages" do
+      expect(Translation.lang_list.include?("en")).to eq(true)
+      expect(Translation.lang_list.include?("pt")).to eq(true)
+      expect(Translation.lang_list.count).to eq(2)
     end
   end
 end

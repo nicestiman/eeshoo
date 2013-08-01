@@ -16,4 +16,12 @@ class Translation < ActiveRecord::Base
   validates :language, presence: true, format: { with: VALID_LANG_REGEX }
   validates :reference, presence: true
   validates :translation, presence: true
+
+  def self.lang_list
+    languages = 
+      Translation.all.collect do |translation|
+        translation.language
+      end
+    languages.uniq!
+  end
 end
