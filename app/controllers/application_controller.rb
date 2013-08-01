@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  before_filter :set_locale
   protect_from_forgery
   include SessionsHelper
 
@@ -7,4 +8,14 @@ class ApplicationController < ActionController::Base
     sign_out
     super
   end
+
+  def set_locale
+    I18n.locale = params[:locale] || extract_locale_from_accept_lang_header || I18n.default_locale
+  end
+
+  private
+    def extract_locale_from_accept_lang_header
+      available = Translation.lang_list
+      request.compatible_language_from(available)
+    end
 end
