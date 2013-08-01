@@ -25,4 +25,10 @@ FactoryGirl.define do
     author
     group
   end
+
+  factory :translation do
+    language        "en"
+    reference       "greeting"
+    translation     "Hello"
+  end
 end
