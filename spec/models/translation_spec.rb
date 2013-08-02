@@ -2,10 +2,14 @@
 #
 # Table name: translations
 #
-#  id          :integer          not null, primary key
-#  language    :string(2)
-#  reference   :string(255)
-#  translation :string(255)
+#  id             :integer          not null, primary key
+#  locale         :string(255)
+#  key            :string(255)
+#  value          :text
+#  interpolations :text
+#  is_proc        :boolean          default(FALSE)
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
 #
 
 require 'spec_helper'
