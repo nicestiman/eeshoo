@@ -16,29 +16,29 @@ require 'spec_helper'
 
 describe Translation do
 
-  before { @trans = Translation.new(language: "en", reference: "greeting", translation: "hello world") }
+  before { @trans = FactoryGirl.build(:translation) }
 
   subject { @trans }
 
-  it { should respond_to(:language) }
-  it { should respond_to(:reference) }
-  it { should respond_to(:translation) }
+  it { should respond_to(:locale) }
+  it { should respond_to(:key) }
+  it { should respond_to(:value) }
 
   it { should be_valid }
 
   #tests for presence
-  describe "when language is not defined" do
-    before { @trans.language = " " }
+  describe "when locale is not defined" do
+    before { @trans.locale = " " }
     it { should_not be_valid }
   end
 
-  describe "when reference key is not defined" do
-    before { @trans.reference = " " }
+  describe "when key is not defined" do
+    before { @trans.key = " " }
     it { should_not be_valid }
   end
 
-  describe "when translation is not provided" do
-    before { @trans.translation = " " }
+  describe "when value is not provided" do
+    before { @trans.value = " " }
     it { should_not be_valid }
   end
 
@@ -48,7 +48,7 @@ describe Translation do
       languages = %w[eM en. En. en-gb en-GB en- hjasdvjfnjnjklusfhusfhsdfhj]
 
       languages.each do |invalid_lang|
-        @trans.language = invalid_lang
+        @trans.locale = invalid_lang
         @trans.should_not be_valid
       end
     end
@@ -59,7 +59,7 @@ describe Translation do
       languages = %w[en pt ch]
 
       languages.each do |valid_lang|
-        @trans.language = valid_lang
+        @trans.locale = valid_lang
         @trans.should be_valid
       end
     end
@@ -68,14 +68,18 @@ describe Translation do
   describe "lang_list should return all the languages" do
     before do
       @trans.save
-      Translation.create(language: "en", reference: "second_trans", translation: "whazzup")
-      Translation.create(language: "pt", reference: "third_trans", translation: "e ai meu filho?")
+      FactoryGirl.create(:translation, key: "second_translation", value: "whazzup?")
+      FactoryGirl.create(:translation, locale: "pt", value: "e ai meu filho?")
+    end
+
+    it "should have valid translations" do
+      expect(Translation.count).to eq(3)
     end
 
     it "should list the available languages" do
-      expect(Translation.lang_list.include?("en")).to eq(true)
-      expect(Translation.lang_list.include?("pt")).to eq(true)
       expect(Translation.lang_list.count).to eq(2)
+      expect(Translation.lang_list.include?('pt')).to eq(true)
+      expect(Translation.lang_list.include?("en")).to eq(true)
     end
   end
 end

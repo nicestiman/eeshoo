@@ -23,9 +23,8 @@ class Translation < ActiveRecord::Base
 
   def self.lang_list
     languages = 
-      Translation.all.collect do |translation|
-        translation.language
+      Translation.select(:locale).uniq.collect do |trans|
+        trans.locale
       end
-    languages.uniq!
   end
 end
