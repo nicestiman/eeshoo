@@ -27,8 +27,8 @@ FactoryGirl.define do
   end
 
   factory :translation do
-    language        "en"
-    reference       "greeting"
-    translation     "Hello"
+    locale                "en"
+    key                   "sign_in"
+    value                 "Sign in"
   end
 end
