@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130730182728) do
+ActiveRecord::Schema.define(:version => 20130802001201) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "group_id"
@@ -56,6 +56,8 @@ ActiveRecord::Schema.define(:version => 20130730182728) do
     t.datetime "created_at",                        :null => false
     t.datetime "updated_at",                        :null => false
   end
+
+  add_index "translations", ["locale", "key"], :name => "index_translations_on_locale_and_key", :unique => true
 
   create_table "users", :force => true do |t|
     t.string   "first"

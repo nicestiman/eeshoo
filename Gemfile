@@ -5,6 +5,7 @@ gem 'bootstrap-sass', '2.1'
 gem 'bcrypt-ruby', '3.0.1'
 gem 'faker'
 gem 'i18n-active_record', git: 'git://github.com/svenfuchs/i18n-active_record.git',
+    :branch => 'rails-3.2',
     :require => 'i18n/active_record'
 gem 'http_accept_language'
 
