@@ -13,7 +13,7 @@
 #
 
 class Translation < ActiveRecord::Base
-  attr_accessible :locale, :key, :value, :interpolations, :is_proc
+  attr_accessible :locale, :key, :value
 
   VALID_LANG_REGEX = /\A[a-z]{2}\z/
 
