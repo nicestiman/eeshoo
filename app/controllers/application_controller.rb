@@ -11,11 +11,21 @@ class ApplicationController < ActionController::Base
 
   private
     def set_locale
-      I18n.locale = params[:locale] || extract_locale_from_accept_lang_header || I18n.default_locale
+      I18n.locale = set_by_params || extract_locale_from_accept_lang_header || I18n.default_locale
+    end
+
+    def set_by_params
+      if !params[:locale].nil? && Translation.lang_list.include?(params[:locale][0..1])
+        return params[:locale][0..1]
+      else
+        return false
+      end
+
     end
 
     def extract_locale_from_accept_lang_header
       available = Translation.lang_list 
+      #available = I18n.available_locales
       unless available.nil? || available.empty?
         request.compatible_language_from(available)
       else
