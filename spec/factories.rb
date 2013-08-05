@@ -10,12 +10,14 @@ FactoryGirl.define do
   factory :group do
     name                  "Test Group"
     location              "US.CA"
-    trait :populated
+    trait :populated do
       ignore do
         user 5
       end
+      
       after(:create) do |group, evaluator|
         FactoryGirl.create_list(:user, evaluator.user)
+      end
     end
   end
   
@@ -24,5 +26,24 @@ FactoryGirl.define do
     title                 "Test Post"
     author
     group
+  end
+
+  factory :permission, class: RolePermission do
+    sequence(:name)  {|n| "human readable name for a permission #{n}" }
+    sequnece(:key )  {|n| "privlage#{n}".to_sym                       }
+  end
+  
+  factory :role do 
+    sequence(:name)   { |n|  "role"+n}
+    
+    trait :assigned do
+      ignore do
+        permission 5
+      end
+      
+      after(:create) do |group, evaluator|
+        FactoryGirl.create_list(:permission, evaluator.permission)
+      end
+    end
   end
 end
