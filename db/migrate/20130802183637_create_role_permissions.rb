@@ -3,7 +3,7 @@ class CreateRolePermissions < ActiveRecord::Migration
     create_table :role_permissions do |t|
       t.string  :name
       t.string  :key
-      t.integer :role_if
+      t.belongs_to :role
 
       t.timestamps
     end

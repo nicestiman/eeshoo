@@ -3,8 +3,8 @@
 # Table name: assignments
 #
 #  id         :integer          not null, primary key
-#  role       :string(255)
 #  group_id   :integer
+#  role       :string(255)      default("user")
 #  user_id    :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null

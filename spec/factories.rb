@@ -29,14 +29,14 @@ FactoryGirl.define do
   end
 
   factory :permission, class: RolePermission do
+    sequence(:key)  {|n| "privlage#{n}"}
     sequence(:name)  {|n| "human readable name for a permission #{n}" }
-    sequnece(:key )  {|n| "privlage#{n}".to_sym                       }
   end
   
   factory :role do 
-    sequence(:name)   { |n|  "role"+n}
+    sequence(:name)   { |n|  "role#{n}"}
     
-    trait :assigned do
+    trait :filled do
       ignore do
         permission 5
       end

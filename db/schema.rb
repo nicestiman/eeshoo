@@ -50,7 +50,7 @@ ActiveRecord::Schema.define(:version => 20130802183637) do
   create_table "role_permissions", :force => true do |t|
     t.string   "name"
     t.string   "key"
-    t.integer  "role_if"
+    t.integer  "role_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
