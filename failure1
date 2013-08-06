@@ -1,0 +1,370 @@
+
+Authentication
+  signin page
+    with invalid information
+      should has css "title" with text "Sign in"
+      should has css "div.alert.alert-error" with text "Invalid"
+      after visiting another page
+        should not has css "div.alert.alert-error"
+    with valid information
+      should has link "Profile"
+      should has link "Settings"
+      should has css "title" with text "Jane Doe 3"
+      should has link "Sign out"
+      should not has link "Sign in"
+      followed by signout
+        should has link "Sign in"
+  authorization
+    for non-signed in users
+      when attempting to visit a protected page
+        after signing in
+          should render the desired protected page
+      in the Users controller
+        visiting the edit page
+          should has css "title" with text "Sign in"
+        submitting to the update action
+          should redirect to "/signin"
+    as wrong user
+      visiting Users#edit page
+        should not has css "title" with text "HIWIPI | Edit user"
+      submitting a PUT request to the Users#update action
+        should redirect to "/signin"
+  when making a new group
+    when user is not signed in
+      should has css "title" with text "Sign in"
+      should not has css "title" with text "New Group"
+    when user is signed in
+      should has css "title" with text "New Group"
+
+Post pages
+  new post page, with signed in user
+    should has css "title" with text "New Post"
+    with invalid information
+      should not make a new post
+      after submission
+        should has content "error"
+    with valid information
+      should make a new post
+      should redirect to group homepage
+        should has content "Profile Page for Test Group"
+        should has content "Test"
+  new post page, when not a member
+    should has css "title" with text "Group members"
+    after submitting
+      should has css "title" with text "New Post"
+  show post page
+    should has css "h1" with text "Test"
+    should has css "p" with text "This is a test post"
+    should has css "title" with text "Show Post"
+    should has css "a"
+    should has css "a"
+    if current user is the author
+      should has css "a" with text "Delete this post?"
+      should delete the post
+    if current user is a member of group
+      should not has css "a" with text "Delete this post?"
+      should has field "comment_message"
+      should has css "input"
+    if the current user not a member of the group
+      should not has css "a" with text "Delete this post?"
+      should not has field "comment_message"
+      should not has css "input"
+      should not has css "a" with text "add a comment"
+  tiered posts
+    should list posts for all groups
+    when looking for posts in a country
+      should list only posts in the US
+  index
+    should list all posts
+  new post page, when not signed in
+    should has css "title" with text "Sign in"
+    after signing in
+      should has css "title" with text "New Post"
+
+I want to post a comment
+  if I am the author
+    I should be able to post a comment
+    my post should show up on the post page
+  if I am a member of the group
+    I should be able to to post a comment
+    my post should show up on the post page
+  if I am not a member
+    I should not be able to to post a comment
+
+Translation
+  should respond to #locale
+  should respond to #value
+  should be valid
+  should respond to #key
+  when key is not defined
+    should not be valid
+  when language format is invalid
+    should not be valid
+  when locale is not defined
+    should not be valid
+  lang_list should return all the languages
+    should have valid translations
+    should list the available languages
+  when language format is valid
+    should be valid
+  when value is not provided
+    should not be valid
+
+Group
+  should respond to #location
+  should respond to #posts
+  should respond to #name
+  should respond to #users
+  should be valid
+  when location is not present
+    should not be valid
+  when it creates a user
+    should have a user
+  when name is not present
+    should not be valid
+  method to check role
+    should evaluate that the role is incorrect
+    should evaluate that the role is correct
+    should evaluate that the role is correct using the default
+  when it is assigned a user
+    should have a user
+  when name is too long
+    should not be valid
+
+Home pages
+  content
+    should has content "HIWIPI"
+    should has css "div"
+    should has css "div"
+    should has css "div"
+
+Group pages
+  index group page
+    should list each group
+  group profile page without posts
+    should has css "a"
+    should has css "li" with text "You haven't made any posts yet"
+  new group page
+    with invalid information
+      should not create a group
+      after submission
+        should has content "error"
+    with valid information
+      should has css "select"
+      should not have an error
+      should has css "input"
+      should assign current user as admin
+      should create a new group
+      should has css "select"
+      should show the group profile page
+  when a user wants to leave a group
+    should has css "a" with text "Leave this group"
+    should unassign the user from the group
+    after leave is pressed
+      should has css "div.alert.alert-success" with text "You are no longer a member of this group"
+      should not has css "div.alert.alert-error"
+  members page
+    should has css "title" with text "Group members"
+    should has css "h1" with text "Members of Popular Group"
+    when a Group has members
+      should list each user
+    when a User joins a group
+      and is not signed in
+        should not has content "{:text=>\"Join this group\"}"
+        should not has content "{:text=>\"Leave this group\"}"
+      and is signed in
+        should has css "a" with text "Join this group"
+        but is already a member
+          should not has css "a" with text "Join this group"
+          should has css "a"
+          submitting a POST request to the Groups#assign action
+            should redirect to "/groups/26/members"
+            should not assign the user
+        and isn't a member yet
+          should has css "a" with text "Join this group"
+          should assign the user to the group
+          there should be a success message
+            should has css "div.alert.alert-success" with text "You have successfully joined this group"
+  group profile page with posts
+    should has css "a"
+    should has css "h1" with text "Test Group"
+    should list each post
+    should has css "h1" with text "Profile Page"
+
+User
+  should respond to #password_confirmation
+  should respond to #posts
+  should respond to #remember_token
+  should respond to #password_digest
+  should respond to #last
+  should be valid
+  should respond to #password
+  should respond to #first
+  should respond to #groups
+  should respond to #authenticate
+  should respond to #email
+  a valid user
+    should be able to make groups
+    should belong to two groups
+      should list each group
+    should have a role in a group
+      should have the correct role
+  remember token
+    remember_token
+      should not be blank
+  when joins a group
+    should be a member of the group
+  when email format is invalid
+    should not be valid
+  method to check role
+    should evaluate that the role is incorrect
+    should evaluate that the role is correct
+    should evaluate that the role is correct using the default
+  when last name is too long
+    should not be valid
+  when email is already taken
+    should not be valid
+  when password is too short
+    should not be valid
+  when email format is valid
+    should be valid
+  when password doesn't match confirmation
+    should not be valid
+  when email is not present
+    should not be valid
+  when password confirmation is nil
+    should not be valid
+  when first name is not present
+    should not be valid
+  when password is not present
+    should not be valid
+  return value of authenticate method
+    with valid password
+      should == #<User id: 156, first: "John", last: "Doe", email: "jdoe@example.com", created_at: "2013-08-06 20:05:24", updated_at: "2013-08-06 20:05:24", password_digest: "$2a$10$yj2OKcDCa7X08qEvhmDhi.fpfdUD8YIc0cA1iXuluNVQ...", remember_token: "oF9cxkQNijSC6nIjqGF8qw">
+    with invalid password
+      should not == false
+      should be false
+  when first name is too long
+    should not be valid
+  when last name is not present
+    should not be valid
+
+I want to change the language
+  if I am using the query string for english
+    I should see the greeting in english (FAILED - 1)
+  if I am not using anything
+    I should see the greeting in english (FAILED - 2)
+  if I am using a language that is not supported
+    via the query string
+      I should see the greeting in the default language (FAILED - 3)
+    via a http header
+      I should see the greeting in the default language (FAILED - 4)
+  if I am using the query string for portuguese
+    I should see the greeting in portuguese
+
+Comment
+  should respond to #message
+
+User Pages
+  signup page
+    should has css "h1" with text "Sign up"
+  signup
+    with invalid information
+      should not create a user
+      after submission
+        should has content "error"
+    with valid information
+      should create a user
+  edit
+    page
+      should has css "h1" with text "Update your profile"
+      should has css "title" with text "Edit user"
+      should has link "change"
+    with invalid information
+      should has content "error"
+    with valid information
+      should has css "div.alert.alert-success"
+      should == "New"
+      should has css "title" with text "New"
+      should == "new@example.com"
+      should == "Name"
+      should has link "Sign out"
+  profile page
+    should has css "h1" with text "Jane"
+    should has css "h1" with text "Doe 226"
+
+Post
+  should respond to #title
+  should respond to #group
+  should respond to #content
+  should respond to #author_id
+  should respond to #author
+  should respond to #group_id
+  should be valid
+  when content is not present
+    should not be valid
+  accesible attributes
+    should not allow access to group_id
+  group
+    should == #<Group id: 11, name: "Noodle Club", location: "US.CO", created_at: "2013-08-06 20:05:33", updated_at: "2013-08-06 20:05:33">
+  when trying to find posts in a country
+    should only have the first post
+  when group_id is not present
+    should not be valid
+  when title is not present
+    should not be valid
+
+Assignment
+  should be valid
+  should respond to #group
+  should respond to #role
+  should respond to #user
+  default role
+    should be the default role
+  changing role through a user
+    should be the new role
+  changing role through a group
+    should be the new role
+
+Map
+  should respond to #location
+  should respond to #topo
+  with filled out constructor
+    should eql "BRA"
+  with empty constuctor
+    should eql ""
+
+Failures:
+
+  1) I want to change the language if I am using the query string for english I should see the greeting in english
+     Failure/Error: page.should have_selector("h1", text: @english_trans.value)
+       expected css "h1" with text "Sign in" to return something
+     # ./spec/features/I18n_translation_spec.rb:17:in `block (3 levels) in <top (required)>'
+
+  2) I want to change the language if I am not using anything I should see the greeting in english
+     Failure/Error: page.should_not have_content("translation missing")
+       expected content "translation missing" not to return anything
+     # ./spec/features/I18n_translation_spec.rb:41:in `block (3 levels) in <top (required)>'
+
+  3) I want to change the language if I am using a language that is not supported via the query string I should see the greeting in the default language
+     Failure/Error: page.should_not have_content("translation missing")
+       expected content "translation missing" not to return anything
+     # ./spec/features/I18n_translation_spec.rb:54:in `block (4 levels) in <top (required)>'
+
+  4) I want to change the language if I am using a language that is not supported via a http header I should see the greeting in the default language
+     Failure/Error: page.should_not have_content("translation missing")
+       expected content "translation missing" not to return anything
+     # ./spec/features/I18n_translation_spec.rb:67:in `block (4 levels) in <top (required)>'
+
+Finished in 1 minute 1.02 seconds
+190 examples, 4 failures
+
+Failed examples:
+
+rspec ./spec/features/I18n_translation_spec.rb:15 # I want to change the language if I am using the query string for english I should see the greeting in english
+rspec ./spec/features/I18n_translation_spec.rb:40 # I want to change the language if I am not using anything I should see the greeting in english
+rspec ./spec/features/I18n_translation_spec.rb:53 # I want to change the language if I am using a language that is not supported via the query string I should see the greeting in the default language
+rspec ./spec/features/I18n_translation_spec.rb:66 # I want to change the language if I am using a language that is not supported via a http header I should see the greeting in the default language
+
+Randomized with seed 34907
+

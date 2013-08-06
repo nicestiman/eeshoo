@@ -1,0 +1,341 @@
+
+Translation
+  should be valid
+  should respond to #locale
+  should respond to #key
+  should respond to #value
+  when value is not provided
+    should not be valid
+  when language format is invalid
+    should not be valid
+  when key is not defined
+    should not be valid
+  when language format is valid
+    should be valid
+  lang_list should return all the languages
+    should list the available languages
+    should have valid translations
+  when locale is not defined
+    should not be valid
+
+Home pages
+  content
+    should has css "div"
+    should has content "HIWIPI"
+    should has css "div"
+    should has css "div"
+
+I want to change the language
+  if I am using a language that is not supported
+    via a http header
+      I should see the greeting in the default language
+    via the query string
+      I should see the greeting in the default language
+  if I am using the query string for english
+    I should see the greeting in english
+  if I am using the query string for portuguese
+    I should see the greeting in portuguese
+  if I am not using anything
+    I should see the greeting in english
+
+User
+  should respond to #remember_token
+  should respond to #last
+  should respond to #password_confirmation
+  should respond to #email
+  should respond to #authenticate
+  should respond to #password
+  should respond to #posts
+  should be valid
+  should respond to #groups
+  should respond to #password_digest
+  should respond to #first
+  when email format is invalid
+    should not be valid
+  when last name is too long
+    should not be valid
+  when email format is valid
+    should be valid
+  return value of authenticate method
+    with invalid password
+      should be false
+      should not == false
+    with valid password
+      should == #<User id: 3, first: "John", last: "Doe", email: "jdoe@example.com", created_at: "2013-08-06 20:02:05", updated_at: "2013-08-06 20:02:05", password_digest: "$2a$10$1p6X7xvyII1y/isUhTNMFuxKeBifNZcLyu1tUy5PHG93...", remember_token: "aigaRUqjFblZ6I4kpf-dkA">
+  when joins a group
+    should be a member of the group
+  when first name is too long
+    should not be valid
+  when first name is not present
+    should not be valid
+  when email is already taken
+    should not be valid
+  remember token
+    remember_token
+      should not be blank
+  when password is not present
+    should not be valid
+  method to check role
+    should evaluate that the role is incorrect
+    should evaluate that the role is correct
+    should evaluate that the role is correct using the default
+  when password doesn't match confirmation
+    should not be valid
+  when password confirmation is nil
+    should not be valid
+  a valid user
+    should be able to make groups
+    should have a role in a group
+      should have the correct role
+    should belong to two groups
+      should list each group
+  when password is too short
+    should not be valid
+  when last name is not present
+    should not be valid
+  when email is not present
+    should not be valid
+
+User Pages
+  edit
+    page
+      should has css "h1" with text "Update your profile"
+      should has css "title" with text "Edit user"
+      should has link "change"
+    with invalid information
+      should has content "error"
+    with valid information
+      should has link "Sign out"
+      should == "New"
+      should has css "div.alert.alert-success"
+      should == "Name"
+      should == "new@example.com"
+      should has css "title" with text "New"
+  signup page
+    should has css "h1" with text "Sign up"
+  profile page
+    should has css "h1" with text "Doe 26"
+    should has css "h1" with text "Jane"
+  signup
+    with valid information
+      should create a user
+    with invalid information
+      should not create a user
+      after submission
+        should has content "error"
+
+Map
+  should respond to #topo
+  should respond to #location
+  with empty constuctor
+    should eql ""
+  with filled out constructor
+    should eql "BRA"
+
+Post pages
+  new post page, when not signed in
+    should has css "title" with text "Sign in"
+    after signing in
+      should has css "title" with text "New Post"
+  new post page, when not a member
+    should has css "title" with text "Group members"
+    after submitting
+      should has css "title" with text "New Post"
+  new post page, with signed in user
+    should has css "title" with text "New Post"
+    with valid information
+      should make a new post
+      should redirect to group homepage
+        should has content "Test"
+        should has content "Profile Page for Test Group"
+    with invalid information
+      should not make a new post
+      after submission
+        should has content "error"
+  index
+    should list all posts
+  tiered posts
+    should list posts for all groups
+    when looking for posts in a country
+      should list only posts in the US
+  show post page
+    should has css "h1" with text "Test"
+    should has css "title" with text "Show Post"
+    should has css "a"
+    should has css "p" with text "This is a test post"
+    should has css "a"
+    if current user is the author
+      should delete the post
+      should has css "a" with text "Delete this post?"
+    if current user is a member of group
+      should not has css "a" with text "Delete this post?"
+      should has field "comment_message"
+      should has css "input"
+    if the current user not a member of the group
+      should not has css "input"
+      should not has css "a" with text "Delete this post?"
+      should not has css "a" with text "add a comment"
+      should not has field "comment_message"
+
+Group pages
+  group profile page with posts
+    should list each post
+    should has css "a"
+    should has css "h1" with text "Profile Page"
+    should has css "h1" with text "Test Group"
+  group profile page without posts
+    should has css "li" with text "You haven't made any posts yet"
+    should has css "a"
+  index group page
+    should list each group
+  members page
+    should has css "h1" with text "Members of Popular Group"
+    should has css "title" with text "Group members"
+    when a User joins a group
+      and is signed in
+        should has css "a" with text "Join this group"
+        and isn't a member yet
+          should assign the user to the group
+          should has css "a" with text "Join this group"
+          there should be a success message
+            should has css "div.alert.alert-success" with text "You have successfully joined this group"
+        but is already a member
+          should has css "a"
+          should not has css "a" with text "Join this group"
+          submitting a POST request to the Groups#assign action
+            should not assign the user
+            should redirect to "/groups/67/members"
+      and is not signed in
+        should not has content "{:text=>\"Leave this group\"}"
+        should not has content "{:text=>\"Join this group\"}"
+    when a Group has members
+      should list each user
+  when a user wants to leave a group
+    should unassign the user from the group
+    should has css "a" with text "Leave this group"
+    after leave is pressed
+      should not has css "div.alert.alert-error"
+      should has css "div.alert.alert-success" with text "You are no longer a member of this group"
+  new group page
+    with valid information
+      should not have an error
+      should assign current user as admin
+      should has css "select"
+      should create a new group
+      should show the group profile page
+      should has css "input"
+      should has css "select"
+    with invalid information
+      should not create a group
+      after submission
+        should has content "error"
+
+Authentication
+  signin page
+    with valid information
+      should has link "Profile"
+      should has css "title" with text "Jane Doe 171"
+      should has link "Sign out"
+      should has link "Settings"
+      should not has link "Sign in"
+      followed by signout
+        should has link "Sign in"
+    with invalid information
+      should has css "div.alert.alert-error" with text "Invalid"
+      should has css "title" with text "Sign in"
+      after visiting another page
+        should not has css "div.alert.alert-error"
+  authorization
+    as wrong user
+      submitting a PUT request to the Users#update action
+        should redirect to "/signin"
+      visiting Users#edit page
+        should not has css "title" with text "HIWIPI | Edit user"
+    for non-signed in users
+      in the Users controller
+        submitting to the update action
+          should redirect to "/signin"
+        visiting the edit page
+          should has css "title" with text "Sign in"
+      when attempting to visit a protected page
+        after signing in
+          should render the desired protected page
+  when making a new group
+    when user is signed in
+      should has css "title" with text "New Group"
+    when user is not signed in
+      should not has css "title" with text "New Group"
+      should has css "title" with text "Sign in"
+
+Group
+  should respond to #location
+  should respond to #name
+  should respond to #users
+  should respond to #posts
+  should be valid
+  when name is too long
+    should not be valid
+  when it creates a user
+    should have a user
+  when location is not present
+    should not be valid
+  when it is assigned a user
+    should have a user
+  method to check role
+    should evaluate that the role is incorrect
+    should evaluate that the role is correct
+    should evaluate that the role is correct using the default
+  when name is not present
+    should not be valid
+
+Post
+  should respond to #group
+  should respond to #author_id
+  should respond to #title
+  should respond to #author
+  should be valid
+  should respond to #content
+  should respond to #group_id
+  when title is not present
+    should not be valid
+  accesible attributes
+    should not allow access to group_id
+  when content is not present
+    should not be valid
+  when group_id is not present
+    should not be valid
+  when trying to find posts in a country
+    should only have the first post
+  group
+    should == #<Group id: 21, name: "Noodle Club", location: "US.CO", created_at: "2013-08-06 20:02:55", updated_at: "2013-08-06 20:02:55">
+
+Assignment
+  should respond to #role
+  should be valid
+  should respond to #user
+  should respond to #group
+  default role
+    should be the default role
+  changing role through a user
+    should be the new role
+  changing role through a group
+    should be the new role
+
+I want to post a comment
+  if I am the author
+    my post should show up on the post page
+    I should be able to post a comment
+  if I am a member of the group
+    my post should show up on the post page
+    I should be able to to post a comment
+  if I am not a member
+    I should not be able to to post a comment
+
+Comment
+  should respond to #message
+
+Finished in 59.7 seconds
+190 examples, 0 failures
+
+Randomized with seed 27274
+

@@ -25,7 +25,7 @@ feature "I want to post a comment" do
       visit group_post_path(@group.id, @post.id)
     end
     
-    it "I should be able to post a comment" do
+    scenario "I should be able to post a comment" do
       fill_in "comment_message", with: "this was not my best work"
       expect {click_button "Comment"}.to change(Comment, :count).by(1)
     end
