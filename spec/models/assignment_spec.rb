@@ -4,10 +4,10 @@
 #
 #  id         :integer          not null, primary key
 #  group_id   :integer
-#  role       :string(255)      default("user")
 #  user_id    :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  role_id    :integer
 #
 
 require 'spec_helper'
@@ -26,33 +26,18 @@ describe Assignment do
   it { should respond_to(:group) }
   it { should respond_to(:role) }
 
-  describe "default role" do
-    let(:default) { "user" }
+  describe "default role" do 
     
-    it "should be the default role" do
-      @assignment.role.should == default
-    end
+    it "should be the default role"
   end
 
   describe "changing role through a user" do
-    let(:new_role) { "AdmIn" }
-    before do
-      @user.set_role_to(new_role, @group)
-    end
-
-    it "should be the new role" do
-      expect(@group.users.find(@user.id).role).to eq(new_role.downcase)
-    end
+    
+    it "should be the new role"
   end
 
   describe "changing role through a group" do
-    let(:new_role) { "aDmIn" }
-    before do
-      @group.set_role_to(new_role, @user)
-    end
-
-    it "should be the new role" do
-      expect(@user.groups.find(@group.id).role).to eq(new_role.downcase)
-    end
+    
+    it "should be the new role"
   end
 end

@@ -11,14 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130802183637) do
+ActiveRecord::Schema.define(:version => 20130806220237) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "group_id"
-    t.string   "role",       :default => "user"
     t.integer  "user_id"
-    t.datetime "created_at",                     :null => false
-    t.datetime "updated_at",                     :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "role_id"
   end
 
   create_table "comments", :force => true do |t|

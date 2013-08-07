@@ -14,8 +14,7 @@ class Group < ActiveRecord::Base
   has_many :posts
   
   has_many :assignments
-  has_many :users, :through => :assignments, select: 'users.*, assignments.role AS role'
-
+  has_many :users, :through => :assignments
   validates :name, presence: true, length: { maximum: 40 }, uniqueness: true
   validates :location, presence: true
 

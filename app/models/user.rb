@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
   attr_accessible :email, :first, :last, :password, :password_confirmation
 
   has_many :assignments
-  has_many :groups, :through => :assignments, select: 'groups.*, assignments.role AS role' 
+  has_many :groups, :through => :assignments
   has_many :posts, foreign_key: "author_id"
 
   has_secure_password

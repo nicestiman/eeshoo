@@ -21,14 +21,14 @@ describe User do
   subject { @user }
 
   #tests for user model attributes
-  it { should respond_to(:first)  }
-  it { should respond_to(:last)   }
-  it { should respond_to(:email)  }
-  it { should respond_to(:password_digest) }
-  it { should respond_to(:password) }
+  it { should respond_to(:first)                 }
+  it { should respond_to(:last)                  }
+  it { should respond_to(:email)                 }
+  it { should respond_to(:password_digest)       }
+  it { should respond_to(:password)              }
   it { should respond_to(:password_confirmation) }
-  it { should respond_to(:remember_token) }
-  it { should respond_to(:authenticate) }
+  it { should respond_to(:remember_token)        }
+  it { should respond_to(:authenticate)          }
 
   #tests for group relation
   it { should respond_to(:groups) }
@@ -156,14 +156,11 @@ describe User do
     describe "should have a role in a group" do
       before do
         @assignment = @user.assignments.find_by_group_id(@group1.id)
-        @assignment.role = "admin"
         @assignment.save
       end
       let(:role) { @user.groups.find(@group1.id).role }
 
-      it "should have the correct role" do
-        role.should == "admin"
-      end
+      it "should have the correct role"
     end
   end
 
@@ -187,23 +184,11 @@ describe User do
   end
 
   describe "method to check role" do
-    let(:group) { FactoryGirl.create(:group) }
-    before do
-      @user.save
-      @user.groups << group
-      @user.set_role_to("AdMiN", group)
-    end
+    
+    it "should evaluate that the role is incorrect"
 
-    it "should evaluate that the role is incorrect" do
-      expect(@user.is_role_of?(group, "walrus")).to eq(false)
-    end
+    it "should evaluate that the role is correct"
 
-    it "should evaluate that the role is correct" do
-      expect(@user.is_role_of?(group, "admin")).to eq(true)
-    end
-
-    it "should evaluate that the role is correct using the default" do
-      expect(@user.is_role_of?(group)).to eq(true)
-    end
+    it "should evaluate that the role is correct using the default"
   end
 end

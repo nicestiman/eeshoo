@@ -4,10 +4,10 @@
 #
 #  id         :integer          not null, primary key
 #  group_id   :integer
-#  role       :string(255)      default("user")
 #  user_id    :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  role_id    :integer
 #
 
 class Assignment < ActiveRecord::Base
@@ -15,6 +15,6 @@ class Assignment < ActiveRecord::Base
 
   belongs_to :group
   belongs_to :user
+  belongs_to :role
 
-  before_save { |assignment| assignment.role = assignment.role.downcase }
 end
