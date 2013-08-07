@@ -62,7 +62,6 @@ feature "I want to change the language" do
     end
 
     scenario "I should see the greeting in portuguese" do
-      page.should_not have_content("translation missing")
       page.should have_selector("h1", text: portuguese)
     end
   end
@@ -75,7 +74,6 @@ feature "I want to change the language" do
     end
 
     scenario "I should see the greeting in portuguese" do
-      page.should_not have_content("translation missing")
       page.should have_selector("h1", text: portuguese)
     end
   end
