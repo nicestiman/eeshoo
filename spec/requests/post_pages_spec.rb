@@ -18,7 +18,7 @@ describe "Post pages" do
       visit group_post_path(@group1.id, @post.id)
     end
 
-    it { should have_selector("title",  text: "Show Post") }
+    it { should have_selector("title",  text: @post.title) }
     it { should have_selector("h1",     text: @post.title) }
     it { should have_selector("p",      text: @post.content) }
     it { should have_selector("a",      href: group_path(@group1.id)) }
@@ -60,7 +60,7 @@ describe "Post pages" do
   describe "new post page, with signed in user" do
     before { sign_in @author; visit new_group_post_path(@group1.id) }
 
-    let(:submit) { "Post" }
+    let(:submit) { "Submit" }
 
     it { should have_selector("title", text: "New Post") }
 
