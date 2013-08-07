@@ -1,13 +1,13 @@
-<% provide(:title, 'Group page') %>
-<h1> Profile Page for <%= @group.name %> </h1>
+<% provide(:title, @group.name) %>
+<h1> <%= @group.name %> </h1>
 <ul>
   <% if @group.posts.any? %>
     <% @group.posts.each do |post| %>
       <li><%= link_to post.title, group_post_path(@group.id, post.id) %></li>
     <% end %>
   <% else %>
-    <li>You haven't made any posts yet</li>
+    <li><%= t('no_posts_message') %></li>
   <% end %>
 </ul>
 
-<%= link_to "Members of this group", members_path(@group.id) %>
+<%= link_to t("members_of_group", name: @group.name), members_path(@group.id) %>
