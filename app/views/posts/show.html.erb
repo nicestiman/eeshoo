@@ -7,7 +7,7 @@
 </p>
 
 <% if current_user?(@post.author) %>
-    <%= link_to t("delete_this" thing: "post"), group_post_path(@post.group.id, @post.id), 
+    <%= link_to t("delete_this", thing: "post"), group_post_path(@post.group.id, @post.id), 
       class: "btn", method: :delete, data: { confirm: t("confirmation") } %>
 <% end %>
   
