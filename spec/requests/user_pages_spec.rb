@@ -62,13 +62,13 @@ describe "User Pages" do
     end
 
     describe "page" do
-      it { should have_selector('h1',     text: "Update your profile") }
+      it { should have_selector('h1',     text: "Update Profile") }
       it { should have_selector('title',  text: "Edit user") }
       it { should have_link('change', href: 'http://gravatar.com/emails') }
     end
 
     describe "with invalid information" do
-      before { click_button "Save changes" }
+      before { click_button "Save Changes" }
 
       it { should have_content('error') }
     end
@@ -83,7 +83,7 @@ describe "User Pages" do
         fill_in "Email",        with: new_email
         fill_in "Password",     with: user.password
         fill_in "Confirmation", with: user.password
-        click_button "Save changes"
+        click_button "Save Changes"
       end
 
       it { should have_selector('title', text: new_first_name) }
