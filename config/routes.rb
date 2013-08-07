@@ -10,7 +10,7 @@ HIWIPI::Application.routes.draw do
 
   match "/contact", to: "static_pages#contact"
 
-  match "/translations", to: "translations#index"
+  resources :translations, only: [:create, :index]
 
   resources :users, :except => :new
   resources :sessions, :only => [:new, :create, :destroy]
