@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130802001201) do
+ActiveRecord::Schema.define(:version => 20130726165951) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "group_id"
@@ -46,18 +46,6 @@ ActiveRecord::Schema.define(:version => 20130802001201) do
   end
 
   add_index "posts", ["group_id"], :name => "index_posts_on_group_id"
-
-  create_table "translations", :force => true do |t|
-    t.string   "locale"
-    t.string   "key"
-    t.text     "value"
-    t.text     "interpolations"
-    t.boolean  "is_proc",        :default => false
-    t.datetime "created_at",                        :null => false
-    t.datetime "updated_at",                        :null => false
-  end
-
-  add_index "translations", ["locale", "key"], :name => "index_translations_on_locale_and_key", :unique => true
 
   create_table "users", :force => true do |t|
     t.string   "first"
