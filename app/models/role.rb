@@ -12,4 +12,5 @@ class Role < ActiveRecord::Base
   attr_accessible :name
   
   has_many :permissions, class_name: "RolePermission"
+  has_and_belongs_to_many :groups
 end

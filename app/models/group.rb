@@ -15,6 +15,7 @@ class Group < ActiveRecord::Base
   
   has_many :assignments
   has_many :users, :through => :assignments
+  has_and_belongs_to_many :roles
   validates :name, presence: true, length: { maximum: 40 }, uniqueness: true
   validates :location, presence: true
 

@@ -24,6 +24,8 @@ describe Group do
   #test for user model relation
   it { should respond_to(:users) }
 
+  it { should respond_to(:roles)}
+
   it { should be_valid }
 
   describe "when name is not present" do

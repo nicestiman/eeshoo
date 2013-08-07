@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130806220237) do
+ActiveRecord::Schema.define(:version => 20130807180400) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "group_id"
@@ -34,6 +34,11 @@ ActiveRecord::Schema.define(:version => 20130806220237) do
     t.string   "location"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "groups_roles", :force => true do |t|
+    t.integer "group_id"
+    t.integer "role_id"
   end
 
   create_table "posts", :force => true do |t|
