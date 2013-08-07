@@ -3,12 +3,12 @@
 <%= form_for(@post, url: group_make_post_index_path) do |f| %>
   <%= render 'shared/post_error_messages' %>
 
-  <%= f.label :title %>
+  <%= f.label :title, t("title") %>
   <%= f.text_field :title %>
 
-  <%= f.label :content %>
-  <%= f.text_field :content %>
+  <%= f.label :content, t("content") %>
+  <%= f.text_area :content %>
 
-  <%= f.submit "Post", class: "btn btn-large btn-primary" %>
+  <%= f.submit t("submit"), class: "btn btn-large btn-primary" %>
 <% end %>
 </p>
