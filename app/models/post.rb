@@ -12,19 +12,19 @@
 #
 
 class Post < ActiveRecord::Base
-  attr_accessible :content, :title, :type
+  attr_accessible :content, :title, :species
   belongs_to :group
   belongs_to :author, class_name: "User"
 
   has_many   :comments
 
-  before_save { |post| post.type = type.downcase }
+  before_save { |post| post.species = species.downcase }
 
   validates :content, presence: true
   validates :title,   presence: true
   validates :group_id, presence: true
   validates :author_id, presence: true
-  validates :type, presence: true
+  validates :species, presence: true
 
   def self.where_location(query)
     posts = []
