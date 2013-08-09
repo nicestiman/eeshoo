@@ -69,14 +69,13 @@ describe Assignment do
       should be_valid
     end
   end
-  
-  describe "if no role is defined" do
-    let(:default_name){ "default" }
+  describe "if role is not defined use the group default role" do
+    let(:group_default_role) { @assignment.group.default_role}
     
-    it "should set a defalult role" do
+    it "role should be the group default role" do
       @assignment.role = nil
       @assignment.save
-      @assignment.role.name.should  eql default_name
+      @assignment.role.name.should eql group_default_role.name
     end
   end
 end

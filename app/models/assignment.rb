@@ -23,7 +23,8 @@ class Assignment < ActiveRecord::Base
 
   def set_default_role
     if self.role.nil?
-     self.role_id = Role.create(name: "default").id
+      role = Group.find(self.group_id).default_role
+      self.role_id = role.id
     end
   end
 end

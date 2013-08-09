@@ -26,6 +26,8 @@ describe Group do
 
   it { should respond_to(:roles)}
 
+  it { should respond_to (:default_role)}
+
   it { should be_valid }
 
   describe "when name is not present" do
@@ -59,6 +61,7 @@ describe Group do
     end
   end
 
+
   describe "when it is assigned a user" do
     before do
       @group.save
@@ -73,12 +76,13 @@ describe Group do
     end
   end
   
-  describe "method to check role" do
-
-    it "should evaluate that the role is incorrect" 
-
-    it "should evaluate that the role is correct"
-
-    it "should evaluate that the role is correct using the default"
+  describe "if no default role is defined" do
+    let(:default_name){ "default" }
+    
+    it "should set a defalult role" do
+      @group.default_role = nil
+      @group.save
+      @group.default_role.name.should  eql default_name
+    end
   end
 end
