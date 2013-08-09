@@ -8,7 +8,7 @@ FactoryGirl.define do
   end
 
   factory :group do
-    name                  "Test Group"
+    sequence(:name)       { |n| "Test Group#{n}"}
     location              "US.CA"
     trait :populated do
       ignore do
