@@ -80,8 +80,8 @@ describe "Group pages" do
   describe "group profile page with posts" do
     let(:author) { FactoryGirl.create(:user) }
     before do
-      @post1 = @group.posts.new(content: "this is a test post", title: "Test post")
-      @post2 = @group.posts.new(content: "this is another test post", title: "Second Test Post")
+      @post1 = @group.posts.new(content: "this is a test post", title: "Test post", species: "default")
+      @post2 = @group.posts.new(content: "this is another test post", title: "Second Test Post", species: "default")
       @posts = [@post1, @post2]
       @posts.each do |post|
         post.author = author

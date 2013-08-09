@@ -22,6 +22,7 @@ FactoryGirl.define do
   factory :post do
     content               "lorim ipsom dolor sett jekre pepol vopelt telmp terompeal"
     title                 "Test Post"
+    species               "default"
     author
     group
   end

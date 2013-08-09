@@ -18,7 +18,7 @@ describe Post do
   before do
     @group = Group.create(name: "Noodle Club", location: "US.CO")
     @author = @group.users.create(first: "Jane", last: "Doe", email: "jane_doe_fake@example.com", password: "testpass", password_confirmation: "testpass")
-    @post = @group.posts.build(content: "This is a test post", title: "Test")
+    @post = @group.posts.build(content: "This is a test post", title: "Test", species: "default")
     @post.author = @author
   end
 
@@ -30,6 +30,8 @@ describe Post do
   it { should respond_to(:group) }
   it { should respond_to(:author) }
   it { should respond_to(:author_id) }
+  it { should respond_to(:species) }
+
   its(:group) { should == @group }
 
   it { should be_valid }
@@ -60,7 +62,7 @@ describe Post do
     before do
       @post.save!
       @group2 = Group.create(name: "Second Test Group", location: "BR.RJ")
-      @post2 = @group2.posts.new(title: "Test for other country", content: "This should not be returned")
+      @post2 = @group2.posts.new(title: "Test for other country", content: "This should not be returned", species: "default")
       @post2.author = @author
       @post2.save!
       @posts = Post.where_location("US")
