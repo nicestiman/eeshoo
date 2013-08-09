@@ -1,0 +1,8 @@
+# format for a default post
+
+---
+- name: title
+  format: header
+
+- name: title
+  format: raw_html
