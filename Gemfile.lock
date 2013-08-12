@@ -206,6 +206,7 @@ DEPENDENCIES
   libnotify (= 0.5.9)
   pg (= 0.12.2)
   poltergeist
+  pry
   rails (= 3.2.13)
   rb-inotify (>= 0.8.8)
   rspec-rails (= 2.11.0)
