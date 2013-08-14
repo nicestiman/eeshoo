@@ -57,12 +57,13 @@ describe "Post pages" do
     end
   end
 
-  describe "new post page, with signed in user" do
+  describe "new post page, with signed in user", js:true do
     before { sign_in @author; visit new_group_post_path(@group1.id) }
 
     let(:submit) { "Submit" }
 
     it { should have_selector("title", text: "New Post") }
+    it { should have_selector("select", id: "post_type") }
 
     describe "with invalid information" do
       it "should not make a new post" do
@@ -80,7 +81,6 @@ describe "Post pages" do
       before do
         fill_in "Title",    with: @post.title
         fill_in "Content",  with: @post.content
-        fill_in "Species",  with: @post.species
       end
 
       it "should make a new post" do
