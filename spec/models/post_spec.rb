@@ -9,6 +9,7 @@
 #  updated_at :datetime         not null
 #  group_id   :integer
 #  author_id  :integer
+#  species    :string(255)
 #
 
 require 'spec_helper'
