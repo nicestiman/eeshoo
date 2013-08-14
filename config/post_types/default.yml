@@ -4,5 +4,5 @@
 - name: title
   format: header
 
-- name: title
+- name: content
   format: raw_html
