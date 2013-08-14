@@ -35,6 +35,18 @@ class User < ActiveRecord::Base
   def name
     return self.first+" "+self.last
   end
+  
+  def role_for(group, options = {})
+    
+    assignment = self.assignments.find_by_group_id(group)
+    if options[:is].nil?
+      assignment.role
+    else
+      assignment.role_id = 
+        options[:is].id
+      assignment.save
+    end
+  end
 
   def is_role_of?(group, role = "admin")
     self.groups.find(group.id).role == role.downcase

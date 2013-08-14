@@ -153,16 +153,6 @@ describe User do
       end
     end
 
-    describe "should have a role in a group" do
-      before do
-        
-        @assignment = @user.assignments.find_by_group_id(@group1.id)
-        @assignment.save
-      end
-      
-      let(:role) { @user.groups.find(@group1.id).role }
-      it "should have the correct role"
-    end
   end
 
   describe "when joins a group" do
@@ -173,7 +163,7 @@ describe User do
     end
     let(:users_group) { @user.groups.find(@group.id)  }
     let(:groups_user) { @group.users.find(@user.id)   }
-    
+
     it "should be a member of the group" do
       users_group.should == @group
       groups_user.should == @user
@@ -185,15 +175,28 @@ describe User do
   end
 
   describe "can method" do
-    
+
     describe "if role dose not have the kill_the_pope permision" do
-      
+
       it "should evaluate false"
     end
-    
+
     describe "if the role has the kill_the_pope permission" do 
-      
+
       it "should evaluate that the role is correct"
+    end
+  end
+  describe "methoud role_for" do
+    before do 
+      @user.save
+      @group = Group.create(name: "Fake Group", location: "Pheonix, Arizona, USA")
+      @user.groups << @group
+    end
+    let(:role) {  FactoryGirl.create(:role) }
+
+    it "should be able to set and retrive the role" do 
+      @user.role_for(@group.id, is: role)
+      @user.role_for(@group.id).id.should eql role.id
     end
   end
 end
