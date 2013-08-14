@@ -1,4 +1,4 @@
-class Type
+class Species
   def self.all
     @filenames = []
 
@@ -6,7 +6,7 @@ class Type
       next if filename == "."
       next if filename == ".."
 
-      @filenames.push filename.chomp(".yml")
+      @filenames.push [filename.chomp(".yml"), filename.chomp(".yml")]
     end
 
     return @filenames.uniq
