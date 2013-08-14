@@ -1,4 +1,6 @@
 class Species
+  attr_reader :details
+
   def self.all
     @filenames = []
 
@@ -10,5 +12,11 @@ class Species
     end
 
     return @filenames.uniq
+  end
+
+  def initialize(type)
+    if all.include?(type)
+      @details = YAML.load_file("#{Rails.root}/config/post_types/#{type}.yml")
+    end
   end
 end
