@@ -4,6 +4,7 @@ class PostsController < ApplicationController
   before_filter :current_user_is_author, only: :destroy
 
   def new
+    @species = Species.new(params[:species]) || "undefined"
     @post = Post.new
     respond_to do |format|
       format.json
