@@ -155,11 +155,12 @@ describe User do
 
     describe "should have a role in a group" do
       before do
+        
         @assignment = @user.assignments.find_by_group_id(@group1.id)
         @assignment.save
       end
+      
       let(:role) { @user.groups.find(@group1.id).role }
-
       it "should have the correct role"
     end
   end
@@ -172,7 +173,7 @@ describe User do
     end
     let(:users_group) { @user.groups.find(@group.id)  }
     let(:groups_user) { @group.users.find(@user.id)   }
-
+    
     it "should be a member of the group" do
       users_group.should == @group
       groups_user.should == @user
@@ -183,12 +184,16 @@ describe User do
     its(:remember_token) { should_not be_blank }
   end
 
-  describe "method to check role" do
+  describe "can method" do
     
-    it "should evaluate that the role is incorrect"
-
-    it "should evaluate that the role is correct"
-
-    it "should evaluate that the role is correct using the default"
+    describe "if role dose not have the kill_the_pope permision" do
+      
+      it "should evaluate false"
+    end
+    
+    describe "if the role has the kill_the_pope permission" do 
+      
+      it "should evaluate that the role is correct"
+    end
   end
 end
