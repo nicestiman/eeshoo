@@ -47,8 +47,6 @@ describe "Group pages" do
         expect { click_button submit }.to change(Group, :count).by(1)
       end
 
-      it "should assign current user as admin"
-
       it "should show the group profile page" do
         click_button submit
         page.should have_selector('title',  text: 'Group page')
