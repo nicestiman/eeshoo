@@ -1,2 +1,2 @@
-<%= f.label name, t(name) %>
-<%= f.text_field name %>
+<%= f.label field["name"].to_sym, t(field["name"]) %>
+<%= f.text_field field["name"].to_sym %>

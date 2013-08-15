@@ -4,7 +4,11 @@ class PostsController < ApplicationController
   before_filter :current_user_is_author, only: :destroy
 
   def new
-    @species = Species.new(params[:species]) || "undefined"
+    unless params[:species].nil?
+      @species = Species.new(params[:species])
+    else
+      @species = Species.new("default")
+    end
     @post = Post.new
     respond_to do |format|
       format.json
@@ -38,12 +42,16 @@ class PostsController < ApplicationController
 
   def create
     @group = Group.find(params[:group_id])
-    @post = @group.posts.new(params[:post])
+    @post = @group.posts.new
     @post.author = current_user
-    
+    @post.species = params[:post][:species]
+    params[:post].delete(:species)
+    @post.content = params[:post].to_json
+
     if @post.save
       redirect_to @group 
     else
+      @species = Species.new(@post.species)
       render 'new'
     end
   end
@@ -58,26 +66,26 @@ class PostsController < ApplicationController
   end
 
   private
-    def signed_in_user
-      unless signed_in?
-        store_location
-        redirect_to signin_url, notice: "Please sign in."
-      end
+  def signed_in_user
+    unless signed_in?
+      store_location
+      redirect_to signin_url, notice: "Please sign in."
     end
+  end
 
-    def user_member_of_group
-      @group = Group.find(params[:group_id])
-      unless @group.users.include?(current_user)
-        store_location
-        redirect_to members_path(@group.id), notice: "Please join the group to add a post"
-      end
+  def user_member_of_group
+    @group = Group.find(params[:group_id])
+    unless @group.users.include?(current_user)
+      store_location
+      redirect_to members_path(@group.id), notice: "Please join the group to add a post"
     end
+  end
 
-    def current_user_is_author
-      @post = Post.find(params[:id])
-      unless current_user?(@post.author)
-        redirect_to group_post_path(params[:group_id], @post.id), 
-          notice: "You are not authorized to delete this post"
-      end
+  def current_user_is_author
+    @post = Post.find(params[:id])
+    unless current_user?(@post.author)
+      redirect_to group_post_path(params[:group_id], @post.id), 
+        notice: "You are not authorized to delete this post"
     end
+  end
 end

@@ -19,11 +19,9 @@ class Species
   end
 
   def initialize(type)
-    @type = type.to_s
-    if Species.all.include?(@type)
+    if Species.all.include?(type.to_s)
+      @type = type
       @details = YAML.load_file("#{Rails.root}/config/post_types/#{@type}.yml")
-    else
-      return false
     end
   end
 end
