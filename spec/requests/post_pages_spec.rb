@@ -63,7 +63,6 @@ describe "Post pages" do
     let(:submit) { "Submit" }
 
     it { should have_selector("title", text: "New Post") }
-    it { should have_selector("select", id: "post_type") }
 
     describe "with invalid information" do
       it "should not make a new post" do
@@ -81,6 +80,7 @@ describe "Post pages" do
       before do
         fill_in "Title",    with: @post.title
         fill_in "Content",  with: @post.content
+        select "default", from: "post_species"
       end
 
       it "should make a new post" do
