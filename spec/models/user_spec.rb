@@ -175,15 +175,27 @@ describe User do
   end
 
   describe "can method" do
-
-    describe "if role dose not have the kill_the_pope permision" do
-
-      it "should evaluate false"
+    before do
+      @user.save
+      @role = FactoryGirl.create(:role)
+      @role.permissions << RolePermission.create(key: "verb", name: "English Verb")
+      @group = Group.create(name: "Fake Group", location: "Pheonix, Arizona, USA")
+      @user.groups << @group
+      @user.role_for(@group.id, is: @role)
     end
 
-    describe "if the role has the kill_the_pope permission" do 
+    describe "if role dose not have the proprer permision" do
 
-      it "should evaluate that the role is correct"
+      it "should evaluate false" do
+       @user.can?(:vanish, in: @group.id ).should be_false
+      end
+    end
+
+    describe "if the role has the proper permission" do 
+
+      it "should evaluate that the role is correct" do 
+        @user.can?(:verb, in: @group.id ).should be_true
+      end
     end
   end
   describe "methoud role_for" do

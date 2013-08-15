@@ -18,7 +18,6 @@ class User < ActiveRecord::Base
   has_many :assignments
   has_many :groups, :through => :assignments
   has_many :posts, foreign_key: "author_id"
-
   has_secure_password
 
   before_save { |user| user.email = email.downcase }
@@ -32,8 +31,19 @@ class User < ActiveRecord::Base
   validates :password_confirmation, presence: true
   after_validation { self.errors.messages.delete(:password_digest) }
 
-  def name
-    return self.first+" "+self.last
+  # Checks to see if a user can do an action in a spasfic group.
+  #
+  #  ==== Examples
+  #  user.can?(:post, in: group.id )
+  #
+  def can?(permission, options)
+    user_permissions = role_for(options[:in]).permissions
+    user_permissions.each do |user_permission|
+      if user_permission.key == permission.to_s
+        return true
+      end
+    end
+    return false
   end
   
   def role_for(group, options = {})
@@ -48,22 +58,10 @@ class User < ActiveRecord::Base
     end
   end
 
-  def is_role_of?(group, role = "admin")
-    self.groups.find(group.id).role == role.downcase
+  def name
+    return self.first+" "+self.last
   end
   
-  def set_role_to(new_role, group)
-    new_role.downcase!
-    
-    if self.groups.include?(group)
-      assign = self.assignments.find_by_group_id(group.id)
-      assign.role = new_role
-      assign.save
-    else
-      return false
-    end
-  end
-
   private
     def create_remember_token
       self.remember_token = SecureRandom.urlsafe_base64
