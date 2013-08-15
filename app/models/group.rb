@@ -49,6 +49,17 @@ class Group < ActiveRecord::Base
   def is_role_of?(user, role = "admin")
     self.users.find(user.id).role == role.downcase
   end
+  
+  def role_for(group, options = {})
+    assignment = self.assignments.find_by_user_id(group)
+    if options[:is].nil?
+      assignment.role
+    else
+      assignment.role_id = 
+        options[:is].id
+      assignment.save
+    end
+  end
 
   def set_role_to(new_role, user)
     new_role.downcase!

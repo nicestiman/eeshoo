@@ -85,4 +85,17 @@ describe Group do
       @group.default_role.name.should  eql default_name
     end
   end
+  describe "methoud role_for" do
+    before do 
+      @group.save
+      @user = FactoryGirl.create(:user)
+      @user.groups << @group
+    end
+    let(:role) {  FactoryGirl.create(:role) }
+
+    it "should be able to set and retrive the role" do 
+      @group.role_for(@user.id, is: role)
+      @group.role_for(@user.id).id.should eql role.id
+    end
+  end
 end
