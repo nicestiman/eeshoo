@@ -139,8 +139,8 @@ describe "Post pages" do
 
     it "should list all posts" do
       @posts.each do |post|
-        page.should have_content("post_id: #{post.id}"      )
-        page.should have_content("content: #{post.content}" )
+        page.should have_content("\"id\":#{post.id}"      )
+        page.should have_content("\"content\":\"#{post.content}\"" )
       end
     end
   end
