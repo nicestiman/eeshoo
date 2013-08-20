@@ -1,6 +1,6 @@
 <% provide(:title, t('new_post')) %>
 <p>
-<%= form_tag({controller: "posts", action: "create"}, method: "post") %>
+<%= form_tag({controller: "posts", action: "create"}, method: "post") do %>
   <%= render 'shared/post_error_messages' %>
 
   <%= label_tag :species, t("select_post_type") %>
