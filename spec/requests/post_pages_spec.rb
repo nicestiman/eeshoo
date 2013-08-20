@@ -77,7 +77,7 @@ describe "Post pages" do
     describe "with valid information" do
       before do
         fill_in "Content",  with: @post.content
-        select "default", from: "post_species"
+        select "default", from: "species"
       end
 
       it "should make a new post" do
@@ -88,7 +88,7 @@ describe "Post pages" do
         before { click_button submit }
 
         it { should have_selector("title", text: @group1.name)  }
-        it { should have_content(@post.title) }
+        it { should have_content(@post.id) }
       end
     end
   end
