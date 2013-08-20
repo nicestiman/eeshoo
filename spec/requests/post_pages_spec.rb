@@ -4,7 +4,7 @@ describe "Post pages" do
   before do
     @group1 = Group.create(name: "Test Group", location: "US.CA")
     @author = @group1.users.create(first: "Jane", last: "Doe", email: "jane_doe_fake@example.com", password:"testpass", password_confirmation: "testpass")
-    @post = @group1.posts.new(content: "This is a test post", title: "Test", species: "default")
+    @post = @group1.posts.new(content: "This is a test post", species: "default")
   end
 
   subject { page }
@@ -18,8 +18,6 @@ describe "Post pages" do
       visit group_post_path(@group1.id, @post.id)
     end
 
-    it { should have_selector("title",  text: @post.title) }
-    it { should have_selector("h1",     text: @post.title) }
     it { should have_selector("p",      text: @post.content) }
     it { should have_selector("a",      href: group_path(@group1.id)) }
     it { should have_selector("a",      href: user_path(@author.id)) }
@@ -78,7 +76,6 @@ describe "Post pages" do
 
     describe "with valid information" do
       before do
-        fill_in "Title",    with: @post.title
         fill_in "Content",  with: @post.content
         select "default", from: "post_species"
       end
@@ -130,8 +127,8 @@ describe "Post pages" do
 
   describe "index" do
     before do
-      @post1 = @group1.posts.new(content: "This is test post #1", title: "Post 1", species: "default")
-      @post2 = @group1.posts.new(content: "This is test post #2", title: "Post 2", species: "default")
+      @post1 = @group1.posts.new(content: "This is test post #1", species: "default")
+      @post2 = @group1.posts.new(content: "This is test post #2", species: "default")
       @posts = [@post1, @post2]
       @posts.each do |post|
         post.author = @author
@@ -143,7 +140,6 @@ describe "Post pages" do
     it "should list all posts" do
       @posts.each do |post|
         page.should have_content("post_id: #{post.id}"      )
-        page.should have_content("title: #{post.title}"     )
         page.should have_content("content: #{post.content}" )
       end
     end
@@ -153,9 +149,9 @@ describe "Post pages" do
     before do
       @group2 = Group.create(name:"Second Test Group", location: "BR.RJ")
       @post1 = @group1.posts.new(content: "This is a test post for the first group",
-                                    title: "group1 test", species: "default")
+                                    species: "default")
       @post2 = @group2.posts.new(content: "This is a test post for the second group",
-                                    title: "group2 test", species: "default")
+                                    species: "default")
       @posts = [@post1, @post2]
       @posts.each do |post|
         post.author = @author

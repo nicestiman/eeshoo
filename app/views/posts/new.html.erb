@@ -1,31 +1,16 @@
 <% provide(:title, t('new_post')) %>
-<!--<%= t("select_post_type") %>
-<%= select_tag(:post_type, options_for_select(Species.all(selectable: true))) %>
-
-<%= form_for(@post, url: group_make_post_index_path) do |f| %>
-  <%= render 'shared/post_error_messages' %>
-
-  <%= f.label :title, t("title") %>
-  <%= f.text_field :title %>
-
-  <%= f.label :content, t("content") %>
-  <%= f.text_area :content %>
-
-  <%= f.submit t("submit"), class: "btn btn-large btn-primary" %>
-<% end %>
--->
 <p>
-<%= form_for(@post, url: group_make_post_index_path) do |f| %>
+<%= form_tag({controller: "posts", action: "create"}, method: "post") %>
   <%= render 'shared/post_error_messages' %>
 
-  <%= f.label :species, t("select_post_type") %>
-  <%= f.select(:species, options_for_select(Species.all(selectable: true))) %>
+  <%= label_tag :species, t("select_post_type") %>
+  <%= select_tag(:species, options_for_select(Species.all(selectable: true))) %>
 
 
   <% @species.details.each do |field| %>
-    <%= render field["format"], f: f, field: field%>
+    <%= render field["format"], field: field%>
   <% end %>
 
-  <%= f.submit t("submit"), class: "btn btn-large btn-primary" %>
+  <%= submit_tag t("submit"), class: "btn btn-large btn-primary" %>
 <% end %>
 </p>
