@@ -35,9 +35,8 @@ class PostsController < ApplicationController
   def index
     @group = Group.find(params[:group_id])
     @posts = @group.posts
-    respond_to do |format|
-      format.json
-    end
+
+    render json: @posts
   end
 
   def create
