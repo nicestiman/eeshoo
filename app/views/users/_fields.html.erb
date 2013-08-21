@@ -1,16 +1,16 @@
 <%= render 'shared/user_error_messages' %>
 
-<%= f.label :first %>
+<%= f.label :first, t("first") %>
 <%= f.text_field :first %>
 
-<%= f.label :last %>
+<%= f.label :last, t("last") %>
 <%= f.text_field :last %>
 
-<%= f.label :email %>
+<%= f.label :email, t("email") %>
 <%= f.text_field :email %>
 
-<%= f.label :password %>
+<%= f.label :password, t("password") %>
 <%= f.password_field :password %>
 
-<%= f.label :password_confirmation, "Confirmation" %>
+<%= f.label :password_confirmation, t("confirm") %>
 <%= f.password_field :password_confirmation %>

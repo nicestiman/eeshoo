@@ -18,7 +18,7 @@ describe "Post pages" do
       visit group_post_path(@group1.id, @post.id)
     end
 
-    it { should have_selector("title",  text: "Show Post") }
+    it { should have_selector("title",  text: @post.title) }
     it { should have_selector("h1",     text: @post.title) }
     it { should have_selector("p",      text: @post.content) }
     it { should have_selector("a",      href: group_path(@group1.id)) }
@@ -60,7 +60,7 @@ describe "Post pages" do
   describe "new post page, with signed in user" do
     before { sign_in @author; visit new_group_post_path(@group1.id) }
 
-    let(:submit) { "Post" }
+    let(:submit) { "Submit" }
 
     it { should have_selector("title", text: "New Post") }
 
@@ -89,8 +89,8 @@ describe "Post pages" do
       describe "should redirect to group homepage" do
         before { click_button submit }
 
-        it { should have_content("Profile Page for #{@group1.name}")  }
-        it { should have_content(@post.title)                         }
+        it { should have_selector("title", text: @group1.name)  }
+        it { should have_content(@post.title) }
       end
     end
   end
@@ -118,10 +118,10 @@ describe "Post pages" do
       visit new_group_post_path(@group1.id)
     end
 
-    it { should have_selector('title', text: "Group members") }
+    it { should have_selector('title', text: "Members") }
 
     describe "after submitting" do
-      before { click_link "Join this group" }
+      before { click_link "Join this Group" }
 
       it { should have_selector('title', text: "New Post") }
     end

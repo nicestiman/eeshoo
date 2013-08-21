@@ -1,4 +1,5 @@
 HIWIPI::Application.routes.draw do
+
   root to: "static_pages#home"
 
   match "/home",    to: "static_pages#home"
@@ -8,6 +9,8 @@ HIWIPI::Application.routes.draw do
   match "/help",    to: "static_pages#help"
 
   match "/contact", to: "static_pages#contact"
+
+  resources :translations, only: [:create, :index]
 
   resources :users, :except => :new
   resources :sessions, :only => [:new, :create, :destroy]

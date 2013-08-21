@@ -1,5 +1,5 @@
-<% provide(:title, 'Group members') %>
-<h1><%= "Members of #{@group.name}"%></h1>
+<% provide(:title, t('members')) %>
+<h1><%= t 'members_of_group', name: @group.name %></h1>
 
 <ul class ="users">
   <% @users.each do |user| %>
@@ -9,9 +9,9 @@
 
 <% if signed_in? %>
   <% if @group.users.include?(current_user) %>
-    <%= link_to "Leave this group", leave_path(@group.id), class: "btn", method: :delete %>
+    <%= link_to t("leave_group"), leave_path(@group.id), class: "btn", method: :delete %>
   <% else %>
-    <%= link_to "Join this group", assign_path(@group.id), class: "btn", method: :post %>
+    <%= link_to t("join_group"), assign_path(@group.id), class: "btn", method: :post %>
   <% end %>
 <% end %>
 

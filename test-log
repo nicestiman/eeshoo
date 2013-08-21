@@ -1,0 +1,201 @@
+..............................................................................................................................................................................................
+
+Finished in 1 minute 1.04 seconds
+190 examples, 0 failures
+
+Randomized with seed 54197
+
+..............................................................................................................................................................................................
+
+Finished in 59.94 seconds
+190 examples, 0 failures
+
+Randomized with seed 27274
+
+........................................................................................F.FFF.................................................................................................
+
+Failures:
+
+  1) I want to change the language if I am using the query string for english I should see the greeting in english
+     Failure/Error: page.should have_selector("h1", text: @english_trans.value)
+       expected css "h1" with text "Sign in" to return something
+     # ./spec/features/I18n_translation_spec.rb:17:in `block (3 levels) in <top (required)>'
+
+  2) I want to change the language if I am using a language that is not supported via the query string I should see the greeting in the default language
+     Failure/Error: page.should_not have_content("translation missing")
+       expected content "translation missing" not to return anything
+     # ./spec/features/I18n_translation_spec.rb:54:in `block (4 levels) in <top (required)>'
+
+  3) I want to change the language if I am using a language that is not supported via a http header I should see the greeting in the default language
+     Failure/Error: page.should_not have_content("translation missing")
+       expected content "translation missing" not to return anything
+     # ./spec/features/I18n_translation_spec.rb:67:in `block (4 levels) in <top (required)>'
+
+  4) I want to change the language if I am not using anything I should see the greeting in english
+     Failure/Error: page.should_not have_content("translation missing")
+       expected content "translation missing" not to return anything
+     # ./spec/features/I18n_translation_spec.rb:41:in `block (3 levels) in <top (required)>'
+
+Finished in 58.99 seconds
+190 examples, 4 failures
+
+Failed examples:
+
+rspec ./spec/features/I18n_translation_spec.rb:15 # I want to change the language if I am using the query string for english I should see the greeting in english
+rspec ./spec/features/I18n_translation_spec.rb:53 # I want to change the language if I am using a language that is not supported via the query string I should see the greeting in the default language
+rspec ./spec/features/I18n_translation_spec.rb:66 # I want to change the language if I am using a language that is not supported via a http header I should see the greeting in the default language
+rspec ./spec/features/I18n_translation_spec.rb:40 # I want to change the language if I am not using anything I should see the greeting in english
+
+Randomized with seed 59452
+
+............................................................................................FFFF..............................................................................................
+
+Failures:
+
+  1) I want to change the language if I am using the query string for english I should see the greeting in english
+     Failure/Error: page.should have_selector("h1", text: @english_trans.value)
+       expected css "h1" with text "Sign in" to return something
+     # ./spec/features/I18n_translation_spec.rb:17:in `block (3 levels) in <top (required)>'
+
+  2) I want to change the language if I am not using anything I should see the greeting in english
+     Failure/Error: page.should_not have_content("translation missing")
+       expected content "translation missing" not to return anything
+     # ./spec/features/I18n_translation_spec.rb:41:in `block (3 levels) in <top (required)>'
+
+  3) I want to change the language if I am using a language that is not supported via the query string I should see the greeting in the default language
+     Failure/Error: page.should_not have_content("translation missing")
+       expected content "translation missing" not to return anything
+     # ./spec/features/I18n_translation_spec.rb:54:in `block (4 levels) in <top (required)>'
+
+  4) I want to change the language if I am using a language that is not supported via a http header I should see the greeting in the default language
+     Failure/Error: page.should_not have_content("translation missing")
+       expected content "translation missing" not to return anything
+     # ./spec/features/I18n_translation_spec.rb:67:in `block (4 levels) in <top (required)>'
+
+Finished in 59.44 seconds
+190 examples, 4 failures
+
+Failed examples:
+
+rspec ./spec/features/I18n_translation_spec.rb:15 # I want to change the language if I am using the query string for english I should see the greeting in english
+rspec ./spec/features/I18n_translation_spec.rb:40 # I want to change the language if I am not using anything I should see the greeting in english
+rspec ./spec/features/I18n_translation_spec.rb:53 # I want to change the language if I am using a language that is not supported via the query string I should see the greeting in the default language
+rspec ./spec/features/I18n_translation_spec.rb:66 # I want to change the language if I am using a language that is not supported via a http header I should see the greeting in the default language
+
+Randomized with seed 1255
+
+..............................................................................................................................................................................................
+
+Finished in 57.25 seconds
+190 examples, 0 failures
+
+Randomized with seed 42063
+
+.............................................................FF.FF............................................................................................................................
+
+Failures:
+
+  1) I want to change the language if I am using a language that is not supported via a http header I should see the greeting in the default language
+     Failure/Error: page.should_not have_content("translation missing")
+       expected content "translation missing" not to return anything
+     # ./spec/features/I18n_translation_spec.rb:67:in `block (4 levels) in <top (required)>'
+
+  2) I want to change the language if I am using a language that is not supported via the query string I should see the greeting in the default language
+     Failure/Error: page.should_not have_content("translation missing")
+       expected content "translation missing" not to return anything
+     # ./spec/features/I18n_translation_spec.rb:54:in `block (4 levels) in <top (required)>'
+
+  3) I want to change the language if I am not using anything I should see the greeting in english
+     Failure/Error: page.should_not have_content("translation missing")
+       expected content "translation missing" not to return anything
+     # ./spec/features/I18n_translation_spec.rb:41:in `block (3 levels) in <top (required)>'
+
+  4) I want to change the language if I am using the query string for english I should see the greeting in english
+     Failure/Error: page.should have_selector("h1", text: @english_trans.value)
+       expected css "h1" with text "Sign in" to return something
+     # ./spec/features/I18n_translation_spec.rb:17:in `block (3 levels) in <top (required)>'
+
+Finished in 58.41 seconds
+190 examples, 4 failures
+
+Failed examples:
+
+rspec ./spec/features/I18n_translation_spec.rb:66 # I want to change the language if I am using a language that is not supported via a http header I should see the greeting in the default language
+rspec ./spec/features/I18n_translation_spec.rb:53 # I want to change the language if I am using a language that is not supported via the query string I should see the greeting in the default language
+rspec ./spec/features/I18n_translation_spec.rb:40 # I want to change the language if I am not using anything I should see the greeting in english
+rspec ./spec/features/I18n_translation_spec.rb:15 # I want to change the language if I am using the query string for english I should see the greeting in english
+
+Randomized with seed 375
+
+................................................................................................................................................FFFF..........................................
+
+Failures:
+
+  1) I want to change the language if I am using the query string for english I should see the greeting in english
+     Failure/Error: page.should have_selector("h1", text: @english_trans.value)
+       expected css "h1" with text "Sign in" to return something
+     # ./spec/features/I18n_translation_spec.rb:17:in `block (3 levels) in <top (required)>'
+
+  2) I want to change the language if I am not using anything I should see the greeting in english
+     Failure/Error: page.should_not have_content("translation missing")
+       expected content "translation missing" not to return anything
+     # ./spec/features/I18n_translation_spec.rb:41:in `block (3 levels) in <top (required)>'
+
+  3) I want to change the language if I am using a language that is not supported via the query string I should see the greeting in the default language
+     Failure/Error: page.should_not have_content("translation missing")
+       expected content "translation missing" not to return anything
+     # ./spec/features/I18n_translation_spec.rb:54:in `block (4 levels) in <top (required)>'
+
+  4) I want to change the language if I am using a language that is not supported via a http header I should see the greeting in the default language
+     Failure/Error: page.should_not have_content("translation missing")
+       expected content "translation missing" not to return anything
+     # ./spec/features/I18n_translation_spec.rb:67:in `block (4 levels) in <top (required)>'
+
+Finished in 59.55 seconds
+190 examples, 4 failures
+
+Failed examples:
+
+rspec ./spec/features/I18n_translation_spec.rb:15 # I want to change the language if I am using the query string for english I should see the greeting in english
+rspec ./spec/features/I18n_translation_spec.rb:40 # I want to change the language if I am not using anything I should see the greeting in english
+rspec ./spec/features/I18n_translation_spec.rb:53 # I want to change the language if I am using a language that is not supported via the query string I should see the greeting in the default language
+rspec ./spec/features/I18n_translation_spec.rb:66 # I want to change the language if I am using a language that is not supported via a http header I should see the greeting in the default language
+
+Randomized with seed 34907
+
+.........................................................................................................................................................................................FF.FF
+
+Failures:
+
+  1) I want to change the language if I am not using anything I should see the greeting in english
+     Failure/Error: page.should_not have_content("translation missing")
+       expected content "translation missing" not to return anything
+     # ./spec/features/I18n_translation_spec.rb:41:in `block (3 levels) in <top (required)>'
+
+  2) I want to change the language if I am using the query string for english I should see the greeting in english
+     Failure/Error: page.should have_selector("h1", text: @english_trans.value)
+       expected css "h1" with text "Sign in" to return something
+     # ./spec/features/I18n_translation_spec.rb:17:in `block (3 levels) in <top (required)>'
+
+  3) I want to change the language if I am using a language that is not supported via the query string I should see the greeting in the default language
+     Failure/Error: page.should_not have_content("translation missing")
+       expected content "translation missing" not to return anything
+     # ./spec/features/I18n_translation_spec.rb:54:in `block (4 levels) in <top (required)>'
+
+  4) I want to change the language if I am using a language that is not supported via a http header I should see the greeting in the default language
+     Failure/Error: page.should_not have_content("translation missing")
+       expected content "translation missing" not to return anything
+     # ./spec/features/I18n_translation_spec.rb:67:in `block (4 levels) in <top (required)>'
+
+Finished in 58.56 seconds
+190 examples, 4 failures
+
+Failed examples:
+
+rspec ./spec/features/I18n_translation_spec.rb:40 # I want to change the language if I am not using anything I should see the greeting in english
+rspec ./spec/features/I18n_translation_spec.rb:15 # I want to change the language if I am using the query string for english I should see the greeting in english
+rspec ./spec/features/I18n_translation_spec.rb:53 # I want to change the language if I am using a language that is not supported via the query string I should see the greeting in the default language
+rspec ./spec/features/I18n_translation_spec.rb:66 # I want to change the language if I am using a language that is not supported via a http header I should see the greeting in the default language
+
+Randomized with seed 215
+
