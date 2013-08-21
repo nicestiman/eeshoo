@@ -55,8 +55,8 @@ describe "Group pages" do
 
       it "should show the group profile page" do
         click_button submit
-        page.should have_selector('title',  text: 'Group page')
-        page.should have_selector('h1',     text: 'Profile Page')
+        page.should have_selector('title',  text: @group.name + "2")
+        page.should have_selector('h1',     text: @group.name + "2")
       end
     end
   end
@@ -91,7 +91,6 @@ describe "Group pages" do
     end
 
     it { should have_selector("a",  href: members_path(@group.id)) }
-    it { should have_selector("h1", text: "Profile Page") }
     it { should have_selector("h1", text: @group.name)    }
     
     it "should list each post" do
@@ -118,7 +117,7 @@ describe "Group pages" do
       visit members_path(popular_group.id)
     end
 
-    it { should have_selector('title',  text: "Group members") }
+    it { should have_selector('title',  text: "Members") }
     it { should have_selector('h1',     text: "Members of #{popular_group.name}") }
 
     describe "when a Group has members" do
@@ -144,12 +143,12 @@ describe "Group pages" do
 
     describe "when a User joins a group" do
       let(:user) { FactoryGirl.create(:user) }
-      let(:join) { "Join this group" }
+      let(:join) { "Join this Group" }
 
       describe "and is not signed in" do
 
-        it { should_not have_content(text: "Join this group") }
-        it { should_not have_content(text: "Leave this group") }
+        it { should_not have_content(text: "Join this Group") }
+        it { should_not have_content(text: "Leave this Group") }
       end
 
       describe "and is signed in" do
@@ -158,7 +157,7 @@ describe "Group pages" do
           visit members_path(popular_group.id)
         end
 
-        it { should have_selector('a', text: 'Join this group' ) }
+        it { should have_selector('a', text: 'Join this Group' ) }
 
         describe "but is already a member" do
           before do
@@ -200,7 +199,7 @@ describe "Group pages" do
   describe "when a user wants to leave a group" do
     let(:group) { FactoryGirl.create(:group, name: "Unique Group name") }
     let(:user) { FactoryGirl.create(:user) }
-    let(:leave) { "Leave this group" }
+    let(:leave) { "Leave this Group" }
     before do
       group.users << user
       sign_in user

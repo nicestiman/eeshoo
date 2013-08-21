@@ -1,14 +1,14 @@
-<% provide(:title, "Show Post") %>
+<% provide(:title, @post.title) %>
 <h1><%= @post.title %></h1>
 
 <p>
 <%= @post.content %><br>
-written by <%= link_to @post.author.name, @post.author %>
+<%= t("written_by") %> <%= link_to @post.author.name, @post.author %>
 </p>
 
 <% if current_user?(@post.author) %>
-    <%= link_to "Delete this post?", group_post_path(@post.group.id, @post.id), 
-      class: "btn", method: :delete, data: { confirm: "You sure?" } %>
+    <%= link_to t("delete_this", thing: "post"), group_post_path(@post.group.id, @post.id), 
+      class: "btn", method: :delete, data: { confirm: t("confirmation") } %>
 <% end %>
   
 <% @comments.each do |comment| %>
@@ -19,6 +19,6 @@ written by <%= link_to @post.author.name, @post.author %>
   <%= link_to @group.name, @group %>
   <%= form_for @comment, url: group_post_comments_path(@post.group.id, @post.id) do |f|%>
     <%= f.text_area :message %>
-    <%= f.submit "Comment", class: "btn"%>
+    <%= f.submit t("comment"), class: "btn"%>
   <%end%>
 <% end %>

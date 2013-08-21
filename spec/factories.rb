@@ -25,4 +25,10 @@ FactoryGirl.define do
     author
     group
   end
+
+  factory :translation do
+    locale                "en"
+    key                   "sign_in"
+    value                 "Sign in"
+  end
 end

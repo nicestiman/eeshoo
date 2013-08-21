@@ -78,6 +78,7 @@ GEM
     guard-rspec (1.2.1)
       guard (>= 1.1)
     hike (1.2.3)
+    http_accept_language (1.0.2)
     http_parser.rb (0.5.3)
     i18n (0.6.1)
     journey (1.0.4)
@@ -144,6 +145,7 @@ GEM
       ffi (>= 0.5.0)
     rdoc (3.12.2)
       json (~> 1.4)
+    redis (3.0.4)
     rspec (2.11.0)
       rspec-core (~> 2.11.0)
       rspec-expectations (~> 2.11.0)
@@ -201,6 +203,7 @@ DEPENDENCIES
   factory_girl_rails (>= 4.1.0)
   faker
   guard-rspec (= 1.2.1)
+  http_accept_language
   jquery-rails (= 2.0.2)
   launchy
   libnotify (= 0.5.9)
@@ -208,6 +211,7 @@ DEPENDENCIES
   poltergeist
   rails (= 3.2.13)
   rb-inotify (>= 0.8.8)
+  redis
   rspec-rails (= 2.11.0)
   sass-rails (= 3.2.5)
   uglifier (= 1.2.3)
