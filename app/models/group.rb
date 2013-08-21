@@ -10,6 +10,7 @@
 #
 
 class Group < ActiveRecord::Base
+  DEFAULT_ROLE = "subscriber"
   attr_accessible :location, :name
   has_many :posts
   
@@ -24,18 +25,20 @@ class Group < ActiveRecord::Base
 
   def set_default_role
     if self.default_role.nil?
-      role = 
-        Role.create(name: "default")
-      
-      #reades defalt list of permissions from a yaml file to have site persistant default prmissions 
-      permissions = YAML.load_file( "#{Rails.root}/app/models/default_records/user_role_permissions_default.yaml")
-      
-      permissions.each do |permission|
-        role.permissions.create(name: permission["name"], key: permission["key"])
-      end
-      self.default_role_id = role.id
+       self.default_role_id = Role.create_from_defaults(DEFAULT_ROLE).id
     end
   end
+
+  def build_role(name, type)
+    role = Role.create(name: name)
+    
+    permissions = YAML.load_file( "#{Rails.root}/app/models/default_records/#{type.underscore}_default.yaml")  
+    permissions.each do |permission|
+      role.permissions.create(name: permission["name"], key: permission["key"])
+    end
+    role
+  end
+
   
   def remove(user)
     assignment = self.assignments.find_by_user_id(user.id)

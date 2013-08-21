@@ -77,7 +77,7 @@ describe Group do
   end
   
   describe "if no default role is defined" do
-    let(:default_name){ "default" }
+    let(:default_name){ "subscriber" }
     
     it "should set a defalult role" do
       @group.default_role = nil

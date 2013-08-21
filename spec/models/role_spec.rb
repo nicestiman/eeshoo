@@ -29,4 +29,16 @@ describe Role do
     @role.permissions << @permission
     @role.permissions.first.name.should eql(@permission.name)
   end
+  describe "create_from_defaults methoud" do
+    let(:defaultname) {"admin"}
+    before do
+      @role = Role.create_from_defaults(defaultname)
+    end
+    it "should create from a default object yaml file" do 
+      @role.should_not be_nil
+    end
+    it "should have permissions" do
+      @role.permissions.should_not be_nil
+    end
+  end
 end

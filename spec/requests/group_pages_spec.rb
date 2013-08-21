@@ -6,9 +6,9 @@ describe "Group pages" do
   subject { page }
 
   describe "new group page" do
-    let(:user) { FactoryGirl.create(:user) }
     before do
-      sign_in user
+      @user = FactoryGirl.create(:user)
+      sign_in @user
       visit new_group_path
     end
 
@@ -51,6 +51,10 @@ describe "Group pages" do
         click_button submit
         page.should have_selector('title',  text: 'Group page')
         page.should have_selector('h1',     text: 'Profile Page')
+      end
+      it "user that created a group is the admin" do
+        click_button submit
+        @user.role_for(@user.groups.first).name.should eql "admin"
       end
     end
   end
