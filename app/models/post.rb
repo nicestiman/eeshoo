@@ -15,7 +15,8 @@ class Post < ActiveRecord::Base
   belongs_to :group
   belongs_to :author, class_name: "User"
 
-  has_many   :comments, :contents
+  has_many   :comments
+  has_many   :contents, dependent: :destroy
 
   before_save { |post| post.species = species.downcase }
 
