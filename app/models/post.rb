@@ -3,7 +3,6 @@
 # Table name: posts
 #
 #  id         :integer          not null, primary key
-#  content    :text
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  group_id   :integer
@@ -12,15 +11,14 @@
 #
 
 class Post < ActiveRecord::Base
-  attr_accessible :content, :species
+  attr_accessible :species
   belongs_to :group
   belongs_to :author, class_name: "User"
 
-  has_many   :comments
+  has_many   :comments, :contents
 
   before_save { |post| post.species = species.downcase }
 
-  validates :content, presence: true
   validates :group_id, presence: true
   validates :author_id, presence: true
   validates :species, presence: true
