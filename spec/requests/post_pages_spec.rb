@@ -70,7 +70,7 @@ describe "Post pages" do
       describe "after submission" do
         before { click_button submit }
 
-        it { should have_content("error") }
+        it { should have_content("cannot be blank") }
       end
     end
 
