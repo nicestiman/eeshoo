@@ -8,7 +8,7 @@
 
 
   <% @species.details.each do |field| %>
-    <%= render field["format"], field: field%>
+    <%= render "posts/new_partials/#{field["format"]}", field: field%>
   <% end %>
 
   <%= submit_tag t("submit"), class: "btn btn-large btn-primary" %>
