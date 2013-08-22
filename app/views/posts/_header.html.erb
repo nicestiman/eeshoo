@@ -1,2 +1,2 @@
-<%= label_tag field["name"], t(field["name"]) %>
-<%= text_field_tag field["name"] %>
+<%= label_tag "post_#{field["name"]}", t(field["name"]) %>
+<%= text_field_tag "post[#{field["name"]}]" %>

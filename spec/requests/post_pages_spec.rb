@@ -76,6 +76,7 @@ describe "Post pages" do
 
     describe "with valid information" do
       before do
+        fill_in "Title", with: @post.content
         fill_in "Content",  with: @post.content
         select "default", from: "species"
       end

@@ -43,8 +43,18 @@ class PostsController < ApplicationController
     @group = Group.find(params[:group_id])
     @post = @group.posts.new
     @post.author = current_user
-    @post.species = params[:post][:species]
-    params[:post].delete(:species)
+
+    @post.species = params[:species]
+    @species = Species.new(@post.species)
+
+    @species.details.each do |field|
+      unless params[:post][field["name"]].length > 0
+        #@species = Species.new(@post.species)
+        flash[:error] = "#{field["name"]} cannot be blank"
+        render 'new'
+        return
+      end
+    end
     @post.content = params[:post].to_json
 
     if @post.save
