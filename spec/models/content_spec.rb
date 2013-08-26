@@ -13,5 +13,33 @@
 require 'spec_helper'
 
 describe Content do
-  pending "add some examples to (or delete) #{__FILE__}"
+  before do
+    @post = FactoryGirl.create(:post)
+    @content = FactoryGirl.build(:content)
+    @content.post = @post
+  end
+
+  subject { @content }
+
+  it { should respond_to(:post_id) }
+  it { should respond_to(:post) }
+  it { should respond_to(:key) }
+  it { should respond_to(:value) }
+
+  it { should be_valid }
+
+  describe "when key is nil" do
+    before { @content.key = " " }
+    it { should_not be_valid }
+  end
+
+  describe "when value is nil" do
+    before { @content.value = " " }
+    it { should be_valid }
+  end
+
+  describe "when post is not associated" do
+    before { @content.post_id = " " }
+    it { should_not be_valid }
+  end
 end

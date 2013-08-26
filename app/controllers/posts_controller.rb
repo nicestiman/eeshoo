@@ -66,12 +66,16 @@ class PostsController < ApplicationController
   end
 
   def tiered
+    @post_details = []
+    @all_posts = []
     if params[:location].nil?
       @posts = Post.all
     else
       @posts = Post.where_location(params[:location])
     end
-    render json: @posts
+    respond_to do |format|
+      format.json
+    end
   end
 
   private

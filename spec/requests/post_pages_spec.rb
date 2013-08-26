@@ -4,7 +4,10 @@ describe "Post pages" do
   before do
     @group1 = Group.create(name: "Test Group", location: "US.CA")
     @author = @group1.users.create(first: "Jane", last: "Doe", email: "jane_doe_fake@example.com", password:"testpass", password_confirmation: "testpass")
-    @post = @group1.posts.new(content: "This is a test post", species: "default")
+    @post = @group1.posts.new(species: "default")
+    @content = FactoryGirl.build(:content)
+    @content.post = @post
+    @content.save
   end
 
   subject { page }
@@ -76,8 +79,8 @@ describe "Post pages" do
 
     describe "with valid information" do
       before do
-        fill_in "Title", with: @post.content
-        fill_in "Content",  with: @post.content
+        fill_in "Title", with: @content.value
+        fill_in "Content",  with: @content.value
         select "default", from: "species"
       end
 
@@ -128,12 +131,15 @@ describe "Post pages" do
 
   describe "index" do
     before do
-      @post1 = @group1.posts.new(content: "This is test post #1", species: "default")
-      @post2 = @group1.posts.new(content: "This is test post #2", species: "default")
+      @post1 = @group1.posts.new(species: "default")
+      @post2 = @group1.posts.new(species: "default")
       @posts = [@post1, @post2]
       @posts.each do |post|
         post.author = @author
         post.save
+        contents = FactoryGirl.build(:content)
+        contents.post = post
+        contents.save
       end
       visit group_posts_path(@group1.id) + ".json"
     end
@@ -141,7 +147,7 @@ describe "Post pages" do
     it "should list all posts" do
       @posts.each do |post|
         page.should have_content("\"id\":#{post.id}"      )
-        page.should have_content("\"content\":\"#{post.content}\"" )
+        page.should have_content("\"content\":\"#{post.contents.first.value}\"" )
       end
     end
   end
@@ -149,38 +155,40 @@ describe "Post pages" do
   describe "tiered posts" do
     before do
       @group2 = Group.create(name:"Second Test Group", location: "BR.RJ")
-      @post1 = @group1.posts.new(content: "This is a test post for the first group",
-                                    species: "default")
-      @post2 = @group2.posts.new(content: "This is a test post for the second group",
-                                    species: "default")
+      @post1 = @group1.posts.new(species: "default")
+      @post2 = @group2.posts.new(species: "default")
       @posts = [@post1, @post2]
       @posts.each do |post|
         post.author = @author
         post.save
+        contents = FactoryGirl.build(:content)
+        contents.post = post
+        contents.save
       end
-      visit posts_path  
+      visit posts_path + ".json" 
     end
 
     it "should list posts for all groups" do
       @posts.each do |post|
+        save_and_open_page
         page.should have_content("\"id\":#{post.id}"      )
-        page.should have_content("\"content\":\"#{post.content}\"" )
+        page.should have_content("\"content\":\"#{post.contents.first.value}\"" )
         page.should have_content("\"group_id\":#{post.group_id}")
       end
     end
 
     describe "when looking for posts in a country" do
       before do
-        visit '/posts?location=US'    
+        visit '/posts.json?location=US'    
       end
 
       it "should list only posts in the US" do
         page.should have_content("\"id\":#{@post1.id}")
-        page.should have_content("\"content\":\"#{@post1.content}\"" )
+        page.should have_content("\"content\":\"#{@post1.contents.first.value}\"" )
         page.should have_content("\"group_id\":#{@post1.group_id}")
 
         page.should_not have_content("\":id\":#{@post2.id}")
-        page.should_not have_content("\"content\":\"#{@post2.content}\"" )
+        page.should_not have_content("\"content\":\"#{@post2.contents.first.value}\"" )
         page.should_not have_content("\"group_id\":#{@post2.group_id}")
       end
     end

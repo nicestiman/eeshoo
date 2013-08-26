@@ -1,0 +1,9 @@
+<% @posts.each do |post| %>
+  <%= post.to_json %>
+  <% @post_details.push(post) %>
+  <% post.contents.each do |field| %> 
+    <% @post_details.push({field.key.to_sym => field.value}) %>
+  <% end %>
+  <% @all_posts.push(@post_details) %>
+<% end %>
+

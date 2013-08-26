@@ -4,6 +4,11 @@ feature "I want to post a comment" do
   before do
     #make a post that a comment will be affixed to
     @post = FactoryGirl.create(:post)
+
+    #generate content for the post
+    @content = FactoryGirl.build(:content)
+    @content.post = @post
+    @content.save
     
     #assine the auther to the post(
     @author = @post.author

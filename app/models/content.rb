@@ -16,4 +16,5 @@ class Content < ActiveRecord::Base
    belongs_to :post
 
    validates :key, presence: true
+   validates :post_id, presence: true
 end

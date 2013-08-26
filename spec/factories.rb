@@ -11,16 +11,15 @@ FactoryGirl.define do
     name                  "Test Group"
     location              "US.CA"
     trait :populated
-      ignore do
-        user 5
-      end
-      after(:create) do |group, evaluator|
-        FactoryGirl.create_list(:user, evaluator.user)
+    ignore do
+      user 5
+    end
+    after(:create) do |group, evaluator|
+      FactoryGirl.create_list(:user, evaluator.user)
     end
   end
-  
+
   factory :post do
-    content               "lorim ipsom dolor sett jekre pepol vopelt telmp terompeal"
     species               "default"
     author
     group
@@ -30,5 +29,10 @@ FactoryGirl.define do
     locale                "en"
     key                   "sign_in"
     value                 "Sign in"
+  end
+
+  factory :content do
+    key                   "content"
+    sequence(:value)      { |n| "This is test post ##{n}" }
   end
 end
