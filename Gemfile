@@ -6,6 +6,8 @@ gem 'bcrypt-ruby', '3.0.1'
 gem 'faker'
 gem 'http_accept_language'
 gem 'redis'
+gem 'rabl'
+gem 'oj'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
