@@ -146,8 +146,8 @@ describe "Post pages" do
 
     it "should list all posts" do
       @posts.each do |post|
-        page.should have_content("\"id\":#{post.id}"      )
-        page.should have_content("\"content\":\"#{post.contents.first.value}\"" )
+        page.should have_content("\"post\":{\"id\":#{post.id}"      )
+        page.should have_content("\"value\":\"#{post.contents.first.value}\"" )
       end
     end
   end
@@ -170,10 +170,9 @@ describe "Post pages" do
 
     it "should list posts for all groups" do
       @posts.each do |post|
-        save_and_open_page
-        page.should have_content("\"id\":#{post.id}"      )
-        page.should have_content("\"content\":\"#{post.contents.first.value}\"" )
-        page.should have_content("\"group_id\":#{post.group_id}")
+        page.should have_content("\"post\":{\"id\":#{post.id}"      )
+        page.should have_content("\"value\":\"#{post.contents.first.value}\"" )
+        page.should have_content("\"group\":{\"id\":#{post.group_id}")
       end
     end
 
@@ -183,13 +182,13 @@ describe "Post pages" do
       end
 
       it "should list only posts in the US" do
-        page.should have_content("\"id\":#{@post1.id}")
-        page.should have_content("\"content\":\"#{@post1.contents.first.value}\"" )
-        page.should have_content("\"group_id\":#{@post1.group_id}")
+        page.should have_content("\"post\":{\"id\":#{@post1.id}")
+        page.should have_content("\"value\":\"#{@post1.contents.first.value}\"" )
+        page.should have_content("\"group\":{\"id\":#{@post1.group_id}")
 
-        page.should_not have_content("\":id\":#{@post2.id}")
-        page.should_not have_content("\"content\":\"#{@post2.contents.first.value}\"" )
-        page.should_not have_content("\"group_id\":#{@post2.group_id}")
+        page.should_not have_content("\"post\":{\"id\":#{@post2.id}")
+        page.should_not have_content("\"value\":\"#{@post2.contents.first.value}\"" )
+        page.should_not have_content("\"group\":{\"id\":#{@post2.group_id}")
       end
     end
   end      

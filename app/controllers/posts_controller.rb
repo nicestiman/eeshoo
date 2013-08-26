@@ -36,7 +36,9 @@ class PostsController < ApplicationController
     @group = Group.find(params[:group_id])
     @posts = @group.posts
 
-    render json: @posts
+    respond_to do |format|
+      format.json
+    end
   end
 
   def create
@@ -55,9 +57,11 @@ class PostsController < ApplicationController
         return
       end
     end
-    @post.content = params[:post].to_json
 
     if @post.save
+      @species.details.each do |field|
+        @post.contents.create(key: field["name"], value: params[:post][field["name"]])
+      end
       redirect_to @group 
     else
       @species = Species.new(@post.species)
@@ -66,8 +70,6 @@ class PostsController < ApplicationController
   end
 
   def tiered
-    @post_details = []
-    @all_posts = []
     if params[:location].nil?
       @posts = Post.all
     else
