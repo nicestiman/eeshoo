@@ -3,7 +3,7 @@
 <ul>
   <% if @group.posts.any? %>
     <% @group.posts.each do |post| %>
-      <li><%= link_to post.id, group_post_path(@group.id, post.id) %></li>
+      <li><%= link_to post.contents.find_by_key("title").value, group_post_path(@group.id, post.id) %></li>
     <% end %>
   <% else %>
     <li><%= t('no_post_message') %></li>
