@@ -19,6 +19,7 @@ class PostsController < ApplicationController
   def show
     @group = Group.find(params[:group_id])
     @post = Post.find(params[:id])
+    @species = Species.new(@post.species)
     @comments = @post.comments
     @comment = Comment.new()
     respond_to do |format|

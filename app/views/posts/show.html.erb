@@ -1,7 +1,8 @@
-<% provide(:title, @post.id) %>
+<% @species.details.each do |field| %>
+  <%= render "posts/show_partials/#{field["format"]}", field: field, post: @post %>
+<% end %>
 
 <p>
-<%= @post.content %><br>
 <%= t("written_by") %> <%= link_to @post.author.name, @post.author %>
 </p>
 
