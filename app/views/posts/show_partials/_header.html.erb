@@ -1,4 +1,4 @@
-<% provide(:title, post.contents.find_by_key(field["name"]).value) %>
-<% Rails.logger.debug "show_page_header_partial"+field.to_yaml %>
+<% post_title = post.contents.find_by_key(name).value %>
+<% provide(:title, post_title) %>
 
-<h1><%= post.contents.find_by_key(field["name"]).value %></h1>
+<h1><%= post_title %></h1>
