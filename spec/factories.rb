@@ -8,14 +8,16 @@ FactoryGirl.define do
   end
 
   factory :group do
-    name                  "Test Group"
+    sequence(:name)       { |n| "Test Group#{n}"}
     location              "US.CA"
-    trait :populated
-    ignore do
-      user 5
-    end
-    after(:create) do |group, evaluator|
-      FactoryGirl.create_list(:user, evaluator.user)
+    trait :populated do
+      ignore do
+        user 5
+      end
+      
+      after(:create) do |group, evaluator|
+        FactoryGirl.create_list(:user, evaluator.user)
+      end
     end
   end
 
@@ -23,6 +25,25 @@ FactoryGirl.define do
     species               "default"
     author
     group
+  end
+
+  factory :permission, class: RolePermission do
+    sequence(:key)  {|n| "privlage#{n}"}
+    sequence(:name)  {|n| "human readable name for a permission #{n}" }
+  end
+
+  factory :role do 
+    sequence(:name)   { |n|  "role#{n}"}
+
+    trait :filled do
+      ignore do
+        permission 5
+      end
+
+      after(:create) do |group, evaluator|
+        FactoryGirl.create_list(:permission, evaluator.permission)
+      end
+    end
   end
 
   factory :translation do

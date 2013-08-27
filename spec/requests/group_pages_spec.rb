@@ -6,9 +6,9 @@ describe "Group pages" do
   subject { page }
 
   describe "new group page" do
-    let(:user) { FactoryGirl.create(:user) }
     before do
-      sign_in user
+      @user = FactoryGirl.create(:user)
+      sign_in @user
       visit new_group_path
     end
 
@@ -47,16 +47,14 @@ describe "Group pages" do
         expect { click_button submit }.to change(Group, :count).by(1)
       end
 
-      it "should assign current user as admin" do
-        click_button submit
-        group_lookup = Group.find_by_name(@group.name + "2")
-        expect(user.is_role_of?(group_lookup)).to eq(true)
-      end
-
       it "should show the group profile page" do
         click_button submit
         page.should have_selector('title',  text: @group.name + "2")
         page.should have_selector('h1',     text: @group.name + "2")
+      end
+      it "user that created a group is the admin" do
+        click_button submit
+        @user.role_for(@user.groups.first).name.should eql "admin"
       end
     end
   end

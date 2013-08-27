@@ -8,15 +8,17 @@
 #  user_id    :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  role_id    :integer
 #
 
 require 'spec_helper'
 
 describe Assignment do
   before do 
-    @user = User.create(first: "Jane", last: "Doe", email: "test2@example.com", password: "testPass", password_confirmation: "testPass")
-    @group = @user.groups.create(name: "Fake Group", location: "US.AZ")
-    @assignment = @user.assignments.find_by_group_id(@group.id)
+    @assignment = Assignment.new()
+    @assignment.user  = FactoryGirl.create(:user)
+    @assignment.group = FactoryGirl.create(:group)
+    @assignment.role  = FactoryGirl.create(:role)
   end
 
   subject { @assignment }
@@ -25,34 +27,56 @@ describe Assignment do
   it { should respond_to(:user) }
   it { should respond_to(:group) }
   it { should respond_to(:role) }
+  
+  describe "validation" do
 
-  describe "default role" do
-    let(:default) { "user" }
+    it "should not be valid if no user"  do 
+      @assignment.user  = nil
+      should_not be_valid
+    end
+
+    it "should not be valid if no group" do
+      @assignment.group = nil
+      should_not be_valid
+    end
+
+    it "should be valid if no role"  do
+      @assignment.role  = nil
+      should be_valid
+    end
     
-    it "should be the default role" do
-      @assignment.role.should == default
+    it "should not be valid if group and user are not unique" do
+      assignment1 = @assignment.dup
+      assignment1.role = FactoryGirl.create(:role) 
+      assignment1.save
+      should_not be_valid
+    end
+
+    it "should be valid if user is not unique" do
+      assignment1       = @assignment.dup
+      assignment1.role  = FactoryGirl.create(:role) 
+      assignment1.group = FactoryGirl.create(:group)
+      
+      assignment1.save
+      should be_valid
+    end
+    
+    it "should be valid if group is not unique" do
+      assignment1       = @assignment.dup
+      assignment1.role  = FactoryGirl.create(:role) 
+      assignment1.user  = FactoryGirl.create(:user)
+      
+      assignment1.save
+      should be_valid
     end
   end
-
-  describe "changing role through a user" do
-    let(:new_role) { "AdmIn" }
-    before do
-      @user.set_role_to(new_role, @group)
-    end
-
-    it "should be the new role" do
-      expect(@group.users.find(@user.id).role).to eq(new_role.downcase)
-    end
-  end
-
-  describe "changing role through a group" do
-    let(:new_role) { "aDmIn" }
-    before do
-      @group.set_role_to(new_role, @user)
-    end
-
-    it "should be the new role" do
-      expect(@user.groups.find(@group.id).role).to eq(new_role.downcase)
+  describe "if role is not defined use the group default role" do
+    let(:group_default_role) { @assignment.group.default_role}
+    
+    it "role should be the group default role" do
+      @assignment.role = nil
+      @assignment.save
+      @assignment.role.name.should eql group_default_role.name
     end
   end
 end

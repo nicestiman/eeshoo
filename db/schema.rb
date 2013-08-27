@@ -15,10 +15,10 @@ ActiveRecord::Schema.define(:version => 20130822225550) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "group_id"
-    t.string   "role",       :default => "user"
     t.integer  "user_id"
-    t.datetime "created_at",                     :null => false
-    t.datetime "updated_at",                     :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "role_id"
   end
 
   create_table "comments", :force => true do |t|
@@ -40,8 +40,14 @@ ActiveRecord::Schema.define(:version => 20130822225550) do
   create_table "groups", :force => true do |t|
     t.string   "name"
     t.string   "location"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.integer  "default_role_id"
+  end
+
+  create_table "groups_roles", :force => true do |t|
+    t.integer "group_id"
+    t.integer "role_id"
   end
 
   create_table "posts", :force => true do |t|
@@ -53,6 +59,20 @@ ActiveRecord::Schema.define(:version => 20130822225550) do
   end
 
   add_index "posts", ["group_id"], :name => "index_posts_on_group_id"
+
+  create_table "role_permissions", :force => true do |t|
+    t.string   "name"
+    t.string   "key"
+    t.integer  "role_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "roles", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "first"

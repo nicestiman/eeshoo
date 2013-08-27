@@ -24,6 +24,10 @@ describe Group do
   #test for user model relation
   it { should respond_to(:users) }
 
+  it { should respond_to(:roles)}
+
+  it { should respond_to (:default_role)}
+
   it { should be_valid }
 
   describe "when name is not present" do
@@ -57,6 +61,7 @@ describe Group do
     end
   end
 
+
   describe "when it is assigned a user" do
     before do
       @group.save
@@ -71,24 +76,26 @@ describe Group do
     end
   end
   
-  describe "method to check role" do
-    let(:user) { FactoryGirl.create(:user) }
-    before do
+  describe "if no default role is defined" do
+    let(:default_name){ "subscriber" }
+    
+    it "should set a defalult role" do
+      @group.default_role = nil
       @group.save
-      @group.users << user
-      @group.set_role_to("AdMiN", user)
+      @group.default_role.name.should  eql default_name
     end
-
-    it "should evaluate that the role is incorrect" do
-      expect(@group.is_role_of?(user, "walrus")).to eq(false)
+  end
+  describe "methoud role_for" do
+    before do 
+      @group.save
+      @user = FactoryGirl.create(:user)
+      @user.groups << @group
     end
+    let(:role) {  FactoryGirl.create(:role) }
 
-    it "should evaluate that the role is correct" do
-      expect(@group.is_role_of?(user, "admin")).to eq(true)
-    end
-
-    it "should evaluate that the role is correct using the default" do
-      expect(@group.is_role_of?(user)).to eq(true)
+    it "should be able to set and retrive the role" do 
+      @group.role_for(@user.id, is: role)
+      @group.role_for(@user.id).id.should eql role.id
     end
   end
 end

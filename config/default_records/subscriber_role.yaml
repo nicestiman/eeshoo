@@ -1,0 +1,12 @@
+##################################################################
+# this is all of the site default permission records to be added #
+# editied by: Duncan Fedde                                       #
+##################################################################
+---
+name: subscriber
+permissions:
+  - name: comment
+    key:  comment
+
+  - name: kill the pope
+    key:  Kill_the_pope

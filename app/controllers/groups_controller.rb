@@ -17,7 +17,7 @@ class GroupsController < ApplicationController
     @group = Group.new(params[:group])
     if @group.save
       @group.users << current_user
-      @group.set_role_to("admin", current_user)
+      current_user.role_for(@group, is: Role.create_from_defaults("admin"))
       flash[:success] = "Group created"
       redirect_to @group
     else

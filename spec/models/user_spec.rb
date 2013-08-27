@@ -21,14 +21,14 @@ describe User do
   subject { @user }
 
   #tests for user model attributes
-  it { should respond_to(:first)  }
-  it { should respond_to(:last)   }
-  it { should respond_to(:email)  }
-  it { should respond_to(:password_digest) }
-  it { should respond_to(:password) }
+  it { should respond_to(:first)                 }
+  it { should respond_to(:last)                  }
+  it { should respond_to(:email)                 }
+  it { should respond_to(:password_digest)       }
+  it { should respond_to(:password)              }
   it { should respond_to(:password_confirmation) }
-  it { should respond_to(:remember_token) }
-  it { should respond_to(:authenticate) }
+  it { should respond_to(:remember_token)        }
+  it { should respond_to(:authenticate)          }
 
   #tests for group relation
   it { should respond_to(:groups) }
@@ -153,18 +153,6 @@ describe User do
       end
     end
 
-    describe "should have a role in a group" do
-      before do
-        @assignment = @user.assignments.find_by_group_id(@group1.id)
-        @assignment.role = "admin"
-        @assignment.save
-      end
-      let(:role) { @user.groups.find(@group1.id).role }
-
-      it "should have the correct role" do
-        role.should == "admin"
-      end
-    end
   end
 
   describe "when joins a group" do
@@ -186,24 +174,41 @@ describe User do
     its(:remember_token) { should_not be_blank }
   end
 
-  describe "method to check role" do
-    let(:group) { FactoryGirl.create(:group) }
+  describe "can method" do
     before do
       @user.save
-      @user.groups << group
-      @user.set_role_to("AdMiN", group)
+      @role = FactoryGirl.create(:role)
+      @role.permissions << RolePermission.create(key: "verb", name: "English Verb")
+      @group = Group.create(name: "Fake Group", location: "Pheonix, Arizona, USA")
+      @user.groups << @group
+      @user.role_for(@group.id, is: @role)
     end
 
-    it "should evaluate that the role is incorrect" do
-      expect(@user.is_role_of?(group, "walrus")).to eq(false)
+    describe "if role dose not have the proprer permision" do
+
+      it "should evaluate false" do
+       @user.can?(:vanish, in: @group.id ).should be_false
+      end
     end
 
-    it "should evaluate that the role is correct" do
-      expect(@user.is_role_of?(group, "admin")).to eq(true)
-    end
+    describe "if the role has the proper permission" do 
 
-    it "should evaluate that the role is correct using the default" do
-      expect(@user.is_role_of?(group)).to eq(true)
+      it "should evaluate that the role is correct" do 
+        @user.can?(:verb, in: @group.id ).should be_true
+      end
+    end
+  end
+  describe "methoud role_for" do
+    before do 
+      @user.save
+      @group = Group.create(name: "Fake Group", location: "Pheonix, Arizona, USA")
+      @user.groups << @group
+    end
+    let(:role) {  FactoryGirl.create(:role) }
+
+    it "should be able to set and retrive the role" do 
+      @user.role_for(@group.id, is: role)
+      @user.role_for(@group.id).id.should eql role.id
     end
   end
 end
