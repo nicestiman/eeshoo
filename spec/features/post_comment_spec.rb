@@ -6,9 +6,13 @@ feature "I want to post a comment" do
     @post = FactoryGirl.create(:post)
 
     #generate content for the post
-    @content = FactoryGirl.build(:content)
-    @content.post = @post
-    @content.save
+    @contents = []
+    @contents.push(FactoryGirl.build(:content))
+    @contents.push(FactoryGirl.build(:content, key: "title", value: "Test Post"))
+    @contents.each do |content|
+      content.post = @post
+      content.save
+    end
     
     #assine the auther to the post(
     @author = @post.author

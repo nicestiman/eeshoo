@@ -5,12 +5,9 @@ describe "Post pages" do
     @group1 = Group.create(name: "Test Group", location: "US.CA")
     @author = @group1.users.create(first: "Jane", last: "Doe", email: "jane_doe_fake@example.com", password:"testpass", password_confirmation: "testpass")
     @post = @group1.posts.new(species: "default")
-    @content = FactoryGirl.build(:content)
-    @title = Content.new(key: "title", value: "This is a test post")
-    @title.post = @post
-    @content.post = @post
-    @title.save
-    @content.save
+    @contents = []
+    @contents.push(FactoryGirl.build(:content))
+    @contents.push(FactoryGirl.build(:content, key: "title", value: "Test post"))
   end
 
   subject { page }
@@ -21,11 +18,15 @@ describe "Post pages" do
       @group_member = @group1.users.create(first: "Jane", last: "Doe", email: "cowman@smakdwn.org", password:"testpass", password_confirmation: "testpass")
       @post.author = @author
       @post.save
+      @contents.each do |content|
+        content.post = @post
+        content.save
+      end
       visit group_post_path(@group1.id, @post.id)
     end
 
-    it { should have_content(@content) }
-    it { should have_selector("title",  text: @title) }
+    it { should have_content(@contents.first.value) }
+    it { should have_selector("title",  text: @contents.last.value) }
     it { should have_selector("a",      href: group_path(@group1.id)) }
     it { should have_selector("a",      href: user_path(@author.id)) }
     
@@ -83,8 +84,8 @@ describe "Post pages" do
 
     describe "with valid information" do
       before do
-        fill_in "Title", with: @content.value
-        fill_in "Content",  with: @content.value
+        fill_in "Title", with: @contents.last.value
+        fill_in "Content",  with: @contents.first.value
         select "default", from: "species"
       end
 
