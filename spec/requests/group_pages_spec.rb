@@ -92,6 +92,7 @@ describe "Group pages" do
 
     it { should have_selector("a",  href: members_path(@group.id)) }
     it { should have_selector("h1", text: @group.name)    }
+    it { should have_selector("a",  href: new_group_post_path(@group.id)) }
     
     it "should list each post" do
       @group.posts.each do |post|
@@ -109,6 +110,8 @@ describe "Group pages" do
 
     it { should have_selector("a",  href: members_path(@group.id)) }
     it { should have_selector("li", text: "You haven't made any posts yet") }
+    it { should have_selector("a",  href: new_group_post_path(@group.id)) }
+
   end
 
   describe "members page" do
