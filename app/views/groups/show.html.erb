@@ -9,5 +9,7 @@
     <li><%= t('no_post_message') %></li>
   <% end %>
 </ul>
-
+<ul>
+  <%= link_to t("new_post_message"), new_group_post_path(@group.id) %>
+</ul>
 <%= link_to t("members_of_group", name: @group.name), members_path(@group.id) %>
