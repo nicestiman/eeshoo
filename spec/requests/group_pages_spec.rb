@@ -108,9 +108,9 @@ describe "Group pages" do
       visit group_path(@group.id)
     end
 
-    it { should have_selector("a",  href: members_path(@group.id)) }
+    it { should have_link("Members of #{@group.name}",  href: members_path(@group.id)) }
     it { should have_selector("li", text: "You haven't made any posts yet") }
-    it { should have_selector("a",  href: new_group_post_path(@group.id)) }
+    it { should have_link("Make a new Post?",  href: new_group_post_path(@group.id)) }
 
   end
 
