@@ -8,6 +8,8 @@ gem 'http_accept_language'
 gem 'redis'
 gem 'rabl'
 gem 'oj'
+gem 'execjs'
+gem 'therubyracer'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
